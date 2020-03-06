@@ -1,9 +1,9 @@
-# Process Documentation
+# <span style="color:blue">**Process Documentation**</span>
 
-## 1. Project Scope
+## <span style="color:blue">1. Project Scope</span>
 The scope of the project is to investigate how the digitalisation affects business processes in an enterprise, how an ideal interaction of natural and artificial intelligence in an organisational environment can be achieved, and how cooperation and partnership among humans and technology can result in adequate business process execution. This investigation will be realised by application, implementation and demonstration of real prototypical instantiations.
 
-## 2. Team Members
+## <span style="color:blue">2. Team Members</span>
 
 | Name | Email |
 |---|---|
@@ -11,10 +11,10 @@ The scope of the project is to investigate how the digitalisation affects busine
 | Alena Magliano | alena.magliano@students.fhnw.ch |
 | Alain Schmutz | alain.schmutz@students.fhnw.ch |
 
-## 3. Use Case Identification
+## <span style="color:blue">3. Use Case Identification</span>
 The team has worked together in a brainstorming phase on identification of use case they would like to work on. It was decided to model a process owned by company of one of the team members. The process presents the procedure for the new proposals with respect to changing the business guidlines, innovation, general improvements or future events inside the company. It has to be pointed out that the process does not relate to external clients.
 
-## 4. Process AS-IS Description
+## <span style="color:blue">4. Process AS-IS Description</span>
 
 The process contains three roles: A requester, an innovation manager and the members of the company.
 
@@ -32,14 +32,14 @@ The process starts with the requester creating a proposal. The Chief of Innovati
 
 If the use of right to veto is not made by any member of the team within the ten day period, the proposal is accepted and the process ends.
 
-## 5. Identification of Digitalisation Aspects
+## <span style="color:blue">5. Identification of Digitalisation Aspects</span>
 
-## 6. Process TO-BE Description
+## <span style="color:blue">6. Process TO-BE Description</span>
 
-## 7. Deployement of External Services and iSaaS
+## <span style="color:blue">7. Deployement of External Services and </span>
 
-## 8. Deployment of Project
+## <span style="color:blue">8. Deployment of Project</span>
 
-## 9. Testing of Project 
+## <span style="color:blue">9. Testing of Project</span> 
 
-## 10. Summary
+## <span style="color:blue">10. Summary</span>
