@@ -1,12 +1,18 @@
-# Process Documentation
+# <span style="color:blue">**Process Documentation**</span>
 
-## Team Members
+## <span style="color:blue">1. Project Scope</span>
+The scope of the project is to investigate how the digitalisation affects business processes in an enterprise, how an ideal interaction of natural and artificial intelligence in an organisational environment can be achieved, and how cooperation and partnership among humans and technology can result in adequate business process execution. This investigation will be realised by application, implementation and demonstration of real prototypical instantiations.
+
+## <span style="color:blue">2. Team Members</span>
 
 | Name | Email |
 |---|---|
 | Jasmin Fluri  | jasmin.fluri@fhnw.ch |
 | Alena Magliano | alena.magliano@students.fhnw.ch |
 | Alain Schmutz | alain.schmutz@students.fhnw.ch |
+
+## <span style="color:blue">3. Use Case Identification</span>
+The team has worked together in a brainstorming phase on identification of use case they would like to work on. It was decided to model a process owned by company of one of the team members. The process presents the procedure for the new proposals with respect to changing the business guidlines, innovation, general improvements or future events inside the company. It has to be pointed out that the process does not relate to external clients.
 
 
 ## Scenario and User Experience (UX)
@@ -40,6 +46,7 @@ The process contains three roles: A requester, an innovation manager and the rem
 
 The current process to request proposals is done in the chat application Telegram. There is no overview of the ongoing proposals, no possibility for improvement suggestions by other members of the company and discussions are hard to follow.
 
+## <span style="color:blue">4. Process AS-IS Description</span>
 
 ### Process AS-IS Description
 
@@ -49,5 +56,19 @@ The process starts with the requester creating a proposal. It must be phrased to
 - Members of the company can make use of their right to veto. If at least one member makes the use of the right to veto, the proposal is declined, and the process ends. If the members do not make their use of the right to veto within the ten days, the proposal is accepted, and the process ends.
 
 
+
+## <span style="color:blue">5. Identification of Digitalisation Aspects</span>
+
+## <span style="color:blue">6. Process TO-BE Description</span>
+
 ### Process TO-BE Description
 
+## <span style="color:blue">7. Deployement of External Services and </span>
+
+## <span style="color:blue">8. Deployment of Project</span>
+
+
+
+## <span style="color:blue">9. Testing of Project</span> 
+
+## <span style="color:blue">10. Summary</span>
