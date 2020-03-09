@@ -43,6 +43,7 @@ The process contains three roles: A requester, an innovation manager and the rem
  * General improvements (office, infrastructure, technologies)
  * Future events (regulars' table, networking events, team events)
  * Marketing (social media, website, sponsoring)
+ * New Member
 
 The current process to request proposals is done in the chat application Telegram. There is no overview of the ongoing proposals, no possibility for improvement suggestions by other members of the company and discussions are hard to follow.
 
