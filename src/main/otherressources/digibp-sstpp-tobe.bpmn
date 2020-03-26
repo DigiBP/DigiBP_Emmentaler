@@ -8,15 +8,15 @@
   <bpmn:process id="digibp-template" isExecutable="true">
     <bpmn:laneSet id="LaneSet_0nrxm8e">
       <bpmn:lane id="Lane_members" name="Members">
-        <bpmn:flowNodeRef>Gateway_beginSplit</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_NeedPitch</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_Vetos</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_1cjiytc</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0klyhvx</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_ProposalDeclined</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_ProposalAccepted</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_VetoRightStart</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Event_TenDays</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_beginSplit</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1cjiytc</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_coi" name="Chief of Innovation">
         <bpmn:flowNodeRef>Activity_ReviewProposal</bpmn:flowNodeRef>
@@ -78,12 +78,6 @@
       <bpmn:outgoing>Flow_CompletenessToCreation</bpmn:outgoing>
       <bpmn:outgoing>Flow_CompletenessToVetoStart</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:parallelGateway id="Gateway_beginSplit">
-      <bpmn:incoming>Flow_TimeStartToParallel</bpmn:incoming>
-      <bpmn:outgoing>Flow_SplitToPitchDecision</bpmn:outgoing>
-      <bpmn:outgoing>Flow_SplitToImprovementSuggestion</bpmn:outgoing>
-      <bpmn:outgoing>Flow_SplitToVetoDecision</bpmn:outgoing>
-    </bpmn:parallelGateway>
     <bpmn:exclusiveGateway id="Gateway_NeedPitch" name="Is there a need for a pitch or presentation?&#10;&#10;">
       <bpmn:incoming>Flow_0xtu9eu</bpmn:incoming>
       <bpmn:outgoing>Flow_PitchDecisionToVetoDecision</bpmn:outgoing>
@@ -109,10 +103,6 @@
       <bpmn:outgoing>Flow_ImprovementAcceptanceToCreation</bpmn:outgoing>
       <bpmn:outgoing>Flow_ImprovementAcceptanceToVetoStart</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:businessRuleTask id="Activity_1cjiytc" name="Business Rule if Presentaiton is needed" camunda:decisionRef="">
-      <bpmn:incoming>Flow_SplitToPitchDecision</bpmn:incoming>
-      <bpmn:outgoing>Flow_0xtu9eu</bpmn:outgoing>
-    </bpmn:businessRuleTask>
     <bpmn:manualTask id="Activity_OrganizePitch" name="Organization of Pitch or Presentation">
       <bpmn:incoming>Flow_0d3fj2n</bpmn:incoming>
       <bpmn:outgoing>Flow_PitchToVetoDecision</bpmn:outgoing>
@@ -176,6 +166,16 @@
         <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">10D</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
     </bpmn:boundaryEvent>
+    <bpmn:parallelGateway id="Gateway_beginSplit">
+      <bpmn:incoming>Flow_TimeStartToParallel</bpmn:incoming>
+      <bpmn:outgoing>Flow_SplitToPitchDecision</bpmn:outgoing>
+      <bpmn:outgoing>Flow_SplitToImprovementSuggestion</bpmn:outgoing>
+      <bpmn:outgoing>Flow_SplitToVetoDecision</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:businessRuleTask id="Activity_1cjiytc" name="Business Rule if Presentaiton is needed" camunda:decisionRef="">
+      <bpmn:incoming>Flow_SplitToPitchDecision</bpmn:incoming>
+      <bpmn:outgoing>Flow_0xtu9eu</bpmn:outgoing>
+    </bpmn:businessRuleTask>
   </bpmn:process>
   <bpmn:process id="Process_1fro1xc" isExecutable="false" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -236,17 +236,17 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1ho2rg1_di" bpmnElement="Flow_SplitToPitchDecision">
-        <di:waypoint x="1075" y="790" />
+        <di:waypoint x="1005" y="790" />
         <di:waypoint x="1108" y="790" />
-        <di:waypoint x="1108" y="800" />
-        <di:waypoint x="1140" y="800" />
+        <di:waypoint x="1108" y="840" />
+        <di:waypoint x="1130" y="840" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Gateway_10gf6dw_di" bpmnElement="Gateway_beginSplit">
-        <dc:Bounds x="1025" y="765" width="50" height="50" />
+        <dc:Bounds x="955" y="765" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_02379y0_di" bpmnElement="Flow_SplitToImprovementSuggestion">
-        <di:waypoint x="1050" y="765" />
-        <di:waypoint x="1050" y="700" />
+        <di:waypoint x="980" y="765" />
+        <di:waypoint x="980" y="700" />
         <di:waypoint x="1110" y="700" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Gateway_0eil0a2_di" bpmnElement="Gateway_Vetos" isMarkerVisible="true">
@@ -256,8 +256,8 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1soc97u_di" bpmnElement="Flow_SplitToVetoDecision">
-        <di:waypoint x="1050" y="815" />
-        <di:waypoint x="1050" y="970" />
+        <di:waypoint x="980" y="815" />
+        <di:waypoint x="980" y="970" />
         <di:waypoint x="1500" y="970" />
         <di:waypoint x="1500" y="925" />
       </bpmndi:BPMNEdge>
@@ -341,7 +341,7 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_08di7zw_di" bpmnElement="Flow_TimeStartToParallel">
         <di:waypoint x="868" y="790" />
-        <di:waypoint x="1025" y="790" />
+        <di:waypoint x="955" y="790" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0ih4x48_di" bpmnElement="Flow_ProposalAcceptedToEndSplit">
         <di:waypoint x="1820" y="899" />
@@ -365,12 +365,12 @@
         <dc:Bounds x="160" y="1200" width="1897" height="300" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1rt5s2h_di" bpmnElement="Activity_1cjiytc">
-        <dc:Bounds x="1140" y="760" width="100" height="80" />
+        <dc:Bounds x="1130" y="800" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0xtu9eu_di" bpmnElement="Flow_0xtu9eu">
-        <di:waypoint x="1240" y="800" />
-        <di:waypoint x="1253" y="800" />
-        <di:waypoint x="1253" y="790" />
+        <di:waypoint x="1230" y="840" />
+        <di:waypoint x="1248" y="840" />
+        <di:waypoint x="1248" y="790" />
         <di:waypoint x="1265" y="790" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Activity_0g8q781_di" bpmnElement="Task_ProposalCreation">
