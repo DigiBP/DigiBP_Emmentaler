@@ -15,7 +15,7 @@ The scope of the project is to investigate how the digitalisation affects busine
 The team has worked together in a brainstorming phase on identification of use case they would like to work on. It was decided to model a process owned by company of one of the team members. The process presents the procedure for the new proposals with respect to changing the business guidlines, innovation, general improvements or future events inside the company. It has to be pointed out that the process does not relate to external clients.
 
 
-## Scenario and User Experience (UX)
+## <span style="color:blue">4. Scenario and User Experience (UX)
 
 ### Project Use Case
 
@@ -25,7 +25,7 @@ If a topic needs to be put to the vote, the related member has to explain it to 
 
 Votings of proposals and their discussion and improvement suggestions are currently set up as a Telegram chatroom. The structure of a chatroom complicates the tracking of the status of proposals and their outcomes.
 
-## Process Modelling
+## <span style="color:blue">5. Process Modelling
 
 
 The process contains three roles: A requester, an innovation manager and the remaining members of the company.
@@ -47,7 +47,7 @@ The process contains three roles: A requester, an innovation manager and the rem
 
 The current process to request proposals is done in the chat application Telegram. There is no overview of the ongoing proposals, no possibility for improvement suggestions by other members of the company and discussions are hard to follow.
 
-## <span style="color:blue">4. Process AS-IS Description</span>
+## <span style="color:blue">6. Process AS-IS Description</span>
 
 ### Process AS-IS Description
 
@@ -58,18 +58,18 @@ The process starts with the requester creating a proposal. It must be phrased to
 
 
 
-## <span style="color:blue">5. Identification of Digitalisation Aspects</span>
+## <span style="color:blue">7. Identification of Digitalisation Aspects</span>
 
-## <span style="color:blue">6. Process TO-BE Description</span>
+## <span style="color:blue">8. Process TO-BE Description</span>
 
 ### Process TO-BE Description
 
-## <span style="color:blue">7. Deployement of External Services and </span>
+## <span style="color:blue">9. Deployement of External Services and </span>
 
-## <span style="color:blue">8. Deployment of Project</span>
+## <span style="color:blue">10. Deployment of Project</span>
 
 
 
-## <span style="color:blue">9. Testing of Project</span> 
+## <span style="color:blue">11. Testing of Project</span> 
 
-## <span style="color:blue">10. Summary</span>
+## <span style="color:blue">12. Summary</span>
