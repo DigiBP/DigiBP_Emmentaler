@@ -58,18 +58,20 @@ The process starts with the requester creating a proposal. It must be phrased to
 
 
 
-## <span style="color:blue">7. Identification of Digitalisation Aspects</span>
+## <span style="color:blue">7. Decision Rules</span>
 
-## <span style="color:blue">8. Process TO-BE Description</span>
+## <span style="color:blue">8. Identification of Digitalisation Aspects</span>
+
+## <span style="color:blue">9. Process TO-BE Description</span>
 
 ### Process TO-BE Description
 
-## <span style="color:blue">9. Deployement of External Services and </span>
+## <span style="color:blue">10. Deployement of External Services and </span>
 
-## <span style="color:blue">10. Deployment of Project</span>
+## <span style="color:blue">11. Deployment of Project</span>
 
 
 
-## <span style="color:blue">11. Testing of Project</span> 
+## <span style="color:blue">12. Testing of Project</span> 
 
-## <span style="color:blue">12. Summary</span>
+## <span style="color:blue">13. Summary</span>
