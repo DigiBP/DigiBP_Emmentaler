@@ -64,9 +64,14 @@ The process starts with the requester creating a proposal. It must be phrased to
 Decision logic is represented as a decision table which consists of inputs, output and rules. The inputs are conditions and the outputs are the concslusion of the rules. In AS-IS Process, the members have to decided if they want a pitch or presentation of the proposal. This step can be automated with the help of decision table. With the pre-defined inputs, outpus and rules can be decided if the presentation is needed.
 In the decision table there are 2 inputs and one output.
 
-| INPUT | INPUT | OUTPUT |
-|---|---|---|
-| Proposal Category | Amount Budgeted | Decision Outcome|
+INPUT                     
+* Proposal Category        
+* Amount Budgeted
+
+OUTPUT
+ * Decision Outcome
+
+|Proposal Category | Amount Budgeted | Decision Outcome|
 |---|---|---|
 | Innovation | > 1000 |true|
 | Marketing | > 2000 |true|
