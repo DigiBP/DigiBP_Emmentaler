@@ -71,6 +71,8 @@ INPUT
 OUTPUT
  * Decision Outcome
 
+The following table represents the decision logic. If the proposal category is innovation and the amounted budget is greater than CHF 1000 then the presentation or pitch is needed. If the proposal category is marketing and the amounted budget is greater than CHF 2000 then the presentation or pitch needed. If the proposal category is future events and the amounted budget is greater than CHF 3000 then the presentation or pitch needed. If the proposal category is new members athen the presentation or pitch is always needed.
+
 |Proposal Category | Amount Budgeted | Decision Outcome|
 |---|---|---|
 | Innovation | > 1000 |true|
