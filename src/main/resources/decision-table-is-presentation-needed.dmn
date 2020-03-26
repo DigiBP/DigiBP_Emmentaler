@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" id="Definitions_08f2290" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="3.7.0">
+  <decision id="Decision_is_presentation_needed" name="Decision-Is-Presenation-Needed">
+    <decisionTable id="decisionTable_1">
+      <input id="input_1" label="proposal category">
+        <inputExpression id="inputExpression_1" typeRef="string">
+          <text>proposalCategory</text>
+        </inputExpression>
+        <inputValues id="UnaryTests_02l2siq">
+          <text>"Innovation","GeneralImprovements","FutureEvents","Marketing","NewMembers","ChangeOfBusinessGuidelines"</text>
+        </inputValues>
+      </input>
+      <input id="InputClause_1msudnf" label="amount budgeted">
+        <inputExpression id="LiteralExpression_09gl1mc" typeRef="integer">
+          <text>amountBudgeted</text>
+        </inputExpression>
+      </input>
+      <output id="output_1" label="decision outcome" name="decisionOutcome" typeRef="boolean" />
+      <rule id="DecisionRule_1jc8zo2">
+        <inputEntry id="UnaryTests_14hydfn">
+          <text>"Innovation"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_04s52es">
+          <text>&gt; 1000</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ka5m81">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ast3iq">
+        <inputEntry id="UnaryTests_11ryoht">
+          <text>"Marketing"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1fzzps2">
+          <text>&gt; 2000</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0lxuf49">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0hep0gf">
+        <inputEntry id="UnaryTests_01fphyc">
+          <text>"FutureEvents"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00bpll1">
+          <text>&gt; 3000</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1r3ypbh">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ksqitq">
+        <inputEntry id="UnaryTests_0e48xm8">
+          <text>"NewMembers"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0bi4im1">
+          <text>&gt; 0</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0x047g2">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_05ybvbb">
+        <inputEntry id="UnaryTests_00w4rkj">
+          <text>"Innovation","GeneralImprovements","FutureEvents","Marketing","ChangeOfBusinessGuidelines"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_022fjzp">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1e0b0m3">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>
