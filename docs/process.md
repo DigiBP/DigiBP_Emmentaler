@@ -61,8 +61,8 @@ The process starts with the requester creating a proposal. It must be phrased to
 ## <span style="color:blue">7. Decision Logic</span>
 
 
-Decision logic is represented as a decision table which consists of inputs, output and rules. The inputs are conditions and the outputs are the concslusion of the rules. In AS-IS Process, the members have to decided if they want a pitch or presentation of the proposal. This step can be automated with the help of decision table. With the pre-defined inputs, outpus and rules can be decided if the presentation is needed.
-In the decision table there are 2 inputs and one output.
+Decision logic is a verification system enabling the company automatically verify the proposal information relating to category and requested budget. Decision logic is defined in a decision table which consists of inputs, outputs and rules. The inputs are conditions and the outputs are the conclusion of the rules. In the above described AS-IS Process, the members have to decide if they want a pitch or presentation of the proposal. This step can be automated with the help of decision table. With the pre-defined inputs, outpus and rules can be decided if the presentation is needed or not.
+In the decision table there are 2 input columns and one output columns.
 
 INPUT                     
 * Proposal Category        
@@ -71,7 +71,12 @@ INPUT
 OUTPUT
  * Decision Outcome
 
-The following table represents the decision logic. If the proposal category is innovation and the amounted budget is greater than CHF 1000 then the presentation or pitch is needed. If the proposal category is marketing and the amounted budget is greater than CHF 2000 then the presentation or pitch needed. If the proposal category is future events and the amounted budget is greater than CHF 3000 then the presentation or pitch needed. If the proposal category is new members athen the presentation or pitch is always needed.
+The following conditions have been defined to design a decision model to decide whether the presentation or pitch is needed:
+1. If the proposal category is innovation and the amounted budget is greater than CHF 1000 then the presentation or pitch is needed.
+2. If the proposal category is marketing and the amounted budget is greater than CHF 2000 then the presentation or pitch needed.
+3. If the proposal category is future events and the amounted budget is greater than CHF 3000 then the presentation or pitch needed.
+4. If the proposal category is new members then the presentation or pitch is always needed.
+5. The presentation or pitch is required only for conditions 1.-4.
 
 |Proposal Category | Amount Budgeted | Decision Outcome|
 |---|---|---|
