@@ -106,8 +106,12 @@ All the APEX REST Endpoints for the proposal application are located under the p
 [https://apex.oracle.com/pls/apex/schaltstelle/proposal/](https://apex.oracle.com/pls/apex/schaltstelle/proposal/)
 
 
-#### Templates
+#### Ressources
 
+|Ressource URI|Methode|Parameters|
+|---|---|---|
+|status/:id|GET|IN - id|
+|status/:id|PUT|IN - id <br> IN - status <br> OUT - status-code <br> OUT - location |
 
 
 ### Oracle Database
