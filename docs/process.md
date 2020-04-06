@@ -92,7 +92,51 @@ The following conditions have been defined to design a decision model to decide 
 
 ### Process TO-BE Description
 
-## <span style="color:blue">10. Deployement of External Services and </span>
+
+
+
+## <span style="color:blue">10. Deployement of External Services </span>
+
+### APEX Frontend
+
+### APEX REST Endpoints
+
+
+
+### Oracle Database
+
+#### Proposal Table 
+
+| Column Name| Datatype | Nullable | Description |
+|---|---|---|---|
+|ID|NUMBER|No|Primary Key of the Proposal Table |
+|TITLE|VARCHAR2(500)|No|Title of a Proposal|
+|DESCRIPTION|VARCHAR2(4000)|Yes|Description of a Proposal|
+|APPLICANT|VARCHAR2(100)|No|Applicant of a Proposal - This value is filled automatically with the username of the APEX User|
+|BUDGET|NUMBER|Yes|Budget of the proposal|
+|CATEGORY|VARCHAR2(255)|No|Category of the proposal - Value is filled with a Dropdown field in the APEX form|
+|LINKS|VARCHAR2(4000)|Yes|Additional links for the proposals to external sources|
+|SUBMISSION_DATE|TIMESTAMP(6)|No|Submission date of the proposal - This value is automatically filled by the APEX form at the submission of the proposal|
+|PROPOSAL_STATUS|VARCHAR2(100)|No|Status of the proposal - This value is initially set by the APEX form. During the process Camunda is tracking the proposal status.|
+|IS_REVIEWED|VARCHAR2(50)|Yes|Flag if the proposal is reviewed - Yes / No|
+|REVIEW_DATE|TIMESTAMP(6)|Yes|Date of the Review|
+|REVIEW_STATUS|VARCHAR2(100)|Yes|Outcome of the review - Approved / Denied|
+|IS_PITCH_NEEDED|VARCHAR2(50)|Yes|Flag if Pitch is needed - Yes / No|
+|VETO_START_DATE|TIMESTAMP(6)|Yes|Date from when the veto timeframe starts|
+|HAS_VETO|VARCHAR2(50)|Yes|Outcome if proposal has a veto - Yes / No|
+	
+
+
+#### Change Table
+
+| Column Name| Datatype | Nullable | Description |
+|---|---|---|---|
+|ID|NUMBER|No|Primary Key of the Change Table|
+|ANTRAG_ID|NUMBER|No|Foreign Key to the Proposal Table|
+|CHANGE_TITEL|VARCHAR2(100)|No|Title of a change|
+|CHANGE_DESC|VARCHAR2(4000)|Yes|Description of a change|
+
+
 
 ## <span style="color:blue">11. Deployment of Project</span>
 
