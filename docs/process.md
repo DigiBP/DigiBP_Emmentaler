@@ -101,9 +101,18 @@ The following conditions have been defined to design a decision model to decide 
 
 ### APEX REST Endpoints
 
+All the APEX REST Endpoints for the proposal application are located under the proposal module: 
+
+[https://apex.oracle.com/pls/apex/schaltstelle/proposal/](https://apex.oracle.com/pls/apex/schaltstelle/proposal/)
+
+
+#### Templates
+
 
 
 ### Oracle Database
+
+The data is stored in an Oracle database. To access and update the data the REST Endpoint described above can be used. 
 
 #### Proposal Table 
 
@@ -123,6 +132,7 @@ The following conditions have been defined to design a decision model to decide 
 |REVIEW_STATUS|VARCHAR2(100)|Yes|Outcome of the review - Approved / Denied|
 |IS_PITCH_NEEDED|VARCHAR2(50)|Yes|Flag if Pitch is needed - Yes / No|
 |VETO_START_DATE|TIMESTAMP(6)|Yes|Date from when the veto timeframe starts|
+|HAS_CHANGE|VARCHAR2(50)|Yes|Status if the proposal has a change from a member - Yes / No|
 |HAS_VETO|VARCHAR2(50)|Yes|Outcome if proposal has a veto - Yes / No|
 	
 
@@ -135,6 +145,7 @@ The following conditions have been defined to design a decision model to decide 
 |ANTRAG_ID|NUMBER|No|Foreign Key to the Proposal Table|
 |CHANGE_TITEL|VARCHAR2(100)|No|Title of a change|
 |CHANGE_DESC|VARCHAR2(4000)|Yes|Description of a change|
+|IS_ACCEPTED|VARCHAR2(50)|Yes|Flag if Change is accepted from applicant|
 
 
 
