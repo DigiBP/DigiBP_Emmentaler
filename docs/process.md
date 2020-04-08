@@ -95,15 +95,32 @@ The following conditions have been defined to design a decision model to decide 
 
 
 
+### Calls between Frontend Service (REST Endpoint) and BPM Process
+
+|Source - Target|Parameter|Description|Technology|
+|---|---|---|---|
+|REST -> BPM|ID  |New Proposal is created (Start Event)|REST (GET)|
+|BPM -> REST|PROPOSAL_STATUS|Update of the proposal status|REST (PUT)|
+|BPM -> REST|IS_PITCH_NEEDED|Outcome of decision table if pitch is needed|REST (PUT)|
+|REST -> BPM|CHANGE|New Change is added for Proposal|REST (GET)|
+|BPM -> REST|HAS_VETO|Outcome of process if the proposal is accepted or declined|REST (PUT)|
+|BPM -> REST|VETO_START_DATE|Start date of the right to veto|REST (PUT)|
+
+
+
 ## <span style="color:blue">10. Deployement of External Services </span>
 
+
+
 ### APEX Frontend
+The frontend allows the Schaltstelle Members to create and modify the proposals. It serves as the process GUI. 
 
 ### APEX REST Endpoints
 
 All the APEX REST Endpoints for the proposal application are located under the proposal module: 
 
 [https://apex.oracle.com/pls/apex/schaltstelle/proposal/](https://apex.oracle.com/pls/apex/schaltstelle/proposal/)
+
 
 
 #### Ressources
