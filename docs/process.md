@@ -135,6 +135,12 @@ All the APEX REST Endpoints for the proposal application are located under the p
 
 The data is stored in an Oracle database. To access and update the data the REST Endpoint described above can be used. 
 
+<code>
++-------------------+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /+-----------------+<br>
+|..... ANTRAG ..... | -||--------< | ... CHANGE ....  | <br>
++-------------------+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \+-----------------+
+</code>
+
 #### Proposal Table 
 
 | Column Name| Datatype | Nullable | Description |
