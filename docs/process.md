@@ -99,7 +99,7 @@ The following conditions have been defined to design a decision model to decide 
 
 |Source - Target|Parameter|Description|Technology|
 |---|---|---|---|
-|REST -> BPM|ID  |New Proposal is created (Start Event)|REST (GET)|
+|REST -> BPM|PROPOSAL_STATUS  |New Proposal is created (Start Event)|REST (GET)|
 |BPM -> REST|PROPOSAL_STATUS|Update of the proposal status|REST (PUT)|
 |BPM -> REST|IS_PITCH_NEEDED|Outcome of decision table if pitch is needed|REST (PUT)|
 |REST -> BPM|CHANGE|New Change is added for Proposal|REST (GET)|
@@ -127,9 +127,13 @@ All the APEX REST Endpoints for the proposal application are located under the p
 
 |Ressource URI|Methode|Parameters|
 |---|---|---|
-|status/:id|GET|IN - id|
-|status/:id|PUT|IN - id <br> IN - status <br> OUT - status-code <br> OUT - location |
-
+|change/:id|GET|IN - id|
+|change/:id|POST|IN - antrag_id <br> IN - change_desc <br> IN - change_titel <br> OUT - http_status_code|
+|has_veto/:id|PUT|IN - id <br> IN - has_veto <br> OUT - http_status_code|
+|is_pitch_needed/:id|PUT|IN - id <br> IN - is_pitch_needed <br> OUT - http_status_code  |
+|proposal_status/:id|PUT|IN - id <br> IN - proposal_status <br> OUT - http_status_code  |
+|proposal_status/:id|GET|IN - id  |
+|veto_start_date/:id|PUT|IN - id <br> IN - veto_start_date <br> OUT - http_status_code  |
 
 ### Oracle Database
 
@@ -153,7 +157,7 @@ The data is stored in an Oracle database. To access and update the data the REST
 |CATEGORY|VARCHAR2(255)|No|Category of the proposal - Value is filled with a Dropdown field in the APEX form|
 |LINKS|VARCHAR2(4000)|Yes|Additional links for the proposals to external sources|
 |SUBMISSION_DATE|TIMESTAMP(6)|No|Submission date of the proposal - This value is automatically filled by the APEX form at the submission of the proposal|
-|PROPOSAL_STATUS|VARCHAR2(100)|No|Status of the proposal - This value is initially set by the APEX form. During the process Camunda is tracking the proposal status.|
+|PROPOSAL_STATUS|VARCHAR2(100)|No|Status of the proposal - This value is initially set by the APEX form. During the process Camunda is tracking the proposal status. - Created / Reviewed / Declined / Accepted / ... |
 |IS_REVIEWED|VARCHAR2(50)|Yes|Flag if the proposal is reviewed - Yes / No|
 |REVIEW_DATE|TIMESTAMP(6)|Yes|Date of the Review|
 |REVIEW_STATUS|VARCHAR2(100)|Yes|Outcome of the review - Approved / Denied|
