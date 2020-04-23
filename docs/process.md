@@ -90,6 +90,16 @@ The following conditions have been defined to design a decision model to decide 
 
 ## <span style="color:blue">9. Process TO-BE Description</span>
 
+### Digitized Process Architecture
+
+
+![Architecture of the digitized process](architecture/architecture-model.jpg "Architecture of the digitized process")
+
+
+Oracle APEX is a free tool for rapid application development that helps in developing and publishing desktop and mobile applications.
+
+
+
 ### Process TO-BE Description
 
 
