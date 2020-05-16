@@ -33,10 +33,10 @@
         <bpmn:flowNodeRef>StartEvent_startEvent</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>timeDuration</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0z5vd34</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_0a5ltah</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_VetoRightStart</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_03desq0</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_ProposalCreation</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_0a5ltah</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_members" name="Members">
         <bpmn:flowNodeRef>Activity_ReviewProposal</bpmn:flowNodeRef>
@@ -166,14 +166,20 @@
       </bpmn:timerEventDefinition>
     </bpmn:intermediateCatchEvent>
     <bpmn:userTask id="Activity_0z5vd34" name="Receive Review Outcome">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="complete" label="Is proposal complete?" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_00ifnj7</bpmn:incoming>
       <bpmn:outgoing>Flow_16oo7ve</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:userTask id="Activity_0a5ltah" name="Inform Requester">
-      <bpmn:incoming>Flow_CompletenessToCreation</bpmn:incoming>
-      <bpmn:outgoing>Flow_1hjg7qt</bpmn:outgoing>
-    </bpmn:userTask>
     <bpmn:userTask id="Activity_VetoRightStart" name="Set Veto start time">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="complete" label="Is proposal complete?" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_CompletenessToVetoStart</bpmn:incoming>
       <bpmn:outgoing>Flow_1tszffy</bpmn:outgoing>
     </bpmn:userTask>
@@ -248,7 +254,7 @@
     {
     "toEmail": "alena.magliano@students.fhnw.ch",
     "fromEmail": "alena.magliano@students.fhnw.ch",
-    "ccEmail": "jasmin.fluri@students.fhnw.ch",
+    "ccEmail": "a.magliano@hotmail.com",
     "emailSubject": "This is a Test from Postman",
     "emailBody": "This is a Postman Test",
     "emailBodyHTML": "This is a Postman Test"
@@ -262,6 +268,36 @@
       <bpmn:incoming>Flow_0edpsev</bpmn:incoming>
       <bpmn:incoming>Flow_0yggic7</bpmn:incoming>
       <bpmn:outgoing>Flow_0zqx94q</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_0a5ltah" name="Inform Requester">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="url">https://apex.oracle.com/pls/apex/schaltstelle/proposal/sendMail</camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="JavaScript">out = JSON.stringify(
+    {
+    "toEmail": "alena.magliano@students.fhnw.ch",
+    "fromEmail": "alena.magliano@students.fhnw.ch",
+    "ccEmail": "a.magliano@hotmail.com",
+    "emailSubject": "Please complete the request",
+    "emailBody": "The request has to be completed with following information.",
+    "emailBodyHTML": "The request has to be completed with following information."
+});</camunda:script>
+            </camunda:inputParameter>
+            <camunda:outputParameter name="Test" />
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_CompletenessToCreation</bpmn:incoming>
+      <bpmn:outgoing>Flow_1hjg7qt</bpmn:outgoing>
     </bpmn:serviceTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -554,9 +590,6 @@
       <bpmndi:BPMNShape id="Activity_1pet1el_di" bpmnElement="Activity_0z5vd34">
         <dc:Bounds x="550" y="530" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_173sbnz_di" bpmnElement="Activity_0a5ltah">
-        <dc:Bounds x="700" y="720" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0p993rs_di" bpmnElement="Activity_VetoRightStart">
         <dc:Bounds x="920" y="530" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -565,6 +598,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0c7ybrw_di" bpmnElement="Task_ProposalCreation">
         <dc:Bounds x="310" y="720" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0vnr50j_di" bpmnElement="Activity_0a5ltah">
+        <dc:Bounds x="700" y="720" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
