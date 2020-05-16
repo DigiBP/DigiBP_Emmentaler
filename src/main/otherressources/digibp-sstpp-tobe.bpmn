@@ -254,10 +254,7 @@
     "emailBodyHTML": "This is a Postman Test"
 });</camunda:script>
             </camunda:inputParameter>
-            <camunda:outputParameter name="response_status">
-              <camunda:script scriptFormat="JavaScript">object=JSON.parse(response);
-response_status=object.status;</camunda:script>
-            </camunda:outputParameter>
+            <camunda:outputParameter name="response_status" />
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
