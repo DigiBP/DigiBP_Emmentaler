@@ -32,11 +32,11 @@
         <bpmn:flowNodeRef>EndEvent_sstpp</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>StartEvent_startEvent</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>timeDuration</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_0z5vd34</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_VetoRightStart</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_03desq0</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_ProposalCreation</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0a5ltah</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_0z5vd34</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_members" name="Members">
         <bpmn:flowNodeRef>Activity_ReviewProposal</bpmn:flowNodeRef>
@@ -165,15 +165,6 @@
         <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT5S</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
     </bpmn:intermediateCatchEvent>
-    <bpmn:userTask id="Activity_0z5vd34" name="Receive Review Outcome">
-      <bpmn:extensionElements>
-        <camunda:formData>
-          <camunda:formField id="complete" label="Is proposal complete?" type="string" />
-        </camunda:formData>
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_00ifnj7</bpmn:incoming>
-      <bpmn:outgoing>Flow_16oo7ve</bpmn:outgoing>
-    </bpmn:userTask>
     <bpmn:userTask id="Activity_VetoRightStart" name="Set Veto start time">
       <bpmn:extensionElements>
         <camunda:formData>
@@ -299,6 +290,10 @@
       <bpmn:incoming>Flow_CompletenessToCreation</bpmn:incoming>
       <bpmn:outgoing>Flow_1hjg7qt</bpmn:outgoing>
     </bpmn:serviceTask>
+    <bpmn:userTask id="Activity_0z5vd34" name="Receive Review Outcome">
+      <bpmn:incoming>Flow_00ifnj7</bpmn:incoming>
+      <bpmn:outgoing>Flow_16oo7ve</bpmn:outgoing>
+    </bpmn:userTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_sstpp_tobe">
@@ -587,9 +582,6 @@
         <di:waypoint x="1910" y="660" />
         <di:waypoint x="1975" y="660" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Activity_1pet1el_di" bpmnElement="Activity_0z5vd34">
-        <dc:Bounds x="550" y="530" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0p993rs_di" bpmnElement="Activity_VetoRightStart">
         <dc:Bounds x="920" y="530" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -601,6 +593,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0vnr50j_di" bpmnElement="Activity_0a5ltah">
         <dc:Bounds x="700" y="720" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_08crsm2_di" bpmnElement="Activity_0z5vd34">
+        <dc:Bounds x="550" y="530" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
