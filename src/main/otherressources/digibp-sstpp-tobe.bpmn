@@ -252,8 +252,7 @@
     "emailSubject": "This is a Test from Postman",
     "emailBody": "This is a Postman Test",
     "emailBodyHTML": "This is a Postman Test"
-}
-);</camunda:script>
+});</camunda:script>
             </camunda:inputParameter>
             <camunda:outputParameter name="response_status">
               <camunda:script scriptFormat="JavaScript">object=JSON.parse(response);
