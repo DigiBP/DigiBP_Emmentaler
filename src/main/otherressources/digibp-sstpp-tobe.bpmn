@@ -14,7 +14,6 @@
       <bpmn:lane id="Lane_18cpzkh" name="Service Automation">
         <bpmn:flowNodeRef>Gateway_ProposalComplete</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_01o0el3</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_0ttgkk9</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_beginSplit</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_013bdw7</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_1lnd7f6</bpmn:flowNodeRef>
@@ -32,11 +31,13 @@
         <bpmn:flowNodeRef>EndEvent_sstpp</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>StartEvent_startEvent</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>timeDuration</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_03desq0</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_ProposalCreation</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0a5ltah</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0z5vd34</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_VetoRightStart</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_0ttgkk9</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_03desq0</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_14eo1o6</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_members" name="Members">
         <bpmn:flowNodeRef>Activity_ReviewProposal</bpmn:flowNodeRef>
@@ -63,10 +64,6 @@
       <bpmn:outgoing>Flow_0alaoex</bpmn:outgoing>
       <bpmn:outgoing>Flow_0rron5d</bpmn:outgoing>
     </bpmn:parallelGateway>
-    <bpmn:userTask id="Activity_0ttgkk9" name="Inform Members to Veto">
-      <bpmn:incoming>Flow_0rron5d</bpmn:incoming>
-      <bpmn:outgoing>Flow_TimeStartToParallel</bpmn:outgoing>
-    </bpmn:userTask>
     <bpmn:parallelGateway id="Gateway_beginSplit">
       <bpmn:incoming>Flow_TimeStartToParallel</bpmn:incoming>
       <bpmn:incoming>Flow_ImprovementAcceptanceToVetoStart</bpmn:incoming>
@@ -163,21 +160,17 @@
       <bpmn:incoming>Flow_0nipd02</bpmn:incoming>
       <bpmn:outgoing>Flow_PitchToVetoDecision</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:intermediateCatchEvent id="timeDuration" name="5S">
+    <bpmn:intermediateCatchEvent id="timeDuration" name="1M">
       <bpmn:incoming>Flow_0alaoex</bpmn:incoming>
       <bpmn:outgoing>Flow_1a7ucot</bpmn:outgoing>
       <bpmn:timerEventDefinition id="TimerEventDefinition_1skm9qc">
-        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT5S</bpmn:timeDuration>
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT1M</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
     </bpmn:intermediateCatchEvent>
-    <bpmn:userTask id="Activity_03desq0" name="Proposal submitted">
-      <bpmn:incoming>Flow_110005a</bpmn:incoming>
-      <bpmn:outgoing>Flow_0edpsev</bpmn:outgoing>
-    </bpmn:userTask>
     <bpmn:sequenceFlow id="Flow_1yudp6z" sourceRef="Activity_0tinex4" targetRef="Gateway_NeedPitch" />
     <bpmn:sequenceFlow id="Flow_1t97b0u" sourceRef="Activity_0klyhvx" targetRef="Activity_013bdw7" />
     <bpmn:sequenceFlow id="Flow_1hjg7qt" sourceRef="Activity_0a5ltah" targetRef="Activity_1jhuqq9" />
-    <bpmn:sequenceFlow id="Flow_00ifnj7" sourceRef="Activity_ReviewProposal" targetRef="Activity_0z5vd34" />
+    <bpmn:sequenceFlow id="Flow_00ifnj7" sourceRef="Activity_ReviewProposal" targetRef="Event_14eo1o6" />
     <bpmn:sequenceFlow id="Flow_ProposalDeclinedToEndSplit" sourceRef="Activity_ProposalDeclined" targetRef="Gateway_endSplit" />
     <bpmn:sequenceFlow id="Flow_ProposalAcceptedToEndSplit" sourceRef="Activity_ProposalAccepted" targetRef="Gateway_endSplit" />
     <bpmn:sequenceFlow id="Flow_PitchToVetoDecision" sourceRef="Activity_OrganizePitch" targetRef="Gateway_Vetos" />
@@ -247,7 +240,7 @@
     "emailBodyHTML": "This is a Postman Test"
 });</camunda:script>
             </camunda:inputParameter>
-            <camunda:outputParameter name="response_status" />
+            <camunda:outputParameter name="responseStatus" />
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
@@ -313,7 +306,7 @@
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
       </bpmn:extensionElements>
-      <bpmn:incoming>Flow_00ifnj7</bpmn:incoming>
+      <bpmn:incoming>Flow_1dgl37g</bpmn:incoming>
       <bpmn:outgoing>Flow_16oo7ve</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="Activity_VetoRightStart" name="Set Veto start timeaders">
@@ -343,7 +336,86 @@
       <bpmn:incoming>Flow_CompletenessToVetoStart</bpmn:incoming>
       <bpmn:outgoing>Flow_1tszffy</bpmn:outgoing>
     </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_0ttgkk9" name="Inform Members to Veto">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="url">https://apex.oracle.com/pls/apex/schaltstelle/proposal/sendMail
+</camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="JavaScript">out = JSON.stringify(
+    {
+    "toEmail": "alena.magliano@students.fhnw.ch",
+    "fromEmail": "alena.magliano@students.fhnw.ch",
+    "ccEmail": "a.magliano@hotmail.com",
+    "emailSubject": "This is a Test from Postman",
+    "emailBody": "This is a Postman Test",
+    "emailBodyHTML": "This is a Postman Test"
+});</camunda:script>
+            </camunda:inputParameter>
+            <camunda:outputParameter name="responseStatus" />
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0rron5d</bpmn:incoming>
+      <bpmn:outgoing>Flow_TimeStartToParallel</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_03desq0" name="Proposal submitted">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="method">POST</camunda:inputParameter>
+          <camunda:inputParameter name="url" />
+          <camunda:inputParameter name="Input_1tdmt37" />
+          <camunda:inputParameter name="Input_121ptfb" />
+        </camunda:inputOutput>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="url">https://apex.oracle.com/pls/apex/schaltstelle/proposal/sendMail</camunda:inputParameter>
+            <camunda:inputParameter name="method" />
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="JavaScript">out = JSON.stringify(
+    {
+    "toEmail": "alena.magliano@students.fhnw.ch",
+    "fromEmail": "alena.magliano@students.fhnw.ch",
+    "ccEmail": "a.magliano@hotmail.com",
+    "emailSubject": "This is a Test from Postman",
+    "emailBody": "This is a Postman Test",
+    "emailBodyHTML": "This is a Postman Test"
+});</camunda:script>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_110005a</bpmn:incoming>
+      <bpmn:outgoing>Flow_0edpsev</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:intermediateCatchEvent id="Event_14eo1o6">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="complete" />
+          <camunda:outputParameter name="status">200</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_00ifnj7</bpmn:incoming>
+      <bpmn:outgoing>Flow_1dgl37g</bpmn:outgoing>
+      <bpmn:signalEventDefinition id="SignalEventDefinition_1eeghkk" signalRef="Signal_1l8bble" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="Flow_1dgl37g" sourceRef="Event_14eo1o6" targetRef="Activity_0z5vd34" />
   </bpmn:process>
+  <bpmn:signal id="Signal_1l8bble" name="Signal_05pve9o" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_sstpp_tobe">
       <bpmndi:BPMNShape id="Participant_0i39f9a_di" bpmnElement="Participant_sstpp" isHorizontal="true">
@@ -465,7 +537,7 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_00ifnj7_di" bpmnElement="Flow_00ifnj7">
         <di:waypoint x="600" y="350" />
-        <di:waypoint x="600" y="530" />
+        <di:waypoint x="600" y="432" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_16oo7ve_di" bpmnElement="Flow_16oo7ve">
         <di:waypoint x="650" y="570" />
@@ -505,7 +577,7 @@
       <bpmndi:BPMNShape id="Event_057kik9_di" bpmnElement="timeDuration">
         <dc:Bounds x="1052" y="812" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1063" y="858" width="15" height="14" />
+          <dc:Bounds x="1063" y="855" width="16" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_0gj2od8_di" bpmnElement="Gateway_01o0el3">
@@ -530,9 +602,6 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_10vubks_di" bpmnElement="Activity_1cjiytc">
         <dc:Bounds x="1670" y="620" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0nv8ico_di" bpmnElement="Activity_0ttgkk9">
-        <dc:Bounds x="1120" y="530" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1hkip1a_di" bpmnElement="Activity_ReviewProposal">
         <dc:Bounds x="550" y="270" width="100" height="80" />
@@ -631,9 +700,6 @@
         <di:waypoint x="1910" y="660" />
         <di:waypoint x="1975" y="660" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Activity_1cb9a2z_di" bpmnElement="Activity_03desq0">
-        <dc:Bounds x="450" y="720" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0c7ybrw_di" bpmnElement="Task_ProposalCreation">
         <dc:Bounds x="310" y="720" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -646,6 +712,19 @@
       <bpmndi:BPMNShape id="Activity_025z8ia_di" bpmnElement="Activity_VetoRightStart">
         <dc:Bounds x="920" y="530" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1e4gw6p_di" bpmnElement="Activity_0ttgkk9">
+        <dc:Bounds x="1120" y="530" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0swnd0g_di" bpmnElement="Activity_03desq0">
+        <dc:Bounds x="450" y="720" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1nxz6zc_di" bpmnElement="Event_14eo1o6">
+        <dc:Bounds x="582" y="432" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1dgl37g_di" bpmnElement="Flow_1dgl37g">
+        <di:waypoint x="600" y="468" />
+        <di:waypoint x="600" y="530" />
+      </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>
