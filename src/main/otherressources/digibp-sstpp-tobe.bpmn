@@ -168,7 +168,7 @@
     <bpmn:userTask id="Activity_VetoRightStart" name="Set Veto start time">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="complete" label="Is proposal complete?" type="string" />
+          <camunda:formField id="complete" label="Is proposal complete?" type="string" defaultValue="Yes" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_CompletenessToVetoStart</bpmn:incoming>
@@ -290,10 +290,36 @@
       <bpmn:incoming>Flow_CompletenessToCreation</bpmn:incoming>
       <bpmn:outgoing>Flow_1hjg7qt</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:userTask id="Activity_0z5vd34" name="Receive Review Outcome">
+    <bpmn:serviceTask id="Activity_0z5vd34" name="Receive Review Outcome">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="url">https://apex.oracle.com/pls/apex/schaltstelle/proposal/sendMail</camunda:inputParameter>
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="JavaScript">out = JSON.stringify(
+    {
+    "toEmail": "alena.magliano@students.fhnw.ch",
+    "fromEmail": "alena.magliano@students.fhnw.ch",
+    "ccEmail": "a.magliano@hotmail.com",
+    "emailSubject": "This is a Test from Postman",
+    "emailBody": "This is a Postman Test",
+    "emailBodyHTML": "This is a Postman Test"
+});</camunda:script>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:outputParameter name="complete">Yes</camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_00ifnj7</bpmn:incoming>
       <bpmn:outgoing>Flow_16oo7ve</bpmn:outgoing>
-    </bpmn:userTask>
+    </bpmn:serviceTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_sstpp_tobe">
@@ -594,7 +620,7 @@
       <bpmndi:BPMNShape id="Activity_0vnr50j_di" bpmnElement="Activity_0a5ltah">
         <dc:Bounds x="700" y="720" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_08crsm2_di" bpmnElement="Activity_0z5vd34">
+      <bpmndi:BPMNShape id="Activity_0mhgx9l_di" bpmnElement="Activity_0z5vd34">
         <dc:Bounds x="550" y="530" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
