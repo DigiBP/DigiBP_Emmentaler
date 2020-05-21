@@ -32,11 +32,11 @@
         <bpmn:flowNodeRef>EndEvent_sstpp</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>StartEvent_startEvent</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>timeDuration</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_VetoRightStart</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_03desq0</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_ProposalCreation</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0a5ltah</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0z5vd34</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_VetoRightStart</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_members" name="Members">
         <bpmn:flowNodeRef>Activity_ReviewProposal</bpmn:flowNodeRef>
@@ -45,6 +45,11 @@
       </bpmn:lane>
     </bpmn:laneSet>
     <bpmn:userTask id="Activity_ReviewProposal" name="Review of Proposal">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="complete" label="Is proposal complete" type="string" defaultValue="true" />
+        </camunda:formData>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_0zqx94q</bpmn:incoming>
       <bpmn:outgoing>Flow_00ifnj7</bpmn:outgoing>
     </bpmn:userTask>
@@ -165,15 +170,6 @@
         <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT5S</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
     </bpmn:intermediateCatchEvent>
-    <bpmn:userTask id="Activity_VetoRightStart" name="Set Veto start time">
-      <bpmn:extensionElements>
-        <camunda:formData>
-          <camunda:formField id="complete" label="Is proposal complete?" type="string" defaultValue="Yes" />
-        </camunda:formData>
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_CompletenessToVetoStart</bpmn:incoming>
-      <bpmn:outgoing>Flow_1tszffy</bpmn:outgoing>
-    </bpmn:userTask>
     <bpmn:userTask id="Activity_03desq0" name="Proposal submitted">
       <bpmn:incoming>Flow_110005a</bpmn:incoming>
       <bpmn:outgoing>Flow_0edpsev</bpmn:outgoing>
@@ -282,7 +278,7 @@
     "emailBodyHTML": "The request has to be completed with following information."
 });</camunda:script>
             </camunda:inputParameter>
-            <camunda:outputParameter name="Test" />
+            <camunda:outputParameter name="complete">false</camunda:outputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
@@ -294,8 +290,13 @@
       <bpmn:extensionElements>
         <camunda:connector>
           <camunda:inputOutput>
-            <camunda:inputParameter name="method">POST</camunda:inputParameter>
             <camunda:inputParameter name="url">https://apex.oracle.com/pls/apex/schaltstelle/proposal/sendMail</camunda:inputParameter>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
             <camunda:inputParameter name="payload">
               <camunda:script scriptFormat="JavaScript">out = JSON.stringify(
     {
@@ -307,18 +308,40 @@
     "emailBodyHTML": "This is a Postman Test"
 });</camunda:script>
             </camunda:inputParameter>
-            <camunda:inputParameter name="headers">
-              <camunda:map>
-                <camunda:entry key="Content-Type">application/json</camunda:entry>
-              </camunda:map>
-            </camunda:inputParameter>
-            <camunda:outputParameter name="complete">Yes</camunda:outputParameter>
+            <camunda:outputParameter name="complete">true</camunda:outputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_00ifnj7</bpmn:incoming>
       <bpmn:outgoing>Flow_16oo7ve</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_VetoRightStart" name="Set Veto start timeaders">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="method">PUT</camunda:inputParameter>
+            <camunda:inputParameter name="url">https://apex.oracle.com/pls/apex/schaltstelle/proposal/setVetoStartDate/:id</camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="JavaScript">out = JSON.stringify(
+    {
+    "id": "${id}",
+"proposal_status": "${proposal_status}",
+"veto_start_date": "${now()}"   
+});</camunda:script>
+            </camunda:inputParameter>
+            <camunda:outputParameter name="complete">true</camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_CompletenessToVetoStart</bpmn:incoming>
+      <bpmn:outgoing>Flow_1tszffy</bpmn:outgoing>
     </bpmn:serviceTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -608,9 +631,6 @@
         <di:waypoint x="1910" y="660" />
         <di:waypoint x="1975" y="660" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Activity_0p993rs_di" bpmnElement="Activity_VetoRightStart">
-        <dc:Bounds x="920" y="530" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1cb9a2z_di" bpmnElement="Activity_03desq0">
         <dc:Bounds x="450" y="720" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -622,6 +642,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0mhgx9l_di" bpmnElement="Activity_0z5vd34">
         <dc:Bounds x="550" y="530" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_025z8ia_di" bpmnElement="Activity_VetoRightStart">
+        <dc:Bounds x="920" y="530" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
