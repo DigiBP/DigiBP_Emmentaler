@@ -87,6 +87,13 @@ The following conditions have been defined to design a decision model to decide 
 |"Innovation","GeneralImprovements","FutureEvents","Marketing" "ChangeOfBusinessGuidelines"|- |false|
 
 ## <span style="color:blue">8. Identification of Digitalisation Aspects</span>
+There are several factors why the current process can be enriched by a more modern process:
+* Simplification and clear structuring of the application process
+* Today all changes are made manually
+* In the telegram chat, a new request usually triggers a discussion. But it should be suggestions, not discussions.
+* Zeitrahmen zu veto sind manuell
+* History is not guaranteed (when did Veto start, when did it stop, etc.). Until now it was necessary to search the history in telegrams to find the contents again. This was inefficient and error-prone.
+
 
 ## <span style="color:blue">9. Process TO-BE Description</span>
 
@@ -133,18 +140,6 @@ The most important steps are explained in the table below:
 | End | - | - | - | - | The process ends. |
 
 
-### Calls between Frontend Service (REST Endpoint) and BPM Process
-
-|Source - Target|Parameter|Description|Technology|
-|---|---|---|---|
-|REST -> BPM|PROPOSAL_STATUS  |New Proposal is created (Start Event)|REST (GET)|
-|BPM -> REST|PROPOSAL_STATUS|Update of the proposal status|REST (PUT)|
-|BPM -> REST|IS_PITCH_NEEDED|Outcome of decision table if pitch is needed|REST (PUT)|
-|REST -> BPM|CHANGE|New Change is added for Proposal|REST (GET)|
-|BPM -> REST|HAS_VETO|Outcome of process if the proposal is accepted or declined|REST (PUT)|
-|BPM -> REST|VETO_START_DATE|Start date of the right to veto|REST (PUT)|
-
-
 
 ## <span style="color:blue">10. Deployement of External Services </span>
 
@@ -176,12 +171,6 @@ All the APEX REST Endpoints for the proposal application are located under the p
 ### Oracle Database
 
 The data is stored in an Oracle database. To access and update the data the REST Endpoint described above can be used. 
-
-<code>
-+-------------------+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /+-----------------+<br>
-|..... ANTRAG ..... | -||--------< | ... CHANGE ....  | <br>
-+-------------------+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \+-----------------+
-</code>
 
 #### Proposal Table 
 
@@ -219,9 +208,11 @@ The data is stored in an Oracle database. To access and update the data the REST
 
 
 ## <span style="color:blue">11. Deployment of Project</span>
-
-
+// Picture of the deployment 
 
 ## <span style="color:blue">12. Testing of Project</span> 
+// How we tested the endpoints with Postman.
 
 ## <span style="color:blue">13. Summary</span>
+// TODO, when ready
+// What is now better with the digitized process? Before and after comparison.
