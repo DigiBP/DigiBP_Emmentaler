@@ -229,7 +229,7 @@
     <bpmn:intermediateCatchEvent id="Event_ReceiveReviewOutcome" name="Receive Review Outcome">
       <bpmn:extensionElements>
         <camunda:inputOutput>
-          <camunda:outputParameter name="Output_complete" />
+          <camunda:outputParameter name="complete" />
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0pz91tb</bpmn:incoming>
