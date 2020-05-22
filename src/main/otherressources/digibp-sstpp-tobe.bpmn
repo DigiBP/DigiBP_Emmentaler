@@ -16,9 +16,6 @@
         <bpmn:flowNodeRef>Gateway_01o0el3</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_1cjiytc</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_NeedPitch</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_ProposalAccepted</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_ProposalDeclined</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_15v8y7i</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>EndEvent_sstpp</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>StartEvent_startEvent</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>timeDuration</bpmn:flowNodeRef>
@@ -38,6 +35,9 @@
         <bpmn:flowNodeRef>Activity_InformRequester</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0tinex4</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0uzd1be</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_ProposalAccepted</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_ProposalDeclined</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_15v8y7i</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_requester" name="Requester">
         <bpmn:flowNodeRef>Activity_1jhuqq9</bpmn:flowNodeRef>
@@ -82,18 +82,6 @@
       <bpmn:outgoing>Flow_PitchDecisionToVetoDecision</bpmn:outgoing>
       <bpmn:outgoing>Flow_0d3fj2n</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:userTask id="Activity_ProposalAccepted" name="Proposal is accepted">
-      <bpmn:incoming>Flow_07udj5y</bpmn:incoming>
-      <bpmn:outgoing>Flow_ProposalAcceptedToEndSplit</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:userTask id="Activity_ProposalDeclined" name="Proposal is declined">
-      <bpmn:incoming>Flow_01p2993</bpmn:incoming>
-      <bpmn:outgoing>Flow_ProposalDeclinedToEndSplit</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:userTask id="Activity_15v8y7i" name="Inform members &#38; requester">
-      <bpmn:incoming>Flow_EndSplitToEndEvent</bpmn:incoming>
-      <bpmn:outgoing>Flow_0d8t2q3</bpmn:outgoing>
-    </bpmn:userTask>
     <bpmn:endEvent id="EndEvent_sstpp" name="End Event">
       <bpmn:incoming>Flow_0d8t2q3</bpmn:incoming>
     </bpmn:endEvent>
@@ -330,13 +318,145 @@
     "emailBodyHTML": "The request has to be completed with following information."
 });</camunda:script>
             </camunda:inputParameter>
-            <camunda:outputParameter name="improvements" />
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0gklgap</bpmn:incoming>
       <bpmn:outgoing>Flow_0ddi9t2</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_0tinex4" name="Update Decision">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="method">PUT</camunda:inputParameter>
+            <camunda:inputParameter name="url">https://apex.oracle.com/pls/apex/schaltstelle/proposal/isPitchNeeded/:id</camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="JavaScript">out = JSON.stringify(
+    {"id": "${id}",
+"is_pitch_needed": "${is_pitch_needed}"
+})</camunda:script>
+            </camunda:inputParameter>
+            <camunda:outputParameter name="status" />
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0xtu9eu</bpmn:incoming>
+      <bpmn:outgoing>Flow_1yudp6z</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_0uzd1be" name="Inform Requester">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="url">https://apex.oracle.com/pls/apex/schaltstelle/proposal/sendMail</camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="JavaScript">out = JSON.stringify(
+    {
+    "toEmail": "alena.magliano@students.fhnw.ch",
+    "fromEmail": "alena.magliano@students.fhnw.ch",
+    "ccEmail": "a.magliano@hotmail.com",
+    "emailSubject": "Please complete the request",
+    "emailBody": "The request has to be completed with following information.",
+    "emailBodyHTML": "The request has to be completed with following information."
+});</camunda:script>
+            </camunda:inputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0d3fj2n</bpmn:incoming>
+      <bpmn:outgoing>Flow_0nipd02</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_ProposalAccepted" name="Proposal is accepted">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="method">PUT</camunda:inputParameter>
+            <camunda:inputParameter name="url">https://apex.oracle.com/pls/apex/schaltstelle/proposal/setProposalStatus/:id</camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="JavaScript">out = JSON.stringify(
+    {"id": "${id}",
+"proposal_status": "${proposal_status}"
+})</camunda:script>
+            </camunda:inputParameter>
+            <camunda:outputParameter name="status" />
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_07udj5y</bpmn:incoming>
+      <bpmn:outgoing>Flow_ProposalAcceptedToEndSplit</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_ProposalDeclined" name="Proposal is declined">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="method">PUT</camunda:inputParameter>
+            <camunda:inputParameter name="url">https://apex.oracle.com/pls/apex/schaltstelle/proposal/setProposalStatus/:id</camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="JavaScript">out = JSON.stringify(
+    {"id": "${id}",
+"proposal_status": "${proposal_status}"
+})</camunda:script>
+            </camunda:inputParameter>
+            <camunda:outputParameter name="status" />
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_01p2993</bpmn:incoming>
+      <bpmn:outgoing>Flow_ProposalDeclinedToEndSplit</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_15v8y7i" name="Inform members &#38; requester">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="url">https://apex.oracle.com/pls/apex/schaltstelle/proposal/sendMail</camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="JavaScript">out = JSON.stringify(
+    {
+    "toEmail": "alena.magliano@students.fhnw.ch",
+    "fromEmail": "alena.magliano@students.fhnw.ch",
+    "ccEmail": "a.magliano@hotmail.com",
+    "emailSubject": "Please complete the request",
+    "emailBody": "The request has to be completed with following information.",
+    "emailBodyHTML": "The request has to be completed with following information."
+});</camunda:script>
+            </camunda:inputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_EndSplitToEndEvent</bpmn:incoming>
+      <bpmn:outgoing>Flow_0d8t2q3</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="Flow_01p2993" sourceRef="Event_ReceiveVeto" targetRef="Activity_ProposalDeclined" />
     <bpmn:sequenceFlow id="Flow_0gklgap" sourceRef="Event_ReceiveImprovement" targetRef="Activity_InformRequester" />
@@ -387,61 +507,6 @@
     <bpmn:sequenceFlow id="Flow_1t97b0u" sourceRef="Activity_0klyhvx" targetRef="Event_ReceiveImprovement" />
     <bpmn:sequenceFlow id="Flow_1yudp6z" sourceRef="Activity_0tinex4" targetRef="Gateway_NeedPitch" />
     <bpmn:sequenceFlow id="Flow_0c6i486" sourceRef="Event_1oxtthp" targetRef="Task_ProposalCreation" />
-    <bpmn:serviceTask id="Activity_0tinex4" name="Update Decision">
-      <bpmn:extensionElements>
-        <camunda:connector>
-          <camunda:inputOutput>
-            <camunda:inputParameter name="method">PUT</camunda:inputParameter>
-            <camunda:inputParameter name="url">https://apex.oracle.com/pls/apex/schaltstelle/proposal/isPitchNeeded/:id</camunda:inputParameter>
-            <camunda:inputParameter name="headers">
-              <camunda:map>
-                <camunda:entry key="Content-Type">application/json</camunda:entry>
-              </camunda:map>
-            </camunda:inputParameter>
-            <camunda:inputParameter name="payload">
-              <camunda:script scriptFormat="JavaScript">out = JSON.stringify(
-    {"id": "${id}",
-"is_pitch_needed": "${is_pitch_needed}"
-})</camunda:script>
-            </camunda:inputParameter>
-            <camunda:outputParameter name="presentationRequired" />
-          </camunda:inputOutput>
-          <camunda:connectorId>http-connector</camunda:connectorId>
-        </camunda:connector>
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_0xtu9eu</bpmn:incoming>
-      <bpmn:outgoing>Flow_1yudp6z</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="Activity_0uzd1be" name="Inform Requester">
-      <bpmn:extensionElements>
-        <camunda:connector>
-          <camunda:inputOutput>
-            <camunda:inputParameter name="method">POST</camunda:inputParameter>
-            <camunda:inputParameter name="url">https://apex.oracle.com/pls/apex/schaltstelle/proposal/sendMail</camunda:inputParameter>
-            <camunda:inputParameter name="headers">
-              <camunda:map>
-                <camunda:entry key="Content-Type">application/json</camunda:entry>
-              </camunda:map>
-            </camunda:inputParameter>
-            <camunda:inputParameter name="payload">
-              <camunda:script scriptFormat="JavaScript">out = JSON.stringify(
-    {
-    "toEmail": "alena.magliano@students.fhnw.ch",
-    "fromEmail": "alena.magliano@students.fhnw.ch",
-    "ccEmail": "a.magliano@hotmail.com",
-    "emailSubject": "Please complete the request",
-    "emailBody": "The request has to be completed with following information.",
-    "emailBodyHTML": "The request has to be completed with following information."
-});</camunda:script>
-            </camunda:inputParameter>
-            <camunda:outputParameter name="presentationRequired" />
-          </camunda:inputOutput>
-          <camunda:connectorId>http-connector</camunda:connectorId>
-        </camunda:connector>
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_0d3fj2n</bpmn:incoming>
-      <bpmn:outgoing>Flow_0nipd02</bpmn:outgoing>
-    </bpmn:serviceTask>
   </bpmn:process>
   <bpmn:signal id="Signal_1l8bble" name="Signal_05pve9o" />
   <bpmn:signal id="Signal_0zu633g" name="Signal_ReviewOutcome" />
@@ -669,15 +734,6 @@
         <di:waypoint x="2000" y="440" />
         <di:waypoint x="2000" y="220" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Activity_08g9b8s_di" bpmnElement="Activity_ProposalDeclined">
-        <dc:Bounds x="2360" y="600" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0b3lan5_di" bpmnElement="Activity_ProposalAccepted">
-        <dc:Bounds x="2230" y="720" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0yymzpz_di" bpmnElement="Activity_15v8y7i">
-        <dc:Bounds x="2480" y="720" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1yudp6z_di" bpmnElement="Flow_1yudp6z">
         <di:waypoint x="1910" y="660" />
         <di:waypoint x="1975" y="660" />
@@ -766,6 +822,15 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1hogo8r_di" bpmnElement="Activity_0uzd1be">
         <dc:Bounds x="1950" y="440" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_08ui504_di" bpmnElement="Activity_ProposalAccepted">
+        <dc:Bounds x="2230" y="720" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_14rib9i_di" bpmnElement="Activity_ProposalDeclined">
+        <dc:Bounds x="2360" y="600" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_15sdd4x_di" bpmnElement="Activity_15v8y7i">
+        <dc:Bounds x="2480" y="720" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
