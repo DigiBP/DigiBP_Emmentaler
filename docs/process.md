@@ -158,15 +158,12 @@ All the APEX REST Endpoints for the proposal application are located under the p
 
 #### Ressources
 
-|Ressource URI|Methode|Parameters|
+|Ressource URI|Method|Parameters|
 |---|---|---|
-|change/:id|GET|IN - id|
-|change/:id|POST|IN - antrag_id <br> IN - change_desc <br> IN - change_titel <br> OUT - http_status_code|
-|has_veto/:id|PUT|IN - id <br> IN - has_veto <br> OUT - http_status_code|
-|is_pitch_needed/:id|PUT|IN - id <br> IN - is_pitch_needed <br> OUT - http_status_code  |
-|proposal_status/:id|PUT|IN - id <br> IN - proposal_status <br> OUT - http_status_code  |
-|proposal_status/:id|GET|IN - id  |
-|veto_start_date/:id|PUT|IN - id <br> IN - veto_start_date <br> OUT - http_status_code  |
+|sendMail/:id|POST|IN - ccEmail <br> IN - emailBody <br> IN - emailBodyHTML  <br> IN - emailSubject <br> IN - fromEmail <br>  IN - toEmail <br>  OUT - http_status_code|
+|isPitchNeeded/:id|PUT|IN - id <br> IN - is_pitch_needed <br> OUT - http_status_code  |
+|setProposalStatus/:id|PUT|IN - id <br> IN - proposal_status <br> OUT - http_status_code  |
+|setVetoStartDate/:id|PUT|IN - id <br> IN - veto_start_date <br> IN - proposal_status  <br> OUT - http_status_code  |
 
 ### Oracle Database
 
