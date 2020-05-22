@@ -517,10 +517,11 @@
   </bpmn:process>
   <bpmn:signal id="Signal_1l8bble" name="Signal_05pve9o" />
   <bpmn:signal id="Signal_0zu633g" name="Signal_ReviewOutcome" />
-  <bpmn:message id="Message_023wnha" name="Message_ReceiveReviewOutcome" />
+  <bpmn:message id="Message_023wnha" name="ReceiveReviewOutcome" />
   <bpmn:message id="Message_1sb3vck" name="Message_ReceiveImprovement" />
   <bpmn:message id="Message_1cce0nh" name="Message_ReceiveVeto" />
   <bpmn:message id="Message_09gdywz" name="Message_ProposalSubmitted" />
+  <bpmn:signal id="Signal_09poqdv" name="Signal_0sechs1" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_sstpp_tobe">
       <bpmndi:BPMNShape id="Participant_0i39f9a_di" bpmnElement="Participant_sstpp" isHorizontal="true">
