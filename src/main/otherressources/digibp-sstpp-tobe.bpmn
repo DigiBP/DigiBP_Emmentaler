@@ -173,8 +173,9 @@
     "emailBodyHTML": "This is a Postman Test"
 });</camunda:script>
             </camunda:inputParameter>
-            <camunda:outputParameter name="improvements" />
-            <camunda:outputParameter name="veto" />
+            <camunda:outputParameter name="improvements">true</camunda:outputParameter>
+            <camunda:outputParameter name="veto">true</camunda:outputParameter>
+            <camunda:outputParameter name="checkBudget">true</camunda:outputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
@@ -219,7 +220,7 @@
     <bpmn:intermediateCatchEvent id="Event_ReceiveReviewOutcome" name="Receive Review Outcome">
       <bpmn:extensionElements>
         <camunda:inputOutput>
-          <camunda:outputParameter name="complete" />
+          <camunda:outputParameter name="complete">true</camunda:outputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0zqx94q</bpmn:incoming>
