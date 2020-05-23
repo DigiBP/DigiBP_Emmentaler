@@ -6,10 +6,9 @@
   </bpmn:collaboration>
   <bpmn:process id="digibp-tobe" isExecutable="true">
     <bpmn:laneSet id="LaneSet_0nrxm8e">
-      <bpmn:lane id="Lane_requester" name="Requester">
-        <bpmn:flowNodeRef>Activity_1jhuqq9</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_OrganizePitch</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_ImprovementAccepted</bpmn:flowNodeRef>
+      <bpmn:lane id="Lane_members" name="Members">
+        <bpmn:flowNodeRef>Activity_0klyhvx</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_16ix0wu</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_18cpzkh" name="Service Automation">
         <bpmn:flowNodeRef>Gateway_ProposalComplete</bpmn:flowNodeRef>
@@ -39,9 +38,10 @@
         <bpmn:flowNodeRef>Activity_ProposalDeclined</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_15v8y7i</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="Lane_members" name="Members">
-        <bpmn:flowNodeRef>Activity_0klyhvx</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_16ix0wu</bpmn:flowNodeRef>
+      <bpmn:lane id="Lane_requester" name="Requester">
+        <bpmn:flowNodeRef>Activity_OrganizePitch</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_ImprovementAccepted</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>adaptProposal</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
     <bpmn:exclusiveGateway id="Gateway_ProposalComplete" name="Is proposal complete?">
@@ -83,11 +83,6 @@
     <bpmn:startEvent id="StartEvent_startEvent" name="Start Event">
       <bpmn:outgoing>Flow_0yggic7</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:userTask id="Activity_1jhuqq9" name="Adapt Proposal">
-      <bpmn:incoming>Flow_ImprovementAcceptanceToCreation</bpmn:incoming>
-      <bpmn:incoming>Flow_1hjg7qt</bpmn:incoming>
-      <bpmn:outgoing>Flow_110005a</bpmn:outgoing>
-    </bpmn:userTask>
     <bpmn:userTask id="Activity_OrganizePitch" name="Organization of Pitch or Presentation">
       <bpmn:incoming>Flow_0nipd02</bpmn:incoming>
       <bpmn:outgoing>Flow_PitchToVetoDecision</bpmn:outgoing>
@@ -454,60 +449,71 @@
       <bpmn:incoming>Flow_EndSplitToEndEvent</bpmn:incoming>
       <bpmn:outgoing>Flow_0d8t2q3</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="Flow_0c6i486" sourceRef="Event_1oxtthp" targetRef="Task_ProposalCreation" />
-    <bpmn:sequenceFlow id="Flow_1yudp6z" sourceRef="Activity_0tinex4" targetRef="Gateway_NeedPitch" />
-    <bpmn:sequenceFlow id="Flow_1t97b0u" sourceRef="Activity_0klyhvx" targetRef="Event_ReceiveImprovement" />
-    <bpmn:sequenceFlow id="Flow_1hjg7qt" sourceRef="Activity_0a5ltah" targetRef="Activity_1jhuqq9" />
-    <bpmn:sequenceFlow id="Flow_ProposalDeclinedToEndSplit" sourceRef="Activity_ProposalDeclined" targetRef="Gateway_endSplit" />
-    <bpmn:sequenceFlow id="Flow_ProposalAcceptedToEndSplit" sourceRef="Activity_ProposalAccepted" targetRef="Gateway_endSplit" />
-    <bpmn:sequenceFlow id="Flow_PitchToVetoDecision" sourceRef="Activity_OrganizePitch" targetRef="Gateway_Vetos" />
-    <bpmn:sequenceFlow id="Flow_0d3fj2n" name="Yes" sourceRef="Gateway_NeedPitch" targetRef="Activity_0uzd1be">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${pitchNeeded == true}</bpmn:conditionExpression>
+    <bpmn:userTask id="adaptProposal" name="Adapt Proposal">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="complete" type="string" />
+        </camunda:formData>
+        <camunda:taskListener expression="${complete == true}" event="complete" id="adaptProposal" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1hjg7qt</bpmn:incoming>
+      <bpmn:incoming>Flow_ImprovementAcceptanceToCreation</bpmn:incoming>
+      <bpmn:outgoing>Flow_110005a</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_01p2993" sourceRef="Event_ReceiveVeto" targetRef="Activity_ProposalDeclined" />
+    <bpmn:sequenceFlow id="Flow_0gklgap" sourceRef="Event_ReceiveImprovement" targetRef="Activity_InformRequester" />
+    <bpmn:sequenceFlow id="Flow_1bzqynz" sourceRef="Gateway_0um021v" targetRef="Gateway_beginSplit" />
+    <bpmn:sequenceFlow id="Flow_1ln9gul" sourceRef="Event_ReceiveReviewOutcome" targetRef="Gateway_ProposalComplete" />
+    <bpmn:sequenceFlow id="Flow_0nipd02" sourceRef="Activity_0uzd1be" targetRef="Activity_OrganizePitch" />
+    <bpmn:sequenceFlow id="Flow_07udj5y" sourceRef="Gateway_0cxv4g1" targetRef="Activity_ProposalAccepted" />
+    <bpmn:sequenceFlow id="Flow_0d8t2q3" sourceRef="Activity_15v8y7i" targetRef="EndEvent_sstpp" />
+    <bpmn:sequenceFlow id="Flow_19gqqvf" sourceRef="Gateway_Vetos" targetRef="Gateway_0cxv4g1" />
+    <bpmn:sequenceFlow id="Flow_1a7ucot" sourceRef="timeDuration" targetRef="Gateway_0cxv4g1" />
+    <bpmn:sequenceFlow id="Flow_0ddi9t2" sourceRef="Activity_InformRequester" targetRef="Gateway_ImprovementAccepted" />
+    <bpmn:sequenceFlow id="Flow_0zqx94q" sourceRef="Task_ProposalCreation" targetRef="Event_ReceiveReviewOutcome" />
+    <bpmn:sequenceFlow id="Flow_110005a" sourceRef="adaptProposal" targetRef="Event_1oxtthp" />
+    <bpmn:sequenceFlow id="Flow_0yggic7" sourceRef="StartEvent_startEvent" targetRef="Task_ProposalCreation" />
+    <bpmn:sequenceFlow id="Flow_0rron5d" sourceRef="Gateway_01o0el3" targetRef="Activity_0ttgkk9" />
+    <bpmn:sequenceFlow id="Flow_0alaoex" sourceRef="Gateway_01o0el3" targetRef="timeDuration" />
+    <bpmn:sequenceFlow id="Flow_1bhwbhj" sourceRef="Activity_16ix0wu" targetRef="Event_ReceiveVeto" />
+    <bpmn:sequenceFlow id="Flow_EndSplitToEndEvent" sourceRef="Gateway_endSplit" targetRef="Activity_15v8y7i" />
+    <bpmn:sequenceFlow id="Flow_SplitToVeto" sourceRef="Gateway_beginSplit" targetRef="Activity_16ix0wu">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${veto == true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_ImprovementAcceptanceToVetoStart" name="No" sourceRef="Gateway_ImprovementAccepted" targetRef="Gateway_0um021v">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!improvementAccepted}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="Flow_PitchDecisionToVetoDecision" name="No" sourceRef="Gateway_NeedPitch" targetRef="Gateway_Vetos">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!pitchNeeded}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_SplitToImprovementSuggestion" name="improvements" sourceRef="Gateway_beginSplit" targetRef="Activity_0klyhvx">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${improvements == true}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_SplitToPitchDecision" name="checkBudget" sourceRef="Gateway_beginSplit" targetRef="Activity_1cjiytc">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${checkBudget == true}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_ImprovementAcceptanceToCreation" name="Yes" sourceRef="Gateway_ImprovementAccepted" targetRef="Activity_1jhuqq9">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${improvementAccepted == true}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="Flow_0xtu9eu" sourceRef="Activity_1cjiytc" targetRef="Activity_0tinex4" />
+    <bpmn:sequenceFlow id="Flow_1tszffy" sourceRef="Activity_VetoRightStart" targetRef="Gateway_01o0el3" />
+    <bpmn:sequenceFlow id="Flow_TimeStartToParallel" sourceRef="Activity_0ttgkk9" targetRef="Gateway_0um021v" />
+    <bpmn:sequenceFlow id="Flow_CompletenessToCreation" name="No" sourceRef="Gateway_ProposalComplete" targetRef="Activity_0a5ltah">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!complete}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_CompletenessToVetoStart" name="Yes" sourceRef="Gateway_ProposalComplete" targetRef="Activity_VetoRightStart">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${complete == true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_CompletenessToCreation" name="No" sourceRef="Gateway_ProposalComplete" targetRef="Activity_0a5ltah">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!complete}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="Flow_ImprovementAcceptanceToCreation" name="Yes" sourceRef="Gateway_ImprovementAccepted" targetRef="adaptProposal">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${improvementAccepted == true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_TimeStartToParallel" sourceRef="Activity_0ttgkk9" targetRef="Gateway_0um021v" />
-    <bpmn:sequenceFlow id="Flow_1tszffy" sourceRef="Activity_VetoRightStart" targetRef="Gateway_01o0el3" />
-    <bpmn:sequenceFlow id="Flow_0xtu9eu" sourceRef="Activity_1cjiytc" targetRef="Activity_0tinex4" />
-    <bpmn:sequenceFlow id="Flow_PitchDecisionToVetoDecision" name="No" sourceRef="Gateway_NeedPitch" targetRef="Gateway_Vetos">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!pitchNeeded}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="Flow_SplitToPitchDecision" name="checkBudget" sourceRef="Gateway_beginSplit" targetRef="Activity_1cjiytc">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${checkBudget == true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_SplitToVeto" sourceRef="Gateway_beginSplit" targetRef="Activity_16ix0wu">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${veto == true}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="Flow_SplitToImprovementSuggestion" name="improvements" sourceRef="Gateway_beginSplit" targetRef="Activity_0klyhvx">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${improvements == true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_EndSplitToEndEvent" sourceRef="Gateway_endSplit" targetRef="Activity_15v8y7i" />
-    <bpmn:sequenceFlow id="Flow_1bhwbhj" sourceRef="Activity_16ix0wu" targetRef="Event_ReceiveVeto" />
-    <bpmn:sequenceFlow id="Flow_0alaoex" sourceRef="Gateway_01o0el3" targetRef="timeDuration" />
-    <bpmn:sequenceFlow id="Flow_0rron5d" sourceRef="Gateway_01o0el3" targetRef="Activity_0ttgkk9" />
-    <bpmn:sequenceFlow id="Flow_0yggic7" sourceRef="StartEvent_startEvent" targetRef="Task_ProposalCreation" />
-    <bpmn:sequenceFlow id="Flow_110005a" sourceRef="Activity_1jhuqq9" targetRef="Event_1oxtthp" />
-    <bpmn:sequenceFlow id="Flow_0zqx94q" sourceRef="Task_ProposalCreation" targetRef="Event_ReceiveReviewOutcome" />
-    <bpmn:sequenceFlow id="Flow_0ddi9t2" sourceRef="Activity_InformRequester" targetRef="Gateway_ImprovementAccepted" />
-    <bpmn:sequenceFlow id="Flow_1a7ucot" sourceRef="timeDuration" targetRef="Gateway_0cxv4g1" />
-    <bpmn:sequenceFlow id="Flow_19gqqvf" sourceRef="Gateway_Vetos" targetRef="Gateway_0cxv4g1" />
-    <bpmn:sequenceFlow id="Flow_0d8t2q3" sourceRef="Activity_15v8y7i" targetRef="EndEvent_sstpp" />
-    <bpmn:sequenceFlow id="Flow_07udj5y" sourceRef="Gateway_0cxv4g1" targetRef="Activity_ProposalAccepted" />
-    <bpmn:sequenceFlow id="Flow_0nipd02" sourceRef="Activity_0uzd1be" targetRef="Activity_OrganizePitch" />
-    <bpmn:sequenceFlow id="Flow_1ln9gul" sourceRef="Event_ReceiveReviewOutcome" targetRef="Gateway_ProposalComplete" />
-    <bpmn:sequenceFlow id="Flow_1bzqynz" sourceRef="Gateway_0um021v" targetRef="Gateway_beginSplit" />
-    <bpmn:sequenceFlow id="Flow_0gklgap" sourceRef="Event_ReceiveImprovement" targetRef="Activity_InformRequester" />
-    <bpmn:sequenceFlow id="Flow_01p2993" sourceRef="Event_ReceiveVeto" targetRef="Activity_ProposalDeclined" />
+    <bpmn:sequenceFlow id="Flow_ImprovementAcceptanceToVetoStart" name="No" sourceRef="Gateway_ImprovementAccepted" targetRef="Gateway_0um021v">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!improvementAccepted}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0d3fj2n" name="Yes" sourceRef="Gateway_NeedPitch" targetRef="Activity_0uzd1be">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${pitchNeeded == true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_PitchToVetoDecision" sourceRef="Activity_OrganizePitch" targetRef="Gateway_Vetos" />
+    <bpmn:sequenceFlow id="Flow_ProposalAcceptedToEndSplit" sourceRef="Activity_ProposalAccepted" targetRef="Gateway_endSplit" />
+    <bpmn:sequenceFlow id="Flow_ProposalDeclinedToEndSplit" sourceRef="Activity_ProposalDeclined" targetRef="Gateway_endSplit" />
+    <bpmn:sequenceFlow id="Flow_1hjg7qt" sourceRef="Activity_0a5ltah" targetRef="adaptProposal" />
+    <bpmn:sequenceFlow id="Flow_1t97b0u" sourceRef="Activity_0klyhvx" targetRef="Event_ReceiveImprovement" />
+    <bpmn:sequenceFlow id="Flow_1yudp6z" sourceRef="Activity_0tinex4" targetRef="Gateway_NeedPitch" />
+    <bpmn:sequenceFlow id="Flow_0c6i486" sourceRef="Event_1oxtthp" targetRef="Task_ProposalCreation" />
   </bpmn:process>
   <bpmn:signal id="Signal_1l8bble" name="Signal_05pve9o" />
   <bpmn:signal id="Signal_0zu633g" name="Signal_ReviewOutcome" />
@@ -687,9 +693,6 @@
       <bpmndi:BPMNShape id="Activity_10vubks_di" bpmnElement="Activity_1cjiytc">
         <dc:Bounds x="1670" y="620" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_07i3axy_di" bpmnElement="Activity_1jhuqq9">
-        <dc:Bounds x="820" y="140" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_092ggoi_di" bpmnElement="Activity_OrganizePitch">
         <dc:Bounds x="1950" y="140" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -832,6 +835,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_15sdd4x_di" bpmnElement="Activity_15v8y7i">
         <dc:Bounds x="2480" y="720" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1661gbf_di" bpmnElement="adaptProposal">
+        <dc:Bounds x="820" y="140" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
