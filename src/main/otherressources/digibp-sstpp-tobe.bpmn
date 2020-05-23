@@ -454,7 +454,6 @@
         <camunda:formData>
           <camunda:formField id="complete" type="string" />
         </camunda:formData>
-        <camunda:taskListener expression="${complete == true}" event="complete" id="adaptProposal" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1hjg7qt</bpmn:incoming>
       <bpmn:incoming>Flow_ImprovementAcceptanceToCreation</bpmn:incoming>
