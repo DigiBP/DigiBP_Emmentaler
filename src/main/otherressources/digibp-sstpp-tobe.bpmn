@@ -129,7 +129,7 @@
       <bpmn:incoming>Flow_CompletenessToCreation</bpmn:incoming>
       <bpmn:outgoing>Flow_1hjg7qt</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="Activity_VetoRightStart" name="Set Veto start timeaders">
+    <bpmn:serviceTask id="Activity_VetoRightStart" name="Set Veto start time">
       <bpmn:extensionElements>
         <camunda:connector>
           <camunda:inputOutput>
