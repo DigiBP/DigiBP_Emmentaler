@@ -58,15 +58,7 @@
       <bpmn:incoming>Flow_SplitToImprovementSuggestion</bpmn:incoming>
       <bpmn:outgoing>Flow_1t97b0u</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:businessRuleTask id="Activity_1cjiytc" name="Business Rule if Presentation is needed" camunda:resultVariable="decisionResult" camunda:decisionRef="Decision_is_presentation_needed" camunda:mapDecisionResult="singleResult">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="amountBudgeted">
-            <camunda:script scriptFormat="JavaScript">Number(amountBudgeted)</camunda:script>
-          </camunda:inputParameter>
-          <camunda:outputParameter name="decisionOutcome">${decisionResult.decisionOutcome}</camunda:outputParameter>
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
+    <bpmn:businessRuleTask id="Activity_1cjiytc" name="Business Rule if Presentation is needed" camunda:resultVariable="decisionOutcome" camunda:decisionRef="Decision_is_presentation_needed" camunda:mapDecisionResult="singleEntry">
       <bpmn:incoming>Flow_SplitToPitchDecision</bpmn:incoming>
       <bpmn:outgoing>Flow_0xtu9eu</bpmn:outgoing>
     </bpmn:businessRuleTask>
@@ -176,7 +168,6 @@
 });</camunda:script>
             </camunda:inputParameter>
             <camunda:outputParameter name="activity">checkBudget</camunda:outputParameter>
-            <camunda:outputParameter name="proposalCategory" />
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
@@ -301,6 +292,7 @@
     "emailBodyHTML": "The request has to be completed with following information."
 });</camunda:script>
             </camunda:inputParameter>
+            <camunda:outputParameter name="improvementAccepted">true</camunda:outputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
@@ -326,6 +318,7 @@
 })</camunda:script>
             </camunda:inputParameter>
             <camunda:outputParameter name="status" />
+            <camunda:outputParameter name="pitchNeeded">true</camunda:outputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>

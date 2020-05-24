@@ -2,17 +2,17 @@
 <definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" id="Definitions_08f2290" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="3.7.0">
   <decision id="Decision_is_presentation_needed" name="Decision-Is-Presenation-Needed">
     <decisionTable id="decisionTable_1">
-      <input id="input_1" label="proposal category">
+      <input id="input_1" label="category">
         <inputExpression id="inputExpression_1" typeRef="string">
-          <text>proposalCategory</text>
+          <text>category</text>
         </inputExpression>
         <inputValues id="UnaryTests_02l2siq">
           <text>"Innovation","GeneralImprovements","FutureEvents","Marketing","NewMembers","ChangeOfBusinessGuidelines"</text>
         </inputValues>
       </input>
-      <input id="InputClause_1msudnf" label="amount budgeted">
-        <inputExpression id="LiteralExpression_09gl1mc" typeRef="double" expressionLanguage="javascript">
-          <text>amountBudgeted</text>
+      <input id="InputClause_1msudnf" label="budget">
+        <inputExpression id="LiteralExpression_09gl1mc" typeRef="integer" expressionLanguage="javascript">
+          <text>budget</text>
         </inputExpression>
       </input>
       <output id="output_1" label="decision outcome" name="decisionOutcome" typeRef="boolean" />
@@ -62,7 +62,7 @@
       </rule>
       <rule id="DecisionRule_05ybvbb">
         <inputEntry id="UnaryTests_00w4rkj">
-          <text>"Innovation","GeneralImprovements","FutureEvents","Marketing","ChangeOfBusinessGuidelines"</text>
+          <text>"GeneralImprovements","ChangeOfBusinessGuidelines"</text>
         </inputEntry>
         <inputEntry id="UnaryTests_022fjzp">
           <text></text>
