@@ -110,7 +110,7 @@
     "emailBodyHTML": "The request has to be completed with following information."
 });</camunda:script>
             </camunda:inputParameter>
-            <camunda:outputParameter name="complete">false</camunda:outputParameter>
+            <camunda:outputParameter name="complete" />
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
@@ -137,7 +137,7 @@
 "veto_start_date": "${now()}"   
 });</camunda:script>
             </camunda:inputParameter>
-            <camunda:outputParameter name="complete">true</camunda:outputParameter>
+            <camunda:outputParameter name="complete" />
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
@@ -177,9 +177,6 @@
     </bpmn:serviceTask>
     <bpmn:serviceTask id="Task_ProposalCreation" name="Inform Chief of Innovation">
       <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="Input_29n0fgv" />
-        </camunda:inputOutput>
         <camunda:connector>
           <camunda:inputOutput>
             <camunda:inputParameter name="method">POST</camunda:inputParameter>
@@ -201,6 +198,7 @@
 });</camunda:script>
             </camunda:inputParameter>
             <camunda:outputParameter name="responseStatus" />
+            <camunda:outputParameter name="complete" />
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
@@ -212,7 +210,7 @@
     <bpmn:intermediateCatchEvent id="Event_ReceiveReviewOutcome" name="Receive Review Outcome">
       <bpmn:extensionElements>
         <camunda:inputOutput>
-          <camunda:outputParameter name="complete">true</camunda:outputParameter>
+          <camunda:outputParameter name="complete" />
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0zqx94q</bpmn:incoming>
