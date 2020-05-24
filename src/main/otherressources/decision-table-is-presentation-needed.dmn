@@ -11,7 +11,7 @@
         </inputValues>
       </input>
       <input id="InputClause_1msudnf" label="amount budgeted">
-        <inputExpression id="LiteralExpression_09gl1mc" typeRef="integer" expressionLanguage="juel">
+        <inputExpression id="LiteralExpression_09gl1mc" typeRef="double" expressionLanguage="javascript">
           <text>amountBudgeted</text>
         </inputExpression>
       </input>
