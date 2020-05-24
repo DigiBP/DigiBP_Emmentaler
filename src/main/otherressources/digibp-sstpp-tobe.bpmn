@@ -58,10 +58,12 @@
       <bpmn:incoming>Flow_SplitToImprovementSuggestion</bpmn:incoming>
       <bpmn:outgoing>Flow_1t97b0u</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:businessRuleTask id="Activity_1cjiytc" name="Business Rule if Presentation is needed" camunda:resultVariable="decisionResult" camunda:decisionRef="Decision_is_presentation_needed">
+    <bpmn:businessRuleTask id="Activity_1cjiytc" name="Business Rule if Presentation is needed" camunda:resultVariable="decisionResult" camunda:decisionRef="Decision_is_presentation_needed" camunda:mapDecisionResult="singleResult">
       <bpmn:extensionElements>
         <camunda:inputOutput>
-          <camunda:inputParameter name="amountBudgeted" />
+          <camunda:inputParameter name="amountBudgeted">
+            <camunda:script scriptFormat="JavaScript">Number(amountBudgeted)</camunda:script>
+          </camunda:inputParameter>
           <camunda:outputParameter name="decisionOutcome">${decisionResult.decisionOutcome}</camunda:outputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
@@ -173,7 +175,8 @@
     "emailBodyHTML": "This is a Postman Test"
 });</camunda:script>
             </camunda:inputParameter>
-            <camunda:outputParameter name="activity">veto</camunda:outputParameter>
+            <camunda:outputParameter name="activity">checkBudget</camunda:outputParameter>
+            <camunda:outputParameter name="proposalCategory" />
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
