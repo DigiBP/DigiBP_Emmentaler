@@ -197,8 +197,8 @@
     "emailBodyHTML": "This is a Postman Test"
 });</camunda:script>
             </camunda:inputParameter>
-            <camunda:outputParameter name="responseStatus" />
-            <camunda:outputParameter name="complete" />
+            <camunda:outputParameter name="responseStatus">${response}</camunda:outputParameter>
+            <camunda:outputParameter name="complete">${response}</camunda:outputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
@@ -208,11 +208,6 @@
       <bpmn:outgoing>Flow_0zqx94q</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:intermediateCatchEvent id="Event_ReceiveReviewOutcome" name="Receive Review Outcome">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:outputParameter name="complete" />
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
       <bpmn:incoming>Flow_0zqx94q</bpmn:incoming>
       <bpmn:outgoing>Flow_1ln9gul</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_1yp3zfy" messageRef="Message_023wnha" />
