@@ -1,10 +1,3 @@
-    Schema (Abgeschlossen)
-    Objekttyp (Abgeschlossen)
-    Objektname (Abgeschlossen)
-    Skript (Aktiv)
-
-Skript
-Generierte DDL
 
 CREATE TABLE  "ANTRAG" 
    (	"ID" NUMBER NOT NULL ENABLE, 
