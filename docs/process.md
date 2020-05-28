@@ -207,10 +207,37 @@ The data is stored in an Oracle database. To access and update the data the REST
 
 
 ## <span style="color:blue">11. Deployment of Project</span>
-// Picture of the deployment 
+The project is deployed from camunda modeler to Herokuapp via button "deploy current diagram". In the section "Cockpit" in Herokuapp, the new instance of the process appears with associated Definition and Deployment ID.
 
 ## <span style="color:blue">12. Testing of Project</span> 
-// How we tested the endpoints with Postman.
+The all endpoints were tested in POSTMAN. The tabel below presents tested endpoints with respective URL's.  
+
+#### Tested Endpoints
+
+| ID| Name | Method | URL | 
+|---|---|---|---|
+|1|Process Start|POST|https://emmentaler.herokuapp.com/rest/process-definition/digibp-tobe:2:70314c02-9de2-11ea-9c51-da029e11a7df/start?|
+|2|Send Mail|POST|https://apex.oracle.com/pls/apex/schaltstelle/proposal/sendMail|
+|3|Proposal Status|PUT|https://apex.oracle.com/pls/apex/schaltstelle/proposal/proposal_status/:id?proposal_status="Cancelled"|
+|4|Set Veto Start Date|PUT|https://apex.oracle.com/pls/apex/schaltstelle/proposal/setVetoStartDate/:id?id=43|
+|5|Review Outcome Received|POST|https://emmentaler.herokuapp.com/rest/message|
+|6|Proposal Submitted|POST|https://emmentaler.herokuapp.com/rest/message|
+|7|Veto Received|POST|https://emmentaler.herokuapp.com/rest/message|
+|8|Improvement Received|POST|https://emmentaler.herokuapp.com/rest/message|
+
+#### Requested Bodies
+
+| ID| Body |
+|---|---|
+|1||
+|2||
+|3||
+|4||
+|5||
+|6||
+|7||
+|8||
+
 
 ## <span style="color:blue">13. Summary</span>
 // TODO, when ready
