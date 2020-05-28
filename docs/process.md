@@ -227,13 +227,54 @@ The all endpoints were tested in POSTMAN. The tabel below presents tested endpoi
 
 #### Requested Bodies
 
-| ID| Body |
-|---|---|
-|1||
-|2||
+| ID-Body |
+|---|
+|
+1- {
+  "variables": {
+    "email" : {
+        "value" : "jasmin.fluri@students.fhnw.ch",
+        "type": "String"
+    },
+    "requester" : {
+        "value" : "alain.schmutz@students.fhnw.ch",
+        "type": "String"
+    },
+    "budget" : {
+        "value" : 5000,
+        "type": "Integer"
+    },
+    "category" : {
+        "value" : "Innovation",
+        "type": "String"
+    }
+  },
+ "businessKey" : "proposalProcessAPEX"
+} 
+
+
+2- {
+    "toEmail": "alena.magliano@students.fhnw.ch",
+    "fromEmail": "alena.magliano@students.fhnw.ch",
+    "ccEmail": "alena.magliano@students.fhnw.ch",
+    "emailSubject": "This is a Test from Postman",
+    "emailBody": "This is a Postman Test",
+    "emailBodyHTML": "This is a <b>Postman</b> Test"
+}|
 |3||
-|4||
-|5||
+
+4- {
+    "veto_start_date": "2017-05-15T15:12:59.152Z"
+}
+5- {
+  "messageName" : "ReceiveReviewOutcome",
+  "businessKey" : "proposalProcessAPEX",
+  "processVariables" : {
+    "complete" : {"value" : "true", "type": "String"
+                     }
+  },
+  "resultEnabled": true
+}|
 |6||
 |7||
 |8||
