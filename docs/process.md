@@ -206,10 +206,25 @@ The all endpoints were tested in POSTMAN. The tabel below presents tested endpoi
 
 #### Requested Bodies
 
-| ID-Body |
-|---|
-|
-1- {
+<table>
+<tr>
+<th>
+ID
+</th>
+<th>
+Body
+</th>
+</tr>
+
+<tr>
+
+<td>
+1
+</td>
+
+<td>
+<pre>
+{ 
   "variables": {
     "email" : {
         "value" : "jasmin.fluri@students.fhnw.ch",
@@ -230,22 +245,30 @@ The all endpoints were tested in POSTMAN. The tabel below presents tested endpoi
   },
  "businessKey" : "proposalProcessAPEX"
 } 
+</pre>
+</td>
 
+</tr>
 
-2- {
+<tr><td>2</td><td>
+<pre>{
     "toEmail": "alena.magliano@students.fhnw.ch",
     "fromEmail": "alena.magliano@students.fhnw.ch",
     "ccEmail": "alena.magliano@students.fhnw.ch",
     "emailSubject": "This is a Test from Postman",
     "emailBody": "This is a Postman Test",
     "emailBodyHTML": "This is a <b>Postman</b> Test"
-}|
-|3||
+}</pre>
+</td></tr>
 
-4- {
+
+<tr><td>3</td><td><pre>mimi</pre></td></tr>
+
+<tr><td>4</td><td><pre>{
     "veto_start_date": "2017-05-15T15:12:59.152Z"
-}
-5- {
+}</pre></td></tr>
+
+<tr><td>5</td><td><pre>{
   "messageName" : "ReceiveReviewOutcome",
   "businessKey" : "proposalProcessAPEX",
   "processVariables" : {
@@ -253,10 +276,17 @@ The all endpoints were tested in POSTMAN. The tabel below presents tested endpoi
                      }
   },
   "resultEnabled": true
-}|
-|6||
-|7||
-|8||
+}</pre></td></tr>
+
+<tr><td>6</td><td><pre>mimi</pre></td></tr>
+
+<tr><td>7</td><td><pre>mimi</pre></td></tr>
+
+<tr><td>8</td><td><pre>mimi</pre></td></tr>
+
+
+</table>
+
 
 
 ## <span style="color:blue">13. Summary</span>
