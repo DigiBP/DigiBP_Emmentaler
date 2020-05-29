@@ -14,7 +14,6 @@
         <bpmn:flowNodeRef>StartEvent_startEvent</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>timeDuration</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_ProposalCreation</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_beginSplit</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_01o0el3</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0a5ltah</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_1cjiytc</bpmn:flowNodeRef>
@@ -23,7 +22,6 @@
         <bpmn:flowNodeRef>Activity_0tinex4</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_NeedPitch</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0uzd1be</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_Vetos</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_0cxv4g1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_ProposalAccepted</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_endSplit</bpmn:flowNodeRef>
@@ -33,6 +31,8 @@
         <bpmn:flowNodeRef>Event_1oxtthp</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Event_ReceiveReviewOutcome</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_ProposalComplete</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_beginSplit</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_Vetos</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_03xfuwb" name="Members">
         <bpmn:flowNodeRef>Activity_16ix0wu</bpmn:flowNodeRef>
@@ -81,11 +81,6 @@
       <bpmn:incoming>Flow_0c6i486</bpmn:incoming>
       <bpmn:outgoing>Flow_0zqx94q</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:exclusiveGateway id="Gateway_beginSplit">
-      <bpmn:incoming>Flow_TimeStartToParallel</bpmn:incoming>
-      <bpmn:outgoing>Flow_SplitToPitchDecision</bpmn:outgoing>
-      <bpmn:outgoing>Flow_SplitToVeto</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
     <bpmn:parallelGateway id="Gateway_01o0el3">
       <bpmn:incoming>Flow_1tszffy</bpmn:incoming>
       <bpmn:outgoing>Flow_0alaoex</bpmn:outgoing>
@@ -160,7 +155,6 @@
     "emailBodyHTML": "This is a Postman Test"
 });</camunda:script>
             </camunda:inputParameter>
-            <camunda:outputParameter name="activity">checkBudget</camunda:outputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
@@ -213,7 +207,7 @@
 })</camunda:script>
             </camunda:inputParameter>
             <camunda:outputParameter name="status" />
-            <camunda:outputParameter name="pitchNeeded">true</camunda:outputParameter>
+            <camunda:outputParameter name="pitchNeeded" />
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
@@ -248,6 +242,7 @@
     "emailBodyHTML": "The request has to be completed with following information."
 });</camunda:script>
             </camunda:inputParameter>
+            <camunda:outputParameter name="pitchNeeded" />
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
@@ -259,11 +254,6 @@
       <bpmn:incoming>Flow_0nipd02</bpmn:incoming>
       <bpmn:outgoing>Flow_PitchToVetoDecision</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:exclusiveGateway id="Gateway_Vetos">
-      <bpmn:incoming>Flow_PitchToVetoDecision</bpmn:incoming>
-      <bpmn:incoming>Flow_PitchDecisionToVetoDecision</bpmn:incoming>
-      <bpmn:outgoing>Flow_19gqqvf</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
     <bpmn:parallelGateway id="Gateway_0cxv4g1">
       <bpmn:incoming>Flow_1a7ucot</bpmn:incoming>
       <bpmn:incoming>Flow_19gqqvf</bpmn:incoming>
@@ -385,9 +375,7 @@
     <bpmn:sequenceFlow id="Flow_1yudp6z" sourceRef="Activity_0tinex4" targetRef="Gateway_NeedPitch" />
     <bpmn:sequenceFlow id="Flow_1hjg7qt" sourceRef="Activity_0a5ltah" targetRef="adaptProposal" />
     <bpmn:sequenceFlow id="Flow_PitchToVetoDecision" sourceRef="Activity_OrganizePitch" targetRef="Gateway_Vetos" />
-    <bpmn:sequenceFlow id="Flow_SplitToPitchDecision" name="checkBudget" sourceRef="Gateway_beginSplit" targetRef="Activity_1cjiytc">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${activity == "checkBudget"}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_SplitToPitchDecision" sourceRef="Gateway_beginSplit" targetRef="Activity_1cjiytc" />
     <bpmn:sequenceFlow id="Flow_CompletenessToCreation" name="No" sourceRef="Gateway_ProposalComplete" targetRef="Activity_0a5ltah">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!complete}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
@@ -396,9 +384,7 @@
     <bpmn:sequenceFlow id="Flow_PitchDecisionToVetoDecision" name="No" sourceRef="Gateway_NeedPitch" targetRef="Gateway_Vetos">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!pitchNeeded}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_SplitToVeto" name="veto" sourceRef="Gateway_beginSplit" targetRef="Activity_16ix0wu">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${activity == "veto"}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_SplitToVeto" sourceRef="Gateway_beginSplit" targetRef="Activity_16ix0wu" />
     <bpmn:sequenceFlow id="Flow_1bhwbhj" sourceRef="Activity_16ix0wu" targetRef="Event_ReceiveVeto" />
     <bpmn:sequenceFlow id="Flow_0alaoex" sourceRef="Gateway_01o0el3" targetRef="timeDuration" />
     <bpmn:sequenceFlow id="Flow_0rron5d" sourceRef="Gateway_01o0el3" targetRef="Activity_0ttgkk9" />
@@ -422,6 +408,16 @@
     <bpmn:sequenceFlow id="Flow_EndSplitToEndEvent" sourceRef="Gateway_endSplit" targetRef="Activity_15v8y7i" />
     <bpmn:sequenceFlow id="Flow_0d8t2q3" sourceRef="Activity_15v8y7i" targetRef="EndEvent_sstpp" />
     <bpmn:sequenceFlow id="Flow_1ln9gul" sourceRef="Event_ReceiveReviewOutcome" targetRef="Gateway_ProposalComplete" />
+    <bpmn:parallelGateway id="Gateway_beginSplit">
+      <bpmn:incoming>Flow_TimeStartToParallel</bpmn:incoming>
+      <bpmn:outgoing>Flow_SplitToPitchDecision</bpmn:outgoing>
+      <bpmn:outgoing>Flow_SplitToVeto</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:exclusiveGateway id="Gateway_Vetos">
+      <bpmn:incoming>Flow_PitchToVetoDecision</bpmn:incoming>
+      <bpmn:incoming>Flow_PitchDecisionToVetoDecision</bpmn:incoming>
+      <bpmn:outgoing>Flow_19gqqvf</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
   </bpmn:process>
   <bpmn:signal id="Signal_1l8bble" name="Signal_05pve9o" />
   <bpmn:signal id="Signal_0zu633g" name="Signal_ReviewOutcome" />
@@ -631,9 +627,6 @@
         <di:waypoint x="618" y="610" />
         <di:waypoint x="725" y="610" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Gateway_1us4mfq_di" bpmnElement="Gateway_beginSplit" isMarkerVisible="true">
-        <dc:Bounds x="1335" y="485" width="50" height="50" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0iju9z9_di" bpmnElement="Event_ReceiveVeto">
         <dc:Bounds x="2222" y="862" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -644,9 +637,6 @@
         <di:waypoint x="2240" y="862" />
         <di:waypoint x="2240" y="770" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Gateway_1toeyof_di" bpmnElement="Gateway_Vetos" isMarkerVisible="true">
-        <dc:Bounds x="1975" y="485" width="50" height="50" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_1wsrevr_di" bpmnElement="Gateway_0cxv4g1">
         <dc:Bounds x="1975" y="585" width="50" height="50" />
       </bpmndi:BPMNShape>
@@ -683,6 +673,12 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Lane_03xfuwb_di" bpmnElement="Lane_03xfuwb" isHorizontal="true">
         <dc:Bounds x="190" y="800" width="2340" height="150" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0dq7mxn_di" bpmnElement="Gateway_beginSplit">
+        <dc:Bounds x="1335" y="485" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1mh2tc6_di" bpmnElement="Gateway_Vetos" isMarkerVisible="true">
+        <dc:Bounds x="1975" y="485" width="50" height="50" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
