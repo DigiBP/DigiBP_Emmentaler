@@ -207,7 +207,7 @@
 })</camunda:script>
             </camunda:inputParameter>
             <camunda:outputParameter name="status" />
-            <camunda:outputParameter name="pitchNeeded" />
+            <camunda:outputParameter name="is_pitch_needed" />
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
@@ -242,7 +242,7 @@
     "emailBodyHTML": "The request has to be completed with following information."
 });</camunda:script>
             </camunda:inputParameter>
-            <camunda:outputParameter name="pitchNeeded" />
+            <camunda:outputParameter name="is_pitch_needed" />
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
@@ -382,7 +382,7 @@
     <bpmn:sequenceFlow id="Flow_1tszffy" sourceRef="Activity_VetoRightStart" targetRef="Gateway_01o0el3" />
     <bpmn:sequenceFlow id="Flow_0xtu9eu" sourceRef="Activity_1cjiytc" targetRef="Activity_0tinex4" />
     <bpmn:sequenceFlow id="Flow_PitchDecisionToVetoDecision" name="No" sourceRef="Gateway_NeedPitch" targetRef="Gateway_Vetos">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!pitchNeeded}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!is_pitch_needed}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_SplitToVeto" sourceRef="Gateway_beginSplit" targetRef="Activity_16ix0wu" />
     <bpmn:sequenceFlow id="Flow_1bhwbhj" sourceRef="Activity_16ix0wu" targetRef="Event_ReceiveVeto" />
@@ -400,7 +400,7 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${complete == true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0d3fj2n" name="Yes" sourceRef="Gateway_NeedPitch" targetRef="Activity_0uzd1be">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${pitchNeeded == true}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${is_pitch_needed == true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0nipd02" sourceRef="Activity_0uzd1be" targetRef="Activity_OrganizePitch" />
     <bpmn:sequenceFlow id="Flow_ProposalAcceptedToEndSplit" sourceRef="Activity_ProposalAccepted" targetRef="Gateway_endSplit" />
