@@ -15,7 +15,7 @@
           <text>budget</text>
         </inputExpression>
       </input>
-      <output id="output_1" label="pitch needed" name="is_pitch_needed" typeRef="boolean" />
+      <output id="output_1" label="decision outcome" name="decisionOutcome" typeRef="boolean" />
       <rule id="DecisionRule_1jc8zo2">
         <inputEntry id="UnaryTests_14hydfn">
           <text>"Innovation"</text>
