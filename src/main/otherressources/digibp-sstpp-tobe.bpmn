@@ -255,7 +255,7 @@
       <bpmn:incoming>Flow_0d3fj2n</bpmn:incoming>
       <bpmn:outgoing>Flow_0nipd02</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:userTask id="Activity_OrganizePitch" name="Organization of Pitch or Presentation">
+    <bpmn:userTask id="Activity_OrganizePitch" name="Organize Pitch or Presentation">
       <bpmn:incoming>Flow_0nipd02</bpmn:incoming>
       <bpmn:outgoing>Flow_PitchToVetoDecision</bpmn:outgoing>
     </bpmn:userTask>
@@ -269,7 +269,7 @@
       <bpmn:incoming>Flow_19gqqvf</bpmn:incoming>
       <bpmn:outgoing>Flow_07udj5y</bpmn:outgoing>
     </bpmn:parallelGateway>
-    <bpmn:serviceTask id="Activity_ProposalAccepted" name="Proposal is accepted">
+    <bpmn:serviceTask id="Activity_ProposalAccepted" name="Accept proposal">
       <bpmn:extensionElements>
         <camunda:connector>
           <camunda:inputOutput>
@@ -299,7 +299,7 @@
       <bpmn:incoming>Flow_ProposalAcceptedToEndSplit</bpmn:incoming>
       <bpmn:outgoing>Flow_EndSplitToEndEvent</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:serviceTask id="Activity_ProposalDeclined" name="Proposal is declined">
+    <bpmn:serviceTask id="Activity_ProposalDeclined" name="Decline proposal">
       <bpmn:extensionElements>
         <camunda:connector>
           <camunda:inputOutput>
@@ -356,12 +356,12 @@
     <bpmn:endEvent id="EndEvent_sstpp" name="End Event">
       <bpmn:incoming>Flow_0d8t2q3</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:intermediateCatchEvent id="Event_ReceiveVeto" name="ReceiveVeto">
+    <bpmn:intermediateCatchEvent id="Event_ReceiveVeto" name="veto received">
       <bpmn:incoming>Flow_1bhwbhj</bpmn:incoming>
       <bpmn:outgoing>Flow_01p2993</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_1js8fj7" messageRef="Message_1cce0nh" />
     </bpmn:intermediateCatchEvent>
-    <bpmn:intermediateCatchEvent id="Event_1oxtthp" name="Proposal Submitted">
+    <bpmn:intermediateCatchEvent id="Event_1oxtthp" name="proposal submitted">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:outputParameter name="adapt" />
@@ -371,7 +371,7 @@
       <bpmn:outgoing>Flow_0c6i486</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_1i42x6t" messageRef="Message_09gdywz" />
     </bpmn:intermediateCatchEvent>
-    <bpmn:intermediateCatchEvent id="Event_ReceiveReviewOutcome" name="Receive Review Outcome">
+    <bpmn:intermediateCatchEvent id="Event_ReceiveReviewOutcome" name="review outcome received">
       <bpmn:incoming>Flow_0zqx94q</bpmn:incoming>
       <bpmn:outgoing>Flow_1ln9gul</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_1yp3zfy" messageRef="Message_023wnha" />
@@ -447,7 +447,7 @@
       <bpmndi:BPMNShape id="Gateway_12brmb1_di" bpmnElement="Gateway_ProposalComplete" isMarkerVisible="true">
         <dc:Bounds x="725" y="585" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="723" y="645" width="54" height="27" />
+          <dc:Bounds x="724" y="645" width="55" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_1d6arqd_di" bpmnElement="Gateway_NeedPitch" isMarkerVisible="true">
@@ -460,7 +460,7 @@
         <di:waypoint x="1385" y="510" />
         <di:waypoint x="1480" y="510" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1328" y="463" width="64" height="14" />
+          <dc:Bounds x="1390" y="492" width="65" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1u312sc_di" bpmnElement="Flow_PitchDecisionToVetoDecision">
@@ -532,7 +532,7 @@
         <di:waypoint x="1360" y="535" />
         <di:waypoint x="1360" y="840" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1334" y="547" width="21" height="14" />
+          <dc:Bounds x="1335" y="633" width="20" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1bhwbhj_di" bpmnElement="Flow_1bhwbhj">
@@ -624,7 +624,7 @@
       <bpmndi:BPMNShape id="Event_0oo2lkq_di" bpmnElement="Event_ReceiveReviewOutcome">
         <dc:Bounds x="582" y="592" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="560" y="554.5" width="79" height="27" />
+          <dc:Bounds x="562" y="555" width="78" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1ln9gul_di" bpmnElement="Flow_1ln9gul">
@@ -637,7 +637,7 @@
       <bpmndi:BPMNShape id="Event_0iju9z9_di" bpmnElement="Event_ReceiveVeto">
         <dc:Bounds x="2222" y="862" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2209" y="908" width="62" height="14" />
+          <dc:Bounds x="2208" y="908" width="65" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_01p2993_di" bpmnElement="Flow_01p2993">
@@ -660,7 +660,7 @@
       <bpmndi:BPMNShape id="Event_09zw963_di" bpmnElement="Event_1oxtthp">
         <dc:Bounds x="362" y="432" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="302" y="436" width="50" height="27" />
+          <dc:Bounds x="305" y="436" width="48" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0e0oq7e_di" bpmnElement="Activity_0tinex4">
