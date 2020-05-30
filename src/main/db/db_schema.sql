@@ -21,7 +21,7 @@ CREATE TABLE  "ANTRAG"
 /
 
 
-create or replace trigger "TRI_ANTRAG_INSERT_START_PROCESS"
+create or replace EDITIONABLE trigger "TRI_ANTRAG_INSERT_START_PROCESS"
 AFTER
 insert on "ANTRAG"
 for each row
