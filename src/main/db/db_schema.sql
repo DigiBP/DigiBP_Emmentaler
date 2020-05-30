@@ -21,13 +21,14 @@ CREATE TABLE  "ANTRAG"
 /
 
 
-CREATE OR REPLACE EDITIONABLE TRIGGER  "TRI_ANTRAG_INSERT_START_PROCESS" 
+create or replace EDITIONABLE trigger "TRI_ANTRAG_INSERT_START_PROCESS"
 AFTER
 insert on "ANTRAG"
 for each row
 begin
-START_CAMUNDA_PROCESS(:new.id, :new.budget, :new.category);
+START_CAMUNDA_PROCESS(:new.id, :new.budget, :new.category, :new.applicant);
 end;
+
 
 /
 ALTER TRIGGER  "TRI_ANTRAG_INSERT_START_PROCESS" ENABLE
