@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" id="Definitions_08f2290" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="3.7.0">
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" id="Definitions_08f2290" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="3.7.0">
   <decision id="Decision_is_presentation_needed" name="Decision-Is-Presenation-Needed">
+    <extensionElements>
+      <biodi:bounds x="150" y="150" width="180" height="80" />
+    </extensionElements>
     <decisionTable id="decisionTable_1">
       <input id="input_1" label="category">
         <inputExpression id="inputExpression_1" typeRef="string" expressionLanguage="javascript">
@@ -65,7 +68,7 @@
           <text>"GeneralImprovements","ChangeOfBusinessGuidelines"</text>
         </inputEntry>
         <inputEntry id="UnaryTests_022fjzp">
-          <text></text>
+          <text>&gt;= 0</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_1e0b0m3">
           <text>false</text>
