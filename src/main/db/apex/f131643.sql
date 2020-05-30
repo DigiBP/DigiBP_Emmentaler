@@ -28,14 +28,14 @@ prompt APPLICATION 131643 - Proposals
 -- Application Export:
 --   Application:     131643
 --   Name:            Proposals
---   Date and Time:   19:35 Donnerstag Mai 28, 2020
+--   Date and Time:   13:22 Saturday May 30, 2020
 --   Exported By:     JASMIN.FLURI@GMAIL.COM
 --   Flashback:       0
 --   Export Type:     Application Export
 --     Pages:                     21
 --       Items:                   49
 --       Processes:               26
---       Regions:                 49
+--       Regions:                 50
 --       Buttons:                 39
 --       Dynamic Actions:         10
 --     Shared Components:
@@ -67,7 +67,7 @@ prompt APPLICATION 131643 - Proposals
 --       Globalization:
 --       Reports:
 --       E-Mail:
---     Supporting Objects:  Included (auto-install)
+--     Supporting Objects:  Included
 --   Version:         20.1.0.00.13
 --   Instance ID:     63113759365424
 --
@@ -119,7 +119,7 @@ wwv_flow_api.create_flow(
 ,p_substitution_string_01=>'APP_NAME'
 ,p_substitution_value_01=>'Proposals'
 ,p_last_updated_by=>'JASMIN.FLURI@GMAIL.COM'
-,p_last_upd_yyyymmddhh24miss=>'20200528192636'
+,p_last_upd_yyyymmddhh24miss=>'20200530083945'
 ,p_file_prefix => nvl(wwv_flow_application_install.get_static_app_file_prefix,'')
 ,p_files_version=>3
 ,p_ui_type_name => null
@@ -13391,7 +13391,7 @@ wwv_flow_api.create_page(
 ,p_autocomplete_on_off=>'OFF'
 ,p_page_template_options=>'#DEFAULT#'
 ,p_last_updated_by=>'JASMIN.FLURI@GMAIL.COM'
-,p_last_upd_yyyymmddhh24miss=>'20200528192636'
+,p_last_upd_yyyymmddhh24miss=>'20200530083945'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(15487628725776790439)
@@ -13414,9 +13414,7 @@ wwv_flow_api.create_page_plug(
 ,p_plug_display_point=>'BODY'
 ,p_query_type=>'TABLE'
 ,p_query_table=>'ANTRAG'
-,p_query_where=>wwv_flow_string.join(wwv_flow_t_varchar2(
-'PROPOSAL_STATUS != ''Closed'' ',
-'AND PROPOSAL_STATUS != ''Cancelled'''))
+,p_query_where=>'proposal_status in (''Reviewed'')'
 ,p_include_rowid_column=>false
 ,p_plug_source_type=>'NATIVE_IR'
 ,p_plug_query_options=>'DERIVED_REPORT_COLUMNS'
@@ -14942,7 +14940,7 @@ wwv_flow_api.create_page(
 ,p_autocomplete_on_off=>'OFF'
 ,p_page_template_options=>'#DEFAULT#'
 ,p_last_updated_by=>'JASMIN.FLURI@GMAIL.COM'
-,p_last_upd_yyyymmddhh24miss=>'20200528180543'
+,p_last_upd_yyyymmddhh24miss=>'20200530083834'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(3969048873970605353)
@@ -14966,7 +14964,7 @@ wwv_flow_api.create_page_plug(
 '       VETO_START_DATE,',
 '       REVIEW_STATUS',
 '  from ANTRAG',
-'where proposal_status not in (''Cancelled'', ''Approved'', ''Declined'')'))
+'where proposal_status = ''Created'''))
 ,p_plug_source_type=>'NATIVE_IR'
 ,p_plug_query_options=>'DERIVED_REPORT_COLUMNS'
 ,p_prn_content_disposition=>'ATTACHMENT'
@@ -15157,7 +15155,7 @@ wwv_flow_api.create_page_plug(
 ,p_region_template_options=>'#DEFAULT#'
 ,p_component_template_options=>'#DEFAULT#'
 ,p_plug_template=>wwv_flow_api.id(3951938278605130464)
-,p_plug_display_sequence=>20
+,p_plug_display_sequence=>30
 ,p_include_in_reg_disp_sel_yn=>'Y'
 ,p_plug_display_point=>'BODY'
 ,p_query_type=>'TABLE'
@@ -15271,14 +15269,6 @@ wwv_flow_api.create_worksheet_column(
 ,p_tz_dependent=>'N'
 );
 wwv_flow_api.create_worksheet_column(
- p_id=>wwv_flow_api.id(17835055958597773645)
-,p_db_column_name=>'HAS_VETO'
-,p_display_order=>90
-,p_column_identifier=>'I'
-,p_column_label=>'Has Veto'
-,p_column_type=>'STRING'
-);
-wwv_flow_api.create_worksheet_column(
  p_id=>wwv_flow_api.id(17835056098505773646)
 ,p_db_column_name=>'PROPOSAL_STATUS'
 ,p_display_order=>100
@@ -15287,29 +15277,11 @@ wwv_flow_api.create_worksheet_column(
 ,p_column_type=>'STRING'
 );
 wwv_flow_api.create_worksheet_column(
- p_id=>wwv_flow_api.id(17835056144081773647)
-,p_db_column_name=>'REVIEW_DATE'
-,p_display_order=>110
-,p_column_identifier=>'K'
-,p_column_label=>'Review Date'
-,p_column_type=>'DATE'
-,p_column_alignment=>'CENTER'
-,p_tz_dependent=>'N'
-);
-wwv_flow_api.create_worksheet_column(
  p_id=>wwv_flow_api.id(17835056241846773648)
 ,p_db_column_name=>'LINKS'
 ,p_display_order=>120
 ,p_column_identifier=>'L'
 ,p_column_label=>'Links'
-,p_column_type=>'STRING'
-);
-wwv_flow_api.create_worksheet_column(
- p_id=>wwv_flow_api.id(17835056385195773649)
-,p_db_column_name=>'REVIEW_STATUS'
-,p_display_order=>130
-,p_column_identifier=>'M'
-,p_column_label=>'Review Status'
 ,p_column_type=>'STRING'
 );
 wwv_flow_api.create_worksheet_column(
@@ -15322,14 +15294,6 @@ wwv_flow_api.create_worksheet_column(
 ,p_column_alignment=>'CENTER'
 ,p_tz_dependent=>'N'
 );
-wwv_flow_api.create_worksheet_column(
- p_id=>wwv_flow_api.id(20017882331101631204)
-,p_db_column_name=>'REVIEW_COMMENT'
-,p_display_order=>180
-,p_column_identifier=>'R'
-,p_column_label=>'Review Comment'
-,p_column_type=>'STRING'
-);
 wwv_flow_api.create_worksheet_rpt(
  p_id=>wwv_flow_api.id(20018405692127092281)
 ,p_application_user=>'APXWS_DEFAULT'
@@ -15337,7 +15301,175 @@ wwv_flow_api.create_worksheet_rpt(
 ,p_report_alias=>'200184057'
 ,p_status=>'PUBLIC'
 ,p_is_default=>'Y'
-,p_report_columns=>'ID:TITLE:DESCRIPTION:APPLICANT:BUDGET:CATEGORY:SUBMISSION_DATE:HAS_VETO:PROPOSAL_STATUS:REVIEW_DATE:LINKS:REVIEW_STATUS:VETO_START_DATE:REVIEW_COMMENT'
+,p_report_columns=>'ID:TITLE:DESCRIPTION:APPLICANT:BUDGET:CATEGORY:SUBMISSION_DATE:PROPOSAL_STATUS:LINKS:VETO_START_DATE'
+);
+wwv_flow_api.create_page_plug(
+ p_id=>wwv_flow_api.id(20029300051330051002)
+,p_plug_name=>'Reviewed Proposals'
+,p_region_template_options=>'#DEFAULT#'
+,p_component_template_options=>'#DEFAULT#'
+,p_plug_template=>wwv_flow_api.id(3951938278605130464)
+,p_plug_display_sequence=>20
+,p_include_in_reg_disp_sel_yn=>'Y'
+,p_plug_display_point=>'BODY'
+,p_query_type=>'TABLE'
+,p_query_table=>'ANTRAG'
+,p_query_where=>'proposal_status in (''Reviewed'')'
+,p_include_rowid_column=>false
+,p_plug_source_type=>'NATIVE_IR'
+,p_plug_query_options=>'DERIVED_REPORT_COLUMNS'
+,p_prn_content_disposition=>'ATTACHMENT'
+,p_prn_document_header=>'APEX'
+,p_prn_units=>'INCHES'
+,p_prn_paper_size=>'LETTER'
+,p_prn_width=>11
+,p_prn_height=>8.5
+,p_prn_orientation=>'HORIZONTAL'
+,p_prn_page_header=>'Reviewed Proposals'
+,p_prn_page_header_font_color=>'#000000'
+,p_prn_page_header_font_family=>'Helvetica'
+,p_prn_page_header_font_weight=>'normal'
+,p_prn_page_header_font_size=>'12'
+,p_prn_page_footer_font_color=>'#000000'
+,p_prn_page_footer_font_family=>'Helvetica'
+,p_prn_page_footer_font_weight=>'normal'
+,p_prn_page_footer_font_size=>'12'
+,p_prn_header_bg_color=>'#EEEEEE'
+,p_prn_header_font_color=>'#000000'
+,p_prn_header_font_family=>'Helvetica'
+,p_prn_header_font_weight=>'bold'
+,p_prn_header_font_size=>'10'
+,p_prn_body_bg_color=>'#FFFFFF'
+,p_prn_body_font_color=>'#000000'
+,p_prn_body_font_family=>'Helvetica'
+,p_prn_body_font_weight=>'normal'
+,p_prn_body_font_size=>'10'
+,p_prn_border_width=>.5
+,p_prn_page_header_alignment=>'CENTER'
+,p_prn_page_footer_alignment=>'CENTER'
+,p_prn_border_color=>'#666666'
+,p_plug_header=>'<h2>Reviewed Proposals</h2>'
+);
+wwv_flow_api.create_worksheet(
+ p_id=>wwv_flow_api.id(20029800120143051003)
+,p_max_row_count=>'1000000'
+,p_pagination_type=>'ROWS_X_TO_Y'
+,p_pagination_display_pos=>'BOTTOM_RIGHT'
+,p_report_list_mode=>'TABS'
+,p_show_detail_link=>'N'
+,p_show_notify=>'Y'
+,p_download_formats=>'CSV:HTML:EMAIL:XLS:PDF:RTF'
+,p_owner=>'JASMIN.FLURI@GMAIL.COM'
+,p_internal_uid=>20029800120143051003
+);
+wwv_flow_api.create_worksheet_column(
+ p_id=>wwv_flow_api.id(20029800238764051004)
+,p_db_column_name=>'ID'
+,p_display_order=>10
+,p_column_identifier=>'A'
+,p_column_label=>'Id'
+,p_column_type=>'NUMBER'
+,p_column_alignment=>'RIGHT'
+);
+wwv_flow_api.create_worksheet_column(
+ p_id=>wwv_flow_api.id(20029800302375051005)
+,p_db_column_name=>'TITLE'
+,p_display_order=>20
+,p_column_identifier=>'B'
+,p_column_label=>'Title'
+,p_column_type=>'STRING'
+);
+wwv_flow_api.create_worksheet_column(
+ p_id=>wwv_flow_api.id(20029800428267051006)
+,p_db_column_name=>'DESCRIPTION'
+,p_display_order=>30
+,p_column_identifier=>'C'
+,p_column_label=>'Description'
+,p_column_type=>'STRING'
+);
+wwv_flow_api.create_worksheet_column(
+ p_id=>wwv_flow_api.id(20029800519939051007)
+,p_db_column_name=>'APPLICANT'
+,p_display_order=>40
+,p_column_identifier=>'D'
+,p_column_label=>'Applicant'
+,p_column_type=>'STRING'
+);
+wwv_flow_api.create_worksheet_column(
+ p_id=>wwv_flow_api.id(20029800691409051008)
+,p_db_column_name=>'BUDGET'
+,p_display_order=>50
+,p_column_identifier=>'E'
+,p_column_label=>'Budget'
+,p_column_type=>'NUMBER'
+,p_column_alignment=>'RIGHT'
+);
+wwv_flow_api.create_worksheet_column(
+ p_id=>wwv_flow_api.id(20029800798679051009)
+,p_db_column_name=>'CATEGORY'
+,p_display_order=>60
+,p_column_identifier=>'F'
+,p_column_label=>'Category'
+,p_column_type=>'STRING'
+);
+wwv_flow_api.create_worksheet_column(
+ p_id=>wwv_flow_api.id(20029801152909051013)
+,p_db_column_name=>'PROPOSAL_STATUS'
+,p_display_order=>100
+,p_column_identifier=>'J'
+,p_column_label=>'Proposal Status'
+,p_column_type=>'STRING'
+);
+wwv_flow_api.create_worksheet_column(
+ p_id=>wwv_flow_api.id(20029801310683051015)
+,p_db_column_name=>'LINKS'
+,p_display_order=>120
+,p_column_identifier=>'L'
+,p_column_label=>'Links'
+,p_column_type=>'STRING'
+);
+wwv_flow_api.create_worksheet_column(
+ p_id=>wwv_flow_api.id(20029801492011051016)
+,p_db_column_name=>'REVIEW_STATUS'
+,p_display_order=>130
+,p_column_identifier=>'M'
+,p_column_label=>'Review Status'
+,p_column_type=>'STRING'
+);
+wwv_flow_api.create_worksheet_column(
+ p_id=>wwv_flow_api.id(20029801541333051017)
+,p_db_column_name=>'IS_PITCH_NEEDED'
+,p_display_order=>140
+,p_column_identifier=>'N'
+,p_column_label=>'Is Pitch Needed'
+,p_column_type=>'STRING'
+);
+wwv_flow_api.create_worksheet_column(
+ p_id=>wwv_flow_api.id(20029801661545051018)
+,p_db_column_name=>'VETO_START_DATE'
+,p_display_order=>150
+,p_column_identifier=>'O'
+,p_column_label=>'Veto Start Date'
+,p_column_type=>'DATE'
+,p_column_alignment=>'CENTER'
+,p_tz_dependent=>'N'
+);
+wwv_flow_api.create_worksheet_column(
+ p_id=>wwv_flow_api.id(20029801701800051019)
+,p_db_column_name=>'REVIEW_COMMENT'
+,p_display_order=>160
+,p_column_identifier=>'P'
+,p_column_label=>'Review Comment'
+,p_column_type=>'STRING'
+);
+wwv_flow_api.create_worksheet_rpt(
+ p_id=>wwv_flow_api.id(20415278088870535855)
+,p_application_user=>'APXWS_DEFAULT'
+,p_report_seq=>10
+,p_report_alias=>'204152781'
+,p_status=>'PUBLIC'
+,p_is_default=>'Y'
+,p_report_columns=>'ID:TITLE:DESCRIPTION:APPLICANT:BUDGET:CATEGORY:PROPOSAL_STATUS:LINKS:REVIEW_STATUS:IS_PITCH_NEEDED:VETO_START_DATE:REVIEW_COMMENT'
 );
 end;
 /
@@ -17591,7 +17723,7 @@ end;
 /
 prompt --application/end_environment
 begin
-wwv_flow_api.import_end(p_auto_install_sup_obj => nvl(wwv_flow_application_install.get_auto_install_sup_obj, true));
+wwv_flow_api.import_end(p_auto_install_sup_obj => nvl(wwv_flow_application_install.get_auto_install_sup_obj, false));
 commit;
 end;
 /
