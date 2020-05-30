@@ -57,7 +57,7 @@
           <text>"NewMembers"</text>
         </inputEntry>
         <inputEntry id="UnaryTests_0bi4im1">
-          <text>&gt; 0</text>
+          <text>&gt;= 0</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_0x047g2">
           <text>true</text>
@@ -71,6 +71,39 @@
           <text>&gt;= 0</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_1e0b0m3">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0h54vxl">
+        <inputEntry id="UnaryTests_1481gzg">
+          <text>"Innovation"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0n1t6h2">
+          <text>&lt;= 1000</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1c28by9">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1egril2">
+        <inputEntry id="UnaryTests_0ryrdfn">
+          <text>"Marketing"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_06tjt02">
+          <text>&lt;= 2000</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0kz5ur0">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1vk7j7q">
+        <inputEntry id="UnaryTests_0btwu9e">
+          <text>"FutureEvents"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ypd0z9">
+          <text>&lt;= 3000</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0vl079i">
           <text>false</text>
         </outputEntry>
       </rule>

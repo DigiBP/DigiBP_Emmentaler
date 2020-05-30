@@ -32,6 +32,7 @@
         <bpmn:flowNodeRef>Gateway_ProposalComplete</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_beginSplit</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_Vetos</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_00t4q3d</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
     <bpmn:startEvent id="StartEvent_startEvent" name="Start Event">
@@ -77,7 +78,7 @@
       <bpmn:outgoing>Flow_0zqx94q</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:parallelGateway id="Gateway_01o0el3">
-      <bpmn:incoming>Flow_1tszffy</bpmn:incoming>
+      <bpmn:incoming>Flow_1mfx7qy</bpmn:incoming>
       <bpmn:outgoing>Flow_0alaoex</bpmn:outgoing>
       <bpmn:outgoing>Flow_0rron5d</bpmn:outgoing>
     </bpmn:parallelGateway>
@@ -163,15 +164,10 @@
             <camunda:inputParameter name="url">https://apex.oracle.com/pls/apex/schaltstelle/proposal/setVetoStartDate/:id</camunda:inputParameter>
             <camunda:inputParameter name="headers">
               <camunda:map>
-                <camunda:entry key="Content-Type">application/json</camunda:entry>
+                <camunda:entry key="Content-Type">text/plain</camunda:entry>
+                <camunda:entry key="id">267</camunda:entry>
+                <camunda:entry key="veto_start_date">2013-01-23T13:42:42</camunda:entry>
               </camunda:map>
-            </camunda:inputParameter>
-            <camunda:inputParameter name="payload">
-              <camunda:script scriptFormat="JavaScript">out = JSON.stringify(
-    {
-    "id": "${proposalId}",
-"veto_start_date": "${now()}"   
-});</camunda:script>
             </camunda:inputParameter>
             <camunda:outputParameter name="complete" />
           </camunda:inputOutput>
@@ -393,7 +389,7 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!pitch}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0xtu9eu" sourceRef="Activity_1cjiytc" targetRef="Activity_0tinex4" />
-    <bpmn:sequenceFlow id="Flow_1tszffy" sourceRef="Activity_VetoRightStart" targetRef="Gateway_01o0el3" />
+    <bpmn:sequenceFlow id="Flow_1tszffy" sourceRef="Activity_VetoRightStart" targetRef="Event_00t4q3d" />
     <bpmn:sequenceFlow id="Flow_CompletenessToCreation" name="No" sourceRef="Gateway_ProposalComplete" targetRef="Activity_0a5ltah">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!complete}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
@@ -401,6 +397,14 @@
     <bpmn:sequenceFlow id="Flow_1hjg7qt" sourceRef="Activity_0a5ltah" targetRef="Event_1oxtthp" />
     <bpmn:sequenceFlow id="Flow_1yudp6z" sourceRef="Activity_0tinex4" targetRef="Gateway_NeedPitch" />
     <bpmn:sequenceFlow id="Flow_0c6i486" sourceRef="Event_1oxtthp" targetRef="Task_ProposalCreation" />
+    <bpmn:intermediateCatchEvent id="Event_00t4q3d" name="10M">
+      <bpmn:incoming>Flow_1tszffy</bpmn:incoming>
+      <bpmn:outgoing>Flow_1mfx7qy</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_0a37dsz">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT10M</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="Flow_1mfx7qy" sourceRef="Event_00t4q3d" targetRef="Gateway_01o0el3" />
   </bpmn:process>
   <bpmn:signal id="Signal_1l8bble" name="Signal_05pve9o" />
   <bpmn:signal id="Signal_0zu633g" name="Signal_ReviewOutcome" />
@@ -490,8 +494,10 @@
         <di:waypoint x="360" y="242" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1tszffy_di" bpmnElement="Flow_1tszffy">
-        <di:waypoint x="950" y="320" />
-        <di:waypoint x="1025" y="320" />
+        <di:waypoint x="900" y="280" />
+        <di:waypoint x="900" y="260" />
+        <di:waypoint x="980" y="260" />
+        <di:waypoint x="980" y="302" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_05nf6g5_di" bpmnElement="Flow_CompletenessToCreation">
         <di:waypoint x="730" y="395" />
@@ -640,6 +646,16 @@
       <bpmndi:BPMNShape id="Gateway_1mh2tc6_di" bpmnElement="Gateway_Vetos" isMarkerVisible="true">
         <dc:Bounds x="1955" y="295" width="50" height="50" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ov2od0_di" bpmnElement="Event_00t4q3d">
+        <dc:Bounds x="962" y="302" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="970" y="345" width="22" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1mfx7qy_di" bpmnElement="Flow_1mfx7qy">
+        <di:waypoint x="998" y="320" />
+        <di:waypoint x="1025" y="320" />
+      </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>
