@@ -3,7 +3,7 @@
   <decision id="Decision_is_presentation_needed" name="Decision-Is-Presenation-Needed">
     <decisionTable id="decisionTable_1">
       <input id="input_1" label="category">
-        <inputExpression id="inputExpression_1" typeRef="string">
+        <inputExpression id="inputExpression_1" typeRef="string" expressionLanguage="javascript">
           <text>category</text>
         </inputExpression>
         <inputValues id="UnaryTests_02l2siq">
@@ -15,7 +15,7 @@
           <text>budget</text>
         </inputExpression>
       </input>
-      <output id="output_1" label="decision outcome" name="decisionOutcome" typeRef="boolean" />
+      <output id="output_1" label="pitch" name="pitch" typeRef="string" />
       <rule id="DecisionRule_1jc8zo2">
         <inputEntry id="UnaryTests_14hydfn">
           <text>"Innovation"</text>
