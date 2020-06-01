@@ -37,7 +37,7 @@
     <bpmn:startEvent id="StartEvent_startEvent" name="Start Event">
       <bpmn:outgoing>Flow_0yggic7</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:intermediateCatchEvent id="timeDuration" name="1M">
+    <bpmn:intermediateCatchEvent id="timeDuration" name="10 days">
       <bpmn:incoming>Flow_0alaoex</bpmn:incoming>
       <bpmn:outgoing>Flow_1a7ucot</bpmn:outgoing>
       <bpmn:timerEventDefinition id="TimerEventDefinition_1skm9qc">
@@ -58,12 +58,12 @@
             <camunda:inputParameter name="payload">
               <camunda:script scriptFormat="JavaScript">out = JSON.stringify(
     {
-    "toEmail": "alena.magliano@students.fhnw.ch",
-    "fromEmail": "alena.magliano@students.fhnw.ch",
+    "toEmail": "jasmin@schaltstelle.ch",
+    "fromEmail": requester,
     "ccEmail": "a.magliano@hotmail.com",
-    "emailSubject": "This is a Test from Postman",
-    "emailBody": "This is a Postman Test",
-    "emailBodyHTML": "This is a Postman Test"
+    "emailSubject": "A new proposal is ready to review",
+    "emailBody": "A new proposal was submitted in APEX and is ready to review!",
+    "emailBodyHTML": "A new proposal was submitted in APEX and is ready to review!"
 });</camunda:script>
             </camunda:inputParameter>
             <camunda:outputParameter name="responseStatus">${response}</camunda:outputParameter>
@@ -95,12 +95,12 @@
             <camunda:inputParameter name="payload">
               <camunda:script scriptFormat="JavaScript">out = JSON.stringify(
     {
-    "toEmail": "alena.magliano@students.fhnw.ch",
-    "fromEmail": "alena.magliano@students.fhnw.ch",
+    "toEmail": requester,
+    "fromEmail": "jasmin@schaltstelle.ch",
     "ccEmail": "a.magliano@hotmail.com",
-    "emailSubject": "Please complete the request",
-    "emailBody": "The request has to be completed with following information.",
-    "emailBodyHTML": "The request has to be completed with following information."
+    "emailSubject": "Proposal needs changes",
+    "emailBody": "The Chief of Innovation reviewed your proposal and marked it as not complete - please edit your Proposal and submit again.",
+    "emailBodyHTML": "The Chief of Innovation reviewed your proposal and marked it as not complete - please edit your Proposal and submit again."
 });</camunda:script>
             </camunda:inputParameter>
             <camunda:outputParameter name="complete" />
@@ -140,12 +140,12 @@
             <camunda:inputParameter name="payload">
               <camunda:script scriptFormat="JavaScript">out = JSON.stringify(
     {
-    "toEmail": "alena.magliano@students.fhnw.ch",
+    "toEmail": "jasmin@schaltstelle.ch",
     "fromEmail": "alena.magliano@students.fhnw.ch",
     "ccEmail": "a.magliano@hotmail.com",
-    "emailSubject": "This is a Test from Postman",
-    "emailBody": "This is a Postman Test",
-    "emailBodyHTML": "This is a Postman Test"
+    "emailSubject": "A new proposal is open to veto",
+    "emailBody": "There is a new proposal open in the proposal Application that is up to veto.",
+    "emailBodyHTML": "There is a new proposal open in the proposal Application that is up to veto."
 });</camunda:script>
             </camunda:inputParameter>
           </camunda:inputOutput>
@@ -169,7 +169,7 @@
             <camunda:inputParameter name="payloads">
               <camunda:script scriptFormat="JavaScript">out = JSON.stringify(
     {
-"id": "${proposalId}",
+"id": proposalId,
 "veto_start_time": "${now()}"
 });</camunda:script>
             </camunda:inputParameter>
@@ -225,12 +225,12 @@
             <camunda:inputParameter name="payload">
               <camunda:script scriptFormat="JavaScript">out = JSON.stringify(
     {
-    "toEmail": "alena.magliano@students.fhnw.ch",
+    "toEmail": requester,
     "fromEmail": "alena.magliano@students.fhnw.ch",
     "ccEmail": "a.magliano@hotmail.com",
-    "emailSubject": "Please complete the request",
-    "emailBody": "The request has to be completed with following information.",
-    "emailBodyHTML": "The request has to be completed with following information."
+    "emailSubject": "Please schedule a pitch",
+    "emailBody": "The decision logic decided that your proposal needs a pitch or a presentation to explain your idea to the members of Schaltstelle.",
+    "emailBodyHTML": "The decision logic decided that your proposal needs a pitch or a presentation to explain your idea to the members of Schaltstelle."
 });</camunda:script>
             </camunda:inputParameter>
             <camunda:outputParameter name="is_pitch_needed" />
@@ -317,12 +317,12 @@
             <camunda:inputParameter name="payload">
               <camunda:script scriptFormat="JavaScript">out = JSON.stringify(
     {
-    "toEmail": "alena.magliano@students.fhnw.ch",
+    "toEmail": "jasmin@schaltstelle.ch",
     "fromEmail": "alena.magliano@students.fhnw.ch",
     "ccEmail": "a.magliano@hotmail.com",
-    "emailSubject": "Please complete the request",
-    "emailBody": "The request has to be completed with following information.",
-    "emailBodyHTML": "The request has to be completed with following information."
+    "emailSubject": "A proposal ended",
+    "emailBody": "There is a new proposal that received a decision. You can see it in the APEX application.",
+    "emailBodyHTML": "There is a new proposal that received a decision. You can see it in the APEX application."
 });</camunda:script>
             </camunda:inputParameter>
           </camunda:inputOutput>
@@ -509,7 +509,7 @@
       <bpmndi:BPMNShape id="Event_057kik9_di" bpmnElement="timeDuration">
         <dc:Bounds x="1052" y="477" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1063" y="520" width="16" height="14" />
+          <dc:Bounds x="1051" y="520" width="40" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_0gj2od8_di" bpmnElement="Gateway_01o0el3">
