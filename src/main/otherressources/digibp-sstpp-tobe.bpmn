@@ -198,8 +198,8 @@
             <camunda:inputParameter name="payload">
               <camunda:script scriptFormat="JavaScript">out = JSON.stringify(
     {
-"id":"${proposalId}",
-"is_pitch_needed":"${pitch}"
+"id": "${proposalId}",
+"is_pitch_needed": "${pitch}"
 });</camunda:script>
             </camunda:inputParameter>
           </camunda:inputOutput>
@@ -262,9 +262,9 @@
             </camunda:inputParameter>
             <camunda:inputParameter name="payload">
               <camunda:script scriptFormat="JavaScript">out = JSON.stringify(
-    {"
-id":"${proposalId}",
-"proposal_status":"Accepted"
+    {
+"id": "${proposalId}",
+"proposal_status": "Accepted"
 });</camunda:script>
             </camunda:inputParameter>
             <camunda:outputParameter name="status" />
@@ -294,8 +294,8 @@ id":"${proposalId}",
             <camunda:inputParameter name="payload">
               <camunda:script scriptFormat="JavaScript">out = JSON.stringify(
     {
-"id":"${proposalId}",
-"proposal_status":"Declined"
+"id": "${proposalId}",
+"proposal_status": "Declined"
 });</camunda:script>
             </camunda:inputParameter>
             <camunda:outputParameter name="status" />
