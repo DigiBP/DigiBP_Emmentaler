@@ -171,7 +171,7 @@
     {
 "id": "${proposalId}",
 "veto_start_time": "${now()}"
-};</camunda:script>
+});</camunda:script>
             </camunda:inputParameter>
             <camunda:outputParameter name="complete" />
           </camunda:inputOutput>
