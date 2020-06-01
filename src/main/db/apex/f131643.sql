@@ -28,7 +28,7 @@ prompt APPLICATION 131643 - Proposals
 -- Application Export:
 --   Application:     131643
 --   Name:            Proposals
---   Date and Time:   13:22 Saturday May 30, 2020
+--   Date and Time:   13:33 Montag Juni 1, 2020
 --   Exported By:     JASMIN.FLURI@GMAIL.COM
 --   Flashback:       0
 --   Export Type:     Application Export
@@ -119,7 +119,7 @@ wwv_flow_api.create_flow(
 ,p_substitution_string_01=>'APP_NAME'
 ,p_substitution_value_01=>'Proposals'
 ,p_last_updated_by=>'JASMIN.FLURI@GMAIL.COM'
-,p_last_upd_yyyymmddhh24miss=>'20200530083945'
+,p_last_upd_yyyymmddhh24miss=>'20200530142445'
 ,p_file_prefix => nvl(wwv_flow_application_install.get_static_app_file_prefix,'')
 ,p_files_version=>3
 ,p_ui_type_name => null
@@ -810,11 +810,6 @@ wwv_flow_api.create_page_group(
  p_id=>wwv_flow_api.id(3952030195364130573)
 ,p_group_name=>'Administration'
 );
-end;
-/
-prompt --application/comments
-begin
-null;
 end;
 /
 prompt --application/shared_components/navigation/breadcrumbs/breadcrumb
@@ -12924,11 +12919,6 @@ begin
 null;
 end;
 /
-prompt --application/shared_components/globalization/translations
-begin
-null;
-end;
-/
 prompt --application/shared_components/logic/build_options
 begin
 wwv_flow_api.create_build_option(
@@ -14192,7 +14182,7 @@ wwv_flow_api.create_page(
 ,p_page_template_options=>'#DEFAULT#'
 ,p_protection_level=>'C'
 ,p_last_updated_by=>'JASMIN.FLURI@GMAIL.COM'
-,p_last_upd_yyyymmddhh24miss=>'20200528184119'
+,p_last_upd_yyyymmddhh24miss=>'20200530135424'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(19918436411496432221)
@@ -14290,20 +14280,18 @@ wwv_flow_api.create_page_item(
 ,p_item_sequence=>150
 ,p_item_plug_id=>wwv_flow_api.id(19918436411496432221)
 ,p_item_source_plug_id=>wwv_flow_api.id(19918436411496432221)
-,p_item_default=>'true'
 ,p_prompt=>'Is Reviewed'
 ,p_source=>'IS_REVIEWED'
 ,p_source_type=>'REGION_SOURCE_COLUMN'
-,p_display_as=>'NATIVE_TEXT_FIELD'
-,p_cSize=>30
-,p_cMaxlength=>50
+,p_display_as=>'NATIVE_SELECT_LIST'
+,p_lov=>'STATIC:Yes;true,No;false'
+,p_cHeight=>1
 ,p_field_template=>wwv_flow_api.id(3952001131436130523)
 ,p_item_template_options=>'#DEFAULT#'
 ,p_is_persistent=>'N'
-,p_attribute_01=>'N'
+,p_lov_display_extra=>'NO'
+,p_attribute_01=>'NONE'
 ,p_attribute_02=>'N'
-,p_attribute_04=>'TEXT'
-,p_attribute_05=>'BOTH'
 );
 wwv_flow_api.create_page_item(
  p_id=>wwv_flow_api.id(17835054732217773633)
@@ -14940,7 +14928,7 @@ wwv_flow_api.create_page(
 ,p_autocomplete_on_off=>'OFF'
 ,p_page_template_options=>'#DEFAULT#'
 ,p_last_updated_by=>'JASMIN.FLURI@GMAIL.COM'
-,p_last_upd_yyyymmddhh24miss=>'20200530083834'
+,p_last_upd_yyyymmddhh24miss=>'20200530142445'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(3969048873970605353)
@@ -15160,7 +15148,7 @@ wwv_flow_api.create_page_plug(
 ,p_plug_display_point=>'BODY'
 ,p_query_type=>'TABLE'
 ,p_query_table=>'ANTRAG'
-,p_query_where=>'proposal_status in (''Cancelled'', ''Approved'', ''Declined'')'
+,p_query_where=>'proposal_status in (''Accepted'', ''Approved'',''Declined'')'
 ,p_include_rowid_column=>false
 ,p_plug_source_type=>'NATIVE_IR'
 ,p_plug_query_options=>'DERIVED_REPORT_COLUMNS'
