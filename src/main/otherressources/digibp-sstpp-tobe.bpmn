@@ -159,8 +159,8 @@
       <bpmn:extensionElements>
         <camunda:connector>
           <camunda:inputOutput>
-            <camunda:inputParameter name="method">PUT</camunda:inputParameter>
-            <camunda:inputParameter name="url">https://apex.oracle.com/pls/apex/schaltstelle/proposal/setVetoStartDate/:id</camunda:inputParameter>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="url">https://apex.oracle.com/pls/apex/schaltstelle/proposal/setVetoStartDate</camunda:inputParameter>
             <camunda:inputParameter name="headers">
               <camunda:map>
                 <camunda:entry key="Content-Type">application/json</camunda:entry>
@@ -168,9 +168,10 @@
             </camunda:inputParameter>
             <camunda:inputParameter name="payloads">
               <camunda:script scriptFormat="JavaScript">out = JSON.stringify(
-    {"id": "${proposalId}",
+    {
+"id": "${proposalId}",
 "veto_start_time": "${now()}"
-})</camunda:script>
+});</camunda:script>
             </camunda:inputParameter>
             <camunda:outputParameter name="complete" />
           </camunda:inputOutput>
@@ -184,17 +185,19 @@
       <bpmn:extensionElements>
         <camunda:connector>
           <camunda:inputOutput>
-            <camunda:inputParameter name="method">PUT</camunda:inputParameter>
-            <camunda:inputParameter name="url">https://apex.oracle.com/pls/apex/schaltstelle/proposal/isPitchNeeded/:id</camunda:inputParameter>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="url">https://apex.oracle.com/pls/apex/schaltstelle/proposal/isPitchNeeded</camunda:inputParameter>
             <camunda:inputParameter name="headers">
               <camunda:map>
-                <camunda:entry key="id">321</camunda:entry>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
               </camunda:map>
             </camunda:inputParameter>
             <camunda:inputParameter name="payload">
               <camunda:script scriptFormat="JavaScript">out = JSON.stringify(
-    {"is_pitch_needed": "true"
-})</camunda:script>
+    {
+"id": "${proposalId}",
+"is_pitch_needed": "${pitch}"
+});</camunda:script>
             </camunda:inputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
@@ -247,8 +250,8 @@
       <bpmn:extensionElements>
         <camunda:connector>
           <camunda:inputOutput>
-            <camunda:inputParameter name="method">PUT</camunda:inputParameter>
-            <camunda:inputParameter name="url">https://apex.oracle.com/pls/apex/schaltstelle/proposal/setProposalStatus/:id</camunda:inputParameter>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="url">https://apex.oracle.com/pls/apex/schaltstelle/proposal/setProposalStatus</camunda:inputParameter>
             <camunda:inputParameter name="headers">
               <camunda:map>
                 <camunda:entry key="Content-Type">application/json</camunda:entry>
@@ -256,9 +259,10 @@
             </camunda:inputParameter>
             <camunda:inputParameter name="payload">
               <camunda:script scriptFormat="JavaScript">out = JSON.stringify(
-    {"id": "${proposalId}",
-"proposal_status": "${proposal_status}"
-})</camunda:script>
+    {
+"id": "${proposalId}",
+"proposal_status": "Accepted"
+});</camunda:script>
             </camunda:inputParameter>
             <camunda:outputParameter name="status" />
           </camunda:inputOutput>
@@ -277,8 +281,8 @@
       <bpmn:extensionElements>
         <camunda:connector>
           <camunda:inputOutput>
-            <camunda:inputParameter name="method">PUT</camunda:inputParameter>
-            <camunda:inputParameter name="url">https://apex.oracle.com/pls/apex/schaltstelle/proposal/setProposalStatus/:id</camunda:inputParameter>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="url">https://apex.oracle.com/pls/apex/schaltstelle/proposal/setProposalStatus</camunda:inputParameter>
             <camunda:inputParameter name="headers">
               <camunda:map>
                 <camunda:entry key="Content-Type">application/json</camunda:entry>
@@ -286,9 +290,10 @@
             </camunda:inputParameter>
             <camunda:inputParameter name="payload">
               <camunda:script scriptFormat="JavaScript">out = JSON.stringify(
-    {"id": "${proposalId}",
-"proposal_status": "${proposal_status}"
-})</camunda:script>
+    {
+"id": "${proposalId}",
+"proposal_status": "Declined"
+});</camunda:script>
             </camunda:inputParameter>
             <camunda:outputParameter name="status" />
           </camunda:inputOutput>
