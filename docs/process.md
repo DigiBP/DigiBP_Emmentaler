@@ -198,11 +198,13 @@ The all endpoints were tested in POSTMAN. The tabel below presents tested endpoi
 |---|---|---|---|
 |1|Process Start|POST|https://emmentaler.herokuapp.com/rest/process-definition/digibp-tobe:2:70314c02-9de2-11ea-9c51-da029e11a7df/start?|
 |2|Send Mail|POST|https://apex.oracle.com/pls/apex/schaltstelle/proposal/sendMail|
-|3|Proposal Status|PUT|https://apex.oracle.com/pls/apex/schaltstelle/proposal/proposal_status/:id?proposal_status="Cancelled"|
-|4|Set Veto Start Date|PUT|https://apex.oracle.com/pls/apex/schaltstelle/proposal/setVetoStartDate/:id?id=43|
-|5|Review Outcome Received|POST|https://emmentaler.herokuapp.com/rest/message|
-|6|Proposal Submitted|POST|https://emmentaler.herokuapp.com/rest/message|
-|7|Veto Received|POST|https://emmentaler.herokuapp.com/rest/message|
+|3|Review Outcome Received|POST|https://emmentaler.herokuapp.com/rest/message|
+|4|Proposal Submitted|POST|https://emmentaler.herokuapp.com/rest/message|
+|5|Veto Received|POST|https://emmentaler.herokuapp.com/rest/message|
+|6|Proposal Status|PUT|https://apex.oracle.com/pls/apex/schaltstelle/proposal/setProposalStatus/:id
+|7|Set Veto Start Date|PUT|https://apex.oracle.com/pls/apex/schaltstelle/proposal/setVetoStartDate/:id
+|8|Pitch Needed|PUT|https://apex.oracle.com/pls/apex/schaltstelle/proposal/setProposalStatus/:id
+
 
 #### Requested Bodies
 
@@ -261,18 +263,31 @@ Body
 }</pre>
 </td></tr>
 
-
-<tr><td>3</td><td><pre>mimi</pre></td></tr>
-
-<tr><td>4</td><td><pre>{
-    "veto_start_date": "2017-05-15T15:12:59.152Z"
-}</pre></td></tr>
-
-<tr><td>5</td><td><pre>{
+<tr><td>3</td><td><pre>{
   "messageName" : "ReceiveReviewOutcome",
   "businessKey" : "proposalProcessAPEX",
   "processVariables" : {
     "complete" : {"value" : "true", "type": "String"
+                     }
+  },
+  "resultEnabled": true
+}</pre></td></tr>
+
+<tr><td>4</td><td><pre>{
+  "messageName" : "ProposalSubmitted",
+  "businessKey" : "proposalProcessAPEX",
+  "processVariables" : {
+    "complete" : {"value" : "true", "type": "String"
+                     }
+  },
+  "resultEnabled": true
+}</pre></td></tr>
+
+<tr><td>5</td><td><pre>{
+  "messageName" : "ReceiveVeto",
+  "businessKey" : "proposalProcessAPEX",
+  "processVariables" : {
+    "veto" : {"value" : "Yes", "type": "String"
                      }
   },
   "resultEnabled": true
@@ -290,5 +305,6 @@ Body
 
 
 ## <span style="color:blue">13. Summary</span>
-// TODO, when ready
-// What is now better with the digitized process? Before and after comparison.
+There was no structured process for submission and handling of new and existing proposals in the company. The proposals were submitted and handled in Telegram chat, which made an overview more difficult.
+With the redesigned and digitized process, the submission and handling of proposals is made easier. The requestor can submit the proposals via user-friendly fronted application APEX and review the status of proposals at every time. Additionally, in case that something is not clear, the requestor can make use of the implemented chatbot. The notifications are sent via email so there is no need anymore for using Telegramm. Also the approver approves the proposals in APEX and can easily check e.g. how many proposals are pending or finished. The employees make the use of right to VETO via APEX. The new functionality whether presentation or pitch is needed is done with the help of automated decision logic.
+As can be seen, the new digitalized process brings clear advantages over the old process.
