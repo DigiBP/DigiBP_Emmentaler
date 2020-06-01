@@ -160,9 +160,7 @@
         <camunda:connector>
           <camunda:inputOutput>
             <camunda:inputParameter name="method">POST</camunda:inputParameter>
-            <camunda:inputParameter name="url">https://apex.oracle.com/pls/apex/schaltstelle/proposal/setVetoStartDate
-
-</camunda:inputParameter>
+            <camunda:inputParameter name="url">https://apex.oracle.com/pls/apex/schaltstelle/proposal/setVetoStartDate</camunda:inputParameter>
             <camunda:inputParameter name="headers">
               <camunda:map>
                 <camunda:entry key="Content-Type">application/json</camunda:entry>
@@ -173,8 +171,7 @@
     {
 "id": "${proposalId}",
 "veto_start_time": "${now()}"
-});
-</camunda:script>
+};</camunda:script>
             </camunda:inputParameter>
             <camunda:outputParameter name="complete" />
           </camunda:inputOutput>
