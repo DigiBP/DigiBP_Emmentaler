@@ -187,12 +187,12 @@ The data is stored in an Oracle database. To access and update the data the REST
 |HAS_VETO|VARCHAR2(50)|Yes|Outcome if proposal has a veto - Yes / No|
 
 ## <span style="color:blue">11. Deployment of Project</span>
-The project is deployed from camunda modeler to Herokuapp via button "deploy current diagram". In the section "Cockpit" in Herokuapp, the new instance of the process appears with associated Definition and Deployment ID. Definition ID is essential for starting the process from APEX. For that purpose, the trigger with associated procedure has been set up in APEX.
+The project is deployed from camunda modeler to Herokuapp via button "deploy current diagram". In the section "Cockpit" in Herokuapp, the new instance of the process appears with associated Definition and Deployment ID. Definition ID is essential for starting the process from APEX. For that purpose, the trigger with associated procedure has been set up in APEX. In addition, 3 triggers with assosiated procedures have been set up in APEX to trigger message intermediate throw events in Herokuapp.
 
-## <span style="color:blue">12. Testing of Project</span> 
-The all endpoints were tested in POSTMAN. The table below presents tested endpoints with respective URL's.  
+## <span style="color:blue">12. Testing of API's</span> 
+The all API endpoints were tested in POSTMAN. The tables below present tested URL's representing API endpoints we are working with. Due to the better readability, two tables where created, whereby the first table presents methods with respective URL's and the second table lists the assosiated bodies which allow to specify the data we need to send with a request. We use raw body data to send anything as text. The format of our data is JSON. 
 
-#### Tested Endpoints
+#### API Endpoints
 
 | ID| Name | Method | URL | 
 |---|---|---|---|
@@ -206,7 +206,7 @@ The all endpoints were tested in POSTMAN. The table below presents tested endpoi
 |8|Pitch Needed|POST|https://apex.oracle.com/pls/apex/schaltstelle/proposal/setProposalStatus|
 
 
-#### Requested Bodies
+#### Assosiated Bodies
 
 <table>
 <tr>
