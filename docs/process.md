@@ -187,10 +187,10 @@ The data is stored in an Oracle database. To access and update the data the REST
 |HAS_VETO|VARCHAR2(50)|Yes|Outcome if proposal has a veto - Yes / No|
 
 ## <span style="color:blue">11. Deployment of Project</span>
-The project is deployed from camunda modeler to Herokuapp via button "deploy current diagram". In the section "Cockpit" in Herokuapp, the new instance of the process appears with associated Definition and Deployment ID.
+The project is deployed from camunda modeler to Herokuapp via button "deploy current diagram". In the section "Cockpit" in Herokuapp, the new instance of the process appears with associated Definition and Deployment ID. Definition ID is essential for starting the process from APEX. For that purpose, the trigger with associated procedure has been set up in APEX.
 
 ## <span style="color:blue">12. Testing of Project</span> 
-The all endpoints were tested in POSTMAN. The tabel below presents tested endpoints with respective URL's.  
+The all endpoints were tested in POSTMAN. The table below presents tested endpoints with respective URL's.  
 
 #### Tested Endpoints
 
@@ -240,6 +240,10 @@ Body
         "value" : 5000,
         "type": "Integer"
     },
+    "proposalId" : {
+        "value" : 361,
+        "type": "Integer"
+    },
     "category" : {
         "value" : "Innovation",
         "type": "String"
@@ -277,7 +281,7 @@ Body
   "messageName" : "ProposalSubmitted",
   "businessKey" : "proposalProcessAPEX",
   "processVariables" : {
-    "complete" : {"value" : "true", "type": "String"
+    "edited" : {"value" : "true", "type": "String"
                      }
   },
   "resultEnabled": true
@@ -293,11 +297,20 @@ Body
   "resultEnabled": true
 }</pre></td></tr>
 
-<tr><td>6</td><td><pre>mimi</pre></td></tr>
+<tr><td>6</td><td><pre>{
+	"id": "361",
+	"proposal_status" : "Accepted"
+}</pre></td></tr>
 
-<tr><td>7</td><td><pre>mimi</pre></td></tr>
+<tr><td>7</td><td><pre>{
+	"id": "361",
+	"veto_start_date" : "2020-06-01T18:25:43.511Z"
+}</pre></td></tr>
 
-<tr><td>8</td><td><pre>mimi</pre></td></tr>
+<tr><td>8</td><td><pre>{
+	"id": "361",
+	"is_pitch_needed" : "true"
+}</pre></td></tr>
 
 
 </table>
@@ -306,5 +319,5 @@ Body
 
 ## <span style="color:blue">13. Summary</span>
 There was no structured process for submission and handling of new and existing proposals in the company. The proposals were submitted and handled in Telegram chat, which made an overview more difficult.
-With the redesigned and digitized process, the submission and handling of proposals is made easier. The requestor can submit the proposals via user-friendly fronted application APEX and review the status of proposals at every time. Additionally, in case that something is not clear, the requestor can make use of the implemented chatbot. The notifications are sent via email so there is no need anymore for using Telegramm. Also the approver approves the proposals in APEX and can easily check e.g. how many proposals are pending or finished. The employees make the use of right to VETO via APEX. The new functionality whether presentation or pitch is needed is done with the help of automated decision logic.
-As can be seen, the new digitalized process brings clear advantages over the old process.
+With the redesigned and digitized process, the submission and handling of proposals is made easier. The requestor can submit the proposals via user-friendly fronted application APEX and review the status of proposals at every time. Additionally, in case that something is not clear, the requestor can make use of the implemented chatbot. The notifications are sent via email so there is no need anymore for using Telegram. Also the approver approves the proposals in APEX and can easily check e.g. how many proposals are pending or finished. The employees make the use of right to VETO via APEX. The new functionality whether presentation or pitch is needed is done with the help of automated decision logic.
+In conclusion, the new digitalized process brings clear advantages over the old process.
