@@ -115,23 +115,23 @@ The most important steps are explained in the table below:
 | Task | from | to | HTTP-Request | API | Description |
 | --- | --- | --- | --- | --- | --- |
 | Start | Apex | Heroku | POST | /process-definition/{id}/start | The trigger starting the process is when a requestor creates a new proposal in the front-end application provided by APEX. To retrieve application data for the business process on Heroku, the API created in Apex is exposed and consumed. |
-| Inform Chief of Innovation | Heroku | Apex | POST | /sendMail/ | As soon as an applicant has submitted a new proposal, the Chief of Innovation is being informed via e-mail notification. Apex is triggered by Heroku, which then triggers the sending of mail. |
+| Inform Chief of Innovation | Heroku | Apex | POST | /sendMail | As soon as an applicant has submitted a new proposal, the Chief of Innovation is being informed via e-mail notification. Apex is triggered by Heroku, which then triggers the sending of mail. |
 | Review of Proposal | Apex | Apex | - | - | The Chief of Innovation then reviews the proposal in a manual process. The result of the check is then being updated. The review date, proposal state, review state and the isReviewed flag is being set.|
 | Receive Review Outcome | Apex | Heroku | POST | /execution/{id}/signal | As soon as the Chief of Innovation has given an answer to the proposal, the Camunda process is triggered. The CIO can either accept or decline the response, depending on whether it is complete or not. |
-| Inform Requester | Heroku | Apex | POST | /sendMail/ | In case that the proposal is not completed, the requestor will be informed to complete the request. |
+| Inform Requester | Heroku | Apex | POST | /sendMail | In case that the proposal is not completed, the requestor will be informed to complete the request. |
 | Adapt Proposal | Apex | Apex | - | - | The requestor adapts the proposal. |
 | Proposal submitted | Apex | Heroku | POST | /execution/{id}/signal | As soon as the adapted Proposal is submitted in APEX, Heroku will trigger the Mail sending. The Chief of Innovation will automatically be informed again and receive a notification email that a request has been adapted and is ready for review. Then the process starts again as described above, where the CIO needs to review the proposal. |
-| Set Veto start time | Heroku | Apex | PUT | /setVetoStartDate/{id}/ | If the proposal is complete and there's nothing to add from requesters side, the 10 days right to veto starts for all the members. The start date of the right to veto will be updated in APEX by using HTTP PUT API. |
-| Inform Members to Veto | Heroku | Apex | POST | /sendMail/ | The members will be informed about starting the right to veto. During these 10 days, three activities can occur: |
+| Set Veto start time | Heroku | Apex | POST | /setVetoStartDate | If the proposal is complete and there's nothing to add from requesters side, the 10 days right to veto starts for all the members. The start date of the right to veto will be updated in APEX by using HTTP POST API. |
+| Inform Members to Veto | Heroku | Apex | POST | /sendMail | The members will be informed about starting the right to veto. During these 10 days, three activities can occur: |
 | Members can Veto | Apex | Apex | - | - | The 10 days right to veto will be not interrupted by any cases. Any member of company can make use of its right to veto. _Veto happens in APEX. If a Veto is submitted, a Request to Heroku is made._ |
 | Veto submitted | Apex | Heroku | POST | /execution/{id}/signal | As soon as at least one member vetoed, the process will be terminated. |
-| Proposal is declined | Heroku | Apex | PUT | /setProposalStatus/{id}/ | The result of the process – acceptance or declination of proposal – is updated in APEX. |
+| Proposal is declined | Heroku | Apex | POST | /setProposalStatus | The result of the process – acceptance or declination of proposal – is updated in APEX. |
 | Business Rule if Presentation is needed | Heroku | Heroku | - | - | The decision table is used to decide whether a presentation of the requester is necessary or not. If a presentation or pitch is necessary, the requester prepares the pitch or presentation.|
-| Update Decision | Heroku | Apex | PUT | /isPitchNeeded/{id}/ | Sets the flag whether a presentation is required or not.|
-| Inform Requester about Presentation | Heroku | Apex | POST | /sendMail/ | Requester is informed to make a Presentation about his Request. |
+| Update Decision | Heroku | Apex | POST | /isPitchNeeded | Sets the flag whether a presentation is required or not.|
+| Inform Requester about Presentation | Heroku | Apex | POST | /sendMail | Requester is informed to make a Presentation about his Request. |
 | Organization of Pitch or Presentation | User | User | - | - | Requester then need to prepare the presentation within the 10 days, even if the request can still be rejected with a veto and therefore its preparation would be useless. |
-| Proposal is accepted | Heroku | Apex | PUT | /setProposalStatus/{id}/ | The result of the process – acceptance or declination of proposal – is updated in APEX.|
-| Inform members and requester | Heroku | Apex | POST | /sendMail/ | Members and Requester are informed about the outcome of the proposal process via Email. |
+| Proposal is accepted | Heroku | Apex | POST | /setProposalStatus | The result of the process – acceptance or declination of proposal – is updated in APEX.|
+| Inform members and requester | Heroku | Apex | POST | /sendMail | Members and Requester are informed about the outcome of the proposal process via Email. |
 | End | - | - | - | - | The process ends. |
 
 
@@ -155,10 +155,10 @@ All the APEX REST Endpoints for the proposal application are located under the p
 
 |Ressource URI|Method|Parameters|
 |---|---|---|
-|sendMail/:id|POST|IN - ccEmail <br> IN - emailBody <br> IN - emailBodyHTML  <br> IN - emailSubject <br> IN - fromEmail <br>  IN - toEmail <br>  OUT - http_status_code|
-|isPitchNeeded/:id|PUT|IN - id <br> IN - is_pitch_needed <br> OUT - http_status_code  |
-|setProposalStatus/:id|PUT|IN - id <br> IN - proposal_status <br> OUT - http_status_code  |
-|setVetoStartDate/:id|PUT|IN - id <br> IN - veto_start_date <br> IN - proposal_status  <br> OUT - http_status_code  |
+|sendMail|POST|IN - ccEmail <br> IN - emailBody <br> IN - emailBodyHTML  <br> IN - emailSubject <br> IN - fromEmail <br>  IN - toEmail <br>  OUT - http_status_code|
+|isPitchNeeded|POST|IN - id <br> IN - is_pitch_needed <br> OUT - http_status_code  |
+|setProposalStatus|POST|IN - id <br> IN - proposal_status <br> OUT - http_status_code  |
+|setVetoStartDate|POST|IN - id <br> IN - veto_start_date <br> IN - proposal_status  <br> OUT - http_status_code  |
 
 ### Oracle Database
 
@@ -201,9 +201,9 @@ The all endpoints were tested in POSTMAN. The tabel below presents tested endpoi
 |3|Review Outcome Received|POST|https://emmentaler.herokuapp.com/rest/message|
 |4|Proposal Submitted|POST|https://emmentaler.herokuapp.com/rest/message|
 |5|Veto Received|POST|https://emmentaler.herokuapp.com/rest/message|
-|6|Proposal Status|PUT|https://apex.oracle.com/pls/apex/schaltstelle/proposal/setProposalStatus/:id
-|7|Set Veto Start Date|PUT|https://apex.oracle.com/pls/apex/schaltstelle/proposal/setVetoStartDate/:id
-|8|Pitch Needed|PUT|https://apex.oracle.com/pls/apex/schaltstelle/proposal/setProposalStatus/:id
+|6|Proposal Status|POST|https://apex.oracle.com/pls/apex/schaltstelle/proposal/setProposalStatus|
+|7|Set Veto Start Date|POST|https://apex.oracle.com/pls/apex/schaltstelle/proposal/setVetoStartDate|
+|8|Pitch Needed|POST|https://apex.oracle.com/pls/apex/schaltstelle/proposal/setProposalStatus|
 
 
 #### Requested Bodies
