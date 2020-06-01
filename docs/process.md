@@ -49,11 +49,10 @@ The current process to request proposals is done in the chat application Telegra
 
 ## <span style="color:blue">6. Process AS-IS Description</span>
 
-### Process AS-IS Description
-
 
 The process starts with the requester creating a proposal. It must be phrased to allow a yes / no decision. The Chief of innovation reviews the proposal. If the proposal is not complete, it is handed back to the requester. If the Chief of innovation declares the proposal as complete, the proposal is ready for voting. Next, the members need to decide if they want a pitch or presentation of the proposal to learn about its details. This can help to get a better understanding of the request or the idea. If not, the 10 days right to veto starts for all the members. During this period, two tasks commence: 
 - Members of the company can make use of their right to veto. If at least one member makes the use of the right to veto, the proposal is declined, and the process ends. If the members do not make their use of the right to veto within the ten days, the proposal is accepted, and the process ends.
+- With the help of decision logic will be checked, if presentation or pitch is needed. The category and the budget of proposal are input criteria.
 
 
 
@@ -68,28 +67,34 @@ INPUT
 * Amount Budgeted
 
 OUTPUT
- * Decision Outcome
+ * Pitch
 
 The following conditions have been defined to design a decision model to decide whether the presentation or pitch is needed:
 1. If the proposal category is innovation and the amounted budget is greater than CHF 1000 then the presentation or pitch is needed.
-2. If the proposal category is marketing and the amounted budget is greater than CHF 2000 then the presentation or pitch needed.
-3. If the proposal category is future events and the amounted budget is greater than CHF 3000 then the presentation or pitch needed.
-4. If the proposal category is new members then the presentation or pitch is always needed.
-5. The presentation or pitch is required only for conditions 1.-4.
+2. If the proposal category is innovation and the amounted budget is less or equals CHF 1000 then the presentation or pitch is no needed. 
+3. If the proposal category is marketing and the amounted budget is greater than CHF 2000 then the presentation or pitch needed.
+4. If the proposal category is marketing and the amounted budget is less or equals CHF 2000 then the presentation or pitch is no needed.
+5. If the proposal category is future events and the amounted budget is greater than CHF 3000 then the presentation or pitch needed.
+6. If the proposal category is future events and the amounted budget is less or equals CHF 3000 then the presentation or pitch is no needed. 
+7. If the proposal category is new members and the amounted budget is greater or equals CHF 0 then the presentation or pitch is needed.
+8. If the proposal category is general improvements or change of business guidelines and the amounted budget is greater or equals CHF 0 then the presentation or pitch is no needed. 
 
 |Proposal Category | Amount Budgeted | Decision Outcome|
 |---|---|---|
 | Innovation | > 1000 |true|
+| Innovation | <= 1000 |false|
 | Marketing | > 2000 |true|
+| Marketing | <= 2000 |false|
 | Future Events | > 3000 |true|
-| New Members | > 0 |true|
-|"Innovation","GeneralImprovements","FutureEvents","Marketing" "ChangeOfBusinessGuidelines"|- |false|
+| Future Events | <= 3000 |false|
+| New Members | >= 0 |true|
+|"GeneralImprovements","ChangeOfBusinessGuidelines"|>=0 |false|
 
 ## <span style="color:blue">8. Identification of Digitalisation Aspects</span>
 There are several factors why the current process can be enriched by a more modern process:
 * Simplification and clear structuring of the application process
 * Today all changes are made manually
-* In the telegram chat, having multiple proposals in parallel, can end up in a mess.
+* In the telegram chatroom, having multiple proposals in parallel, can end up in a mess.
 * Someone must manually control the time for veto.
 * History is not guaranteed (when did Veto start, when did it stop, etc.). Until now it was necessary to search the history in telegrams to find the contents again. This was inefficient and error-prone.
 
@@ -122,7 +127,7 @@ The most important steps are explained in the table below:
 | Adapt Proposal | Apex | Apex | - | - | The requestor adapts the proposal. |
 | Proposal submitted | Apex | Heroku | POST | /execution/{id}/signal | As soon as the adapted Proposal is submitted in APEX, Heroku will trigger the Mail sending. The Chief of Innovation will automatically be informed again and receive a notification email that a request has been adapted and is ready for review. Then the process starts again as described above, where the CIO needs to review the proposal. |
 | Set Veto start time | Heroku | Apex | POST | /setVetoStartDate | If the proposal is complete and there's nothing to add from requesters side, the 10 days right to veto starts for all the members. The start date of the right to veto will be updated in APEX by using HTTP POST API. |
-| Inform Members to Veto | Heroku | Apex | POST | /sendMail | The members will be informed about starting the right to veto. During these 10 days, three activities can occur: |
+| Inform Members to Veto | Heroku | Apex | POST | /sendMail | The members will be informed about starting the right to veto. During these 10 days, two activities can occur: 1) Members of the company can make use of their right to veto. 2) With the help of decision logic will be checked, if presentation or pitch is needed.|
 | Members can Veto | Apex | Apex | - | - | The 10 days right to veto will be not interrupted by any cases. Any member of company can make use of its right to veto. _Veto happens in APEX. If a Veto is submitted, a Request to Heroku is made._ |
 | Veto submitted | Apex | Heroku | POST | /execution/{id}/signal | As soon as at least one member vetoed, the process will be terminated. |
 | Proposal is declined | Heroku | Apex | POST | /setProposalStatus | The result of the process – acceptance or declination of proposal – is updated in APEX. |
@@ -155,10 +160,10 @@ All the APEX REST Endpoints for the proposal application are located under the p
 
 |Ressource URI|Method|Parameters|
 |---|---|---|
-|sendMail|POST|IN - ccEmail <br> IN - emailBody <br> IN - emailBodyHTML  <br> IN - emailSubject <br> IN - fromEmail <br>  IN - toEmail <br>  OUT - http_status_code|
-|isPitchNeeded|POST|IN - id <br> IN - is_pitch_needed <br> OUT - http_status_code  |
-|setProposalStatus|POST|IN - id <br> IN - proposal_status <br> OUT - http_status_code  |
-|setVetoStartDate|POST|IN - id <br> IN - veto_start_date <br> IN - proposal_status  <br> OUT - http_status_code  |
+|sendMail|POST|IN - ccEmail <br> IN - emailBody <br> IN - emailBodyHTML  <br> IN - emailSubject <br> IN - fromEmail <br>  IN - toEmail |
+|isPitchNeeded|POST|IN - id <br> IN - is_pitch_needed <br> OUT - status |
+|setProposalStatus|POST|IN - id <br> IN - proposal_status <br> OUT - status <br> OUT - location  |
+|setVetoStartDate|POST|IN - id <br> IN - veto_start_date   <br> OUT - status  |
 
 ### Oracle Database
 
@@ -318,6 +323,6 @@ Body
 
 
 ## <span style="color:blue">13. Summary</span>
-There was no structured process for submission and handling of new and existing proposals in the company. The proposals were submitted and handled in Telegram chat, which made an overview more difficult.
-With the redesigned and digitized process, the submission and handling of proposals is made easier. The requestor can submit the proposals via user-friendly fronted application APEX and review the status of proposals at every time. Additionally, in case that something is not clear, the requestor can make use of the implemented chatbot. The notifications are sent via email so there is no need anymore for using Telegram. Also the approver approves the proposals in APEX and can easily check e.g. how many proposals are pending or finished. The employees make the use of right to VETO via APEX. The new functionality whether presentation or pitch is needed is done with the help of automated decision logic.
+There was no structured process for submission and handling of new and existing proposals in the company. The proposals were submitted and handled in Telegram chatroom, which made an overview more difficult.
+With the redesigned and digitized process, the submission and handling of proposals is made easier. The requestor can submit the proposals via user-friendly fronted application APEX and review the status of proposals at every time. Additionally, in case that something is not clear, the requestor can make use of the implemented chatbot. The notifications are sent via email so there is no need anymore for using Telegram chatroom. Also the approver approves the proposals in APEX and can easily check e.g. how many proposals are pending or finished. The employees make the use of right to VETO via APEX. The new functionality whether presentation or pitch is needed is done with the help of automated decision logic.
 In conclusion, the new digitalized process brings clear advantages over the old process.
