@@ -169,8 +169,7 @@
             <camunda:inputParameter name="payloads">
               <camunda:script scriptFormat="JavaScript">out = JSON.stringify(
     {
-"id": proposalId,
-"veto_start_time": "${now()}"
+"id": proposalId
 });</camunda:script>
             </camunda:inputParameter>
             <camunda:outputParameter name="complete" />
