@@ -10,7 +10,7 @@
           <text>category</text>
         </inputExpression>
         <inputValues id="UnaryTests_02l2siq">
-          <text>"Innovation","Marketing","Future Events","New Members","General Improvements","Change of Business Guidelines"</text>
+          <text>"Innovation","Marketing","Future Events","General Improvements","Change of Business Guidelines","New Member"</text>
         </inputValues>
       </input>
       <input id="InputClause_1msudnf" label="budget">
@@ -54,7 +54,7 @@
       </rule>
       <rule id="DecisionRule_0ksqitq">
         <inputEntry id="UnaryTests_0e48xm8">
-          <text>"New Members"</text>
+          <text>"New Member"</text>
         </inputEntry>
         <inputEntry id="UnaryTests_0bi4im1">
           <text>&gt;= 0</text>
