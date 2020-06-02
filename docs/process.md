@@ -194,7 +194,9 @@ The data is stored in an Oracle database. To access and update the data the REST
 ## <span style="color:blue">11. Deployment of Project</span>
 The project is deployed from camunda modeler to Herokuapp via button "deploy current diagram". In the section "Cockpit" in Herokuapp, the new instance of the process appears with associated Definition and Deployment ID. Definition ID is essential for starting the process from APEX. For that purpose, the trigger with associated procedure has been set up in APEX. In addition, 3 triggers with assosiated procedures have been set up in APEX to trigger message intermediate throw events in Herokuapp.
 
-## <span style="color:blue">12. Testing of API's</span> 
+## <span style="color:blue">12. Project Testing</span> 
+The testing of the project was split into two parts - system testing and usability testing, however system testing covers only the testing of the Rest Calls; the usability testing focused on the user's interation with frontend application APEX. For that purpose, test scenarios have been prepared and are presented in the section 12.2.
+### <span style="color:blue">12.1 System Testing</span>
 The all API endpoints were tested in POSTMAN. The tables below present tested URL's representing API endpoints we are working with. Due to the better readability, two tables where created, whereby the first table presents methods with respective URL's and the second table lists the assosiated bodies which allow to specify the data we need to send with a request. We use raw body data to send anything as text. The format of our data is JSON. 
 
 #### API Endpoints
@@ -263,12 +265,14 @@ Body
 
 <tr><td>2</td><td>
 <pre>{
-    "toEmail": "alena.magliano@students.fhnw.ch",
-    "fromEmail": "alena.magliano@students.fhnw.ch",
-    "ccEmail": "alena.magliano@students.fhnw.ch",
-    "emailSubject": "This is a Test from Postman",
-    "emailBody": "This is a Postman Test",
-    "emailBodyHTML": "This is a <b>Postman</b> Test"
+    "toEmail": "jasmin@schaltstelle.ch",
+    "fromEmail": requester,
+    "ccEmail": "a.magliano@hotmail.com",
+    "emailSubject": "A new proposal is ready to review",
+    "emailBody": "A new proposal was submitted in APEX and is ready 
+    to review!",
+    "emailBodyHTML": "A new proposal was submitted in APEX and is 
+    ready to review!"
 }</pre>
 </td></tr>
 
@@ -319,6 +323,22 @@ Body
 
 </table>
 
+### <span style="color:blue">12.2 Usability Testing</span>
+
+| APEX ID| Test Name | Test Description | Test Status |
+|---|---|---|---|
+||Chief of Information reviews and accepts proposal.|	Chief of Information reviews the proposal with regard to completeness and accepts it. The pitch or presenation is needed. No member of company makes the use of right to veto. The test is passed once all four emails receive, the proposal is accepted and process ends successfully.	|Passed|
+||Chief of Information reviews and accepts proposal.| The member makes the use of right to veto.	Chief of Information reviews and accepts the proposal. The member makes the use of right to veto. The test is passed once the proposal is declined and process ends successfully.|	Passed
+||Chief of Information reviews and declines proposal.|	Chief of Information declines the proposal due to missing information. The requestor completes the proposal with the missing information. Chief of information reviews the proposal again and accepts. The pitch or presenation is needed. No member of company makes the use of right to veto. The test is passed once all four emails receive, the proposal is accepted and process ends successfully.|	Passed
+||Chief of Information reviews and twice declines proposal.|	Chief of Information declines the proposal due to missing information. The requestor completes the proposal with the missing information. Chief of information reviews the proposal and again declines the proposal due to the missing information. The requestor completes the proposal again with the missing information. Chief of information reviews the proposal and accepts. The pitch or presenation is needed. No member of company makes the use of right to veto. The test is passed once all six emails receive, the proposal is accepted and process ends successfully.|	Passed
+||Chief of Information reviews and declines proposal.| The member makes the use of right to veto.	Chief of Information reviews and declines the proposal. The requestor completes the proposal with the missing information. Chief of information reviews the proposal again and accepts. The member makes the use of right to veto. The test is passed once the proposal is declined and process ends successfully.|	Passed
+||The proposal category is Innovation the pitch or presentation is needed.|	The proposal category is Innovation and requested budget is 1500 CHF. Chief of Information reviews the proposal with regard to completeness and accepts it. The pitch or presenation is needed. No member of company makes the use of right to veto. The test is passed once all four emails receive, the proposal is accepted and process ends successfully.	|Passed
+||The proposal category is Innovation the pitch or presentation is not needed.|	The proposal category is Innovation and requested budget is 500 CHF. Chief of Information reviews the proposal with regard to completeness and accepts it. The pitch or presenation is not needed. No member of company makes the use of right to veto. The test is passed once all three emails receive, the proposal is accepted and process ends successfully.|	Passed
+||The proposal category is Marketing the pitch or presentation is needed.|	The proposal category is Marketing and requested budget is 2500 CHF. Chief of Information reviews the proposal with regard to completeness and accepts it. The pitch or presenation is needed. No member of company makes the use of right to veto. The test is passed once all four emails receive, the proposal is accepted and process ends successfully.|	Passed
+||The proposal category is Marketing the pitch or presentation is not needed.|	The proposal category is Marketing and requested budget is 1855 CHF. Chief of Information reviews the proposal with regard to completeness and accepts it. The pitch or presenation is not needed. No member of company makes the use of right to veto. The test is passed once all three emails receive, the proposal is accepted and process ends successfully.|	Passed
+||The proposal category is Future Events the pitch or presentation is needed.|	The proposal category is Future Events and requested budget is 3999 CHF. Chief of Information reviews the proposal with regard to completeness and accepts it. The pitch or presenation is needed. No member of company makes the use of right to veto. The test is passed once all four emails receive, the proposal is accepted and process ends successfully.|	Passed
+||The proposal category is Future Events the pitch or presentation is not needed.|	The proposal category is Future Events and requested budget is 2400 CHF. Chief of Information reviews the proposal with regard to completeness and accepts it. The pitch or presenation is not needed. No member of company makes the use of right to veto. The test is passed once all three emails receive, the proposal is accepted and process ends successfully.|	Passed
+||The proposal category is General Improvements or Change of Business Guidelines and the pitch or presentation is not needed.|	The proposal category is General Improvements or Change of Business Guidelines and requested budget is 0 CHF. Chief of Information reviews the proposal with regard to completeness and accepts it. The pitch or presenation is not needed. No member of company makes the use of right to veto. The test is passed once all three emails receive, the proposal is accepted and process ends successfully.|	Passed
 
 
 ## <span style="color:blue">13. Summary</span>
