@@ -191,12 +191,11 @@ The data is stored in an Oracle database. The REST endpoints described above are
 ## <span style="color:blue">11. Deployment of Project</span>
 The project is deployed from the Camunda modeller to Heroku via the "deploy current diagram" button. In the "Cockpit" section in Heroku, the new instance of the process appears with its associated definition and deployment id. The definition id is essential for starting the process from APEX because the POST Request URI needs to know the exact deployment id to create the process instances. For that purpose, a trigger and a stored procedure have been set up in APEX that calls the Camunda REST endpoint when a new proposal is created. The SQL definitions of the Database objects can be found under the path `src\main\db\`. In addition, three triggers with associated procedures have been set up in APEX to trigger message intermediate throw events in Heroku to tell the process when a review has been done, when a veto was submitted or when a proposal was edited.
 
+## <span style="color:blue">12. End-to-End Testing</span> 
+End-to-End testing was split into two parts - API's testing and usability testing. The usability testing focused on the user's interation with frontend application APEX. For that purpose, test scenarios have been prepared and are presented in the section 12.2.
 
-## <span style="color:blue">12. Testing of API's</span> 
+### <span style="color:blue">12.1 Testing of API's</span> 
 All the REST endpoints were tested in POSTMAN. The tables below present the tested URL's representing the API endpoints that are set up. Due to the better readability, two tables were created. The first table presents methods with their own URI's and the second table lists the associated bodies which allow the specification of the data that is needed to send with a request. Raw body data is used to send anything as text. The format of our data is JSON. 
-
-## <span style="color:blue">12. Project Testing</span> 
-The testing of the project was split into two parts - API's testing and usability testing. The usability testing focused on the user's interation with frontend application APEX. For that purpose, test scenarios have been prepared and are presented in the section 12.2.
 
 #### API Endpoints
 
