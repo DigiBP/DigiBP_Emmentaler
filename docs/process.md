@@ -113,23 +113,21 @@ Oracle APEX is a free tool for rapid application development that helps in devel
 
 ### Process TO-BE Description
 
-The TO-BE process prepared in Camunda Modeler has been deployed on Heroku.
-
-The most important steps are explained in the table below:
+The tasks and interface communcations of the automated Camunda process are explained in the table below.
 
 | Task | from | to | HTTP-Request | API | Description |
 | --- | --- | --- | --- | --- | --- |
 | Start | Apex | Heroku | POST | /process-definition/{id}/start | The trigger starting the process is when a requestor creates a new proposal in the front-end application provided by APEX. To retrieve application data for the business process on Heroku, the API created in Apex is exposed and consumed. |
 | Inform Chief of Innovation | Heroku | Apex | POST | /sendMail | As soon as an applicant has submitted a new proposal, the Chief of Innovation is being informed via e-mail notification. Apex is triggered by Heroku, which then triggers the sending of mail. |
 | Review of Proposal | Apex | Apex | - | - | The Chief of Innovation then reviews the proposal in a manual process. The result of the check is then being updated. The review date, proposal state, review state and the isReviewed flag is being set.|
-| Receive Review Outcome | Apex | Heroku | POST | /execution/{id}/signal | As soon as the Chief of Innovation has given an answer to the proposal, the Camunda process is triggered. The CIO can either accept or decline the response, depending on whether it is complete or not. |
+| Receive Review Outcome | Apex | Heroku | POST | /message | As soon as the Chief of Innovation has given an answer to the proposal, the Camunda process is triggered. The CIO can either accept or decline the response, depending on whether it is complete or not. |
 | Inform Requester | Heroku | Apex | POST | /sendMail | In case that the proposal is not completed, the requestor will be informed to complete the request. |
 | Adapt Proposal | Apex | Apex | - | - | The requestor adapts the proposal. |
-| Proposal submitted | Apex | Heroku | POST | /execution/{id}/signal | As soon as the adapted Proposal is submitted in APEX, Heroku will trigger the Mail sending. The Chief of Innovation will automatically be informed again and receive a notification email that a request has been adapted and is ready for review. Then the process starts again as described above, where the CIO needs to review the proposal. |
+| Proposal submitted | Apex | Heroku | POST | /message | As soon as the adapted Proposal is submitted in APEX, Heroku will trigger the Mail sending. The Chief of Innovation will automatically be informed again and receive a notification email that a request has been adapted and is ready for review. Then the process starts again as described above, where the CIO needs to review the proposal. |
 | Set Veto start time | Heroku | Apex | POST | /setVetoStartDate | If the proposal is complete and there's nothing to add from requesters side, the 10 days right to veto starts for all the members. The start date of the right to veto will be updated in APEX by using HTTP POST API. |
 | Inform Members to Veto | Heroku | Apex | POST | /sendMail | The members will be informed about starting the right to veto. During these 10 days, two activities can occur: 1) Members of the company can make use of their right to veto. 2) With the help of decision logic will be checked, if presentation or pitch is needed.|
 | Members can Veto | Apex | Apex | - | - | The 10 days right to veto will be not interrupted by any cases. Any member of company can make use of its right to veto. _Veto happens in APEX. If a Veto is submitted, a Request to Heroku is made._ |
-| Veto submitted | Apex | Heroku | POST | /execution/{id}/signal | As soon as at least one member vetoed, the process will be terminated. |
+| Veto submitted | Apex | Heroku | POST | /message | As soon as at least one member vetoed, the process will be terminated. |
 | Proposal is declined | Heroku | Apex | POST | /setProposalStatus | The result of the process – acceptance or declination of proposal – is updated in APEX. |
 | Business Rule if Presentation is needed | Heroku | Heroku | - | - | The decision table is used to decide whether a presentation of the requester is necessary or not. If a presentation or pitch is necessary, the requester prepares the pitch or presentation.|
 | Update Decision | Heroku | Apex | POST | /isPitchNeeded | Sets the flag whether a presentation is required or not.|
@@ -167,9 +165,8 @@ All the APEX REST Endpoints for the proposal application are located under the p
 
 ### Oracle Database
 
-The data is stored in an Oracle database. To access and update the data the REST Endpoint described above can be used. 
+The data is stored in an Oracle database. To access and update the data the REST endpoints described above are used from Camunda. The APEX application uses the direct database access for creating and updating data. The Schema consists of one table called ANTRAG that is described below.
 
-![Database Entity Relationships](architecture/db-model.jpg "Database Entity Relationships")
 
 #### Proposal Table 
 
@@ -183,21 +180,26 @@ The data is stored in an Oracle database. To access and update the data the REST
 |CATEGORY|VARCHAR2(255)|No|Category of the proposal - Value is filled with a Dropdown field in the APEX form|
 |LINKS|VARCHAR2(4000)|Yes|Additional links for the proposals to external sources|
 |SUBMISSION_DATE|TIMESTAMP(6)|No|Submission date of the proposal - This value is automatically filled by the APEX form at the submission of the proposal|
-|PROPOSAL_STATUS|VARCHAR2(100)|No|Status of the proposal - This value is initially set by the APEX form. During the process Camunda is tracking the proposal status. - Created / Reviewed / Declined / Accepted / ... |
-|IS_REVIEWED|VARCHAR2(50)|Yes|Flag if the proposal is reviewed - Yes / No|
+|PROPOSAL_STATUS|VARCHAR2(100)|No|Status of the proposal - This value is initially set by the APEX form. During the process Camunda is tracking the proposal status. - Created / Reviewed / Declined / Accepted  |
 |REVIEW_DATE|TIMESTAMP(6)|Yes|Date of the Review|
 |REVIEW_STATUS|VARCHAR2(100)|Yes|Outcome of the review - Approved / Denied|
-|IS_PITCH_NEEDED|VARCHAR2(50)|Yes|Flag if Pitch is needed - Yes / No|
+|REVIEW_COMMENT|VARCHAR2(4000)|Yes|Comment from the reviewer to the proposal. Change suggestions can be proposed here.|
+|IS_PITCH_NEEDED|VARCHAR2(50)|Yes|Flag if Pitch is needed - true / false|
 |VETO_START_DATE|TIMESTAMP(6)|Yes|Date from when the veto timeframe starts|
-|HAS_VETO|VARCHAR2(50)|Yes|Outcome if proposal has a veto - Yes / No|
+|HAS_VETO|VARCHAR2(50)|Yes|Outcome if proposal has a veto - true / false|
 
 ## <span style="color:blue">11. Deployment of Project</span>
-The project is deployed from camunda modeler to Herokuapp via button "deploy current diagram". In the section "Cockpit" in Herokuapp, the new instance of the process appears with associated Definition and Deployment ID. Definition ID is essential for starting the process from APEX. For that purpose, the trigger with associated procedure has been set up in APEX. In addition, 3 triggers with assosiated procedures have been set up in APEX to trigger message intermediate throw events in Herokuapp.
+The project is deployed from the Camunda modeler to Heroku via the "deploy current diagram" button. In the "Cockpit" section in Heroku, the new instance of the process appears with its associated definition and deployment id. The definition id is essential for starting the process from APEX because the POST Request URI needs to know the exact deployment id to create the process instances. For that purpose, a trigger and a stored procedure has been set up in APEX that calls the Camunda REST endpoint when a new proposal is created. The SQL definitions of the Database objects can be found under the path `src\main\db\`. In addition, 3 triggers with assosiated procedures have been set up in APEX to trigger message intermediate throw events in Heroku to tell the process when a review has been done, when a veto was submitted or when a proposal was edited.
 
+<<<<<<< HEAD
 ## <span style="color:blue">12. Project Testing</span> 
 The testing of the project was split into two parts - system testing and usability testing, however system testing covers only the testing of the Rest Calls; the usability testing focused on the user's interation with frontend application APEX. For that purpose, test scenarios have been prepared and are presented in the section 12.2.
 ### <span style="color:blue">12.1 System Testing</span>
 The all API endpoints were tested in POSTMAN. The tables below present tested URL's representing API endpoints we are working with. Due to the better readability, two tables where created, whereby the first table presents methods with respective URL's and the second table lists the assosiated bodies which allow to specify the data we need to send with a request. We use raw body data to send anything as text. The format of our data is JSON. 
+=======
+## <span style="color:blue">12. Testing of API's</span> 
+All the REST endpoints were tested in POSTMAN. The tables below present the tested URL's representing our API endpoints that we are working with. Due to the better readability, two tables where created, where the first table presents methods with their respective URL's and the second table lists the assosiated bodies which allow the specification of the data we need to send with a request. We use raw body data to send anything as text. The format of our data is JSON. 
+>>>>>>> f31196206d80717927d8a4b7e22c64e57664f15a
 
 #### API Endpoints
 
@@ -213,7 +215,7 @@ The all API endpoints were tested in POSTMAN. The tables below present tested UR
 |8|Pitch Needed|POST|https://apex.oracle.com/pls/apex/schaltstelle/proposal/setProposalStatus|
 
 
-#### Assosiated Bodies
+#### Associated Bodies
 
 <table>
 <tr>
@@ -342,6 +344,6 @@ Body
 
 
 ## <span style="color:blue">13. Summary</span>
-There was no structured process for submission and handling of new and existing proposals in the company. The proposals were submitted and handled in Telegram chatroom, which made an overview more difficult.
-With the redesigned and digitized process, the submission and handling of proposals is made easier. The requestor can submit the proposals via user-friendly fronted application APEX and review the status of proposals at every time. Additionally, in case that something is not clear, the requestor can make use of the implemented chatbot. The notifications are sent via email so there is no need anymore for using Telegram chatroom. Also the approver approves the proposals in APEX and can easily check e.g. how many proposals are pending or finished. The employees make the use of right to VETO via APEX. The new functionality whether presentation or pitch is needed is done with the help of automated decision logic.
-In conclusion, the new digitalized process brings clear advantages over the old process.
+
+With the redesigned and digitized process, the submission and handling of proposals is a lot easier. The requester can submit the proposals over the user-friendly APEX fronted application. The reviewer also has a clear overview of the proposals and can comment if something isn't up to the standards. Additionally, the requester can make use of the implemented chatbot in case that something is unclear. The notifications are sent via email so there's no need  for the Telegram chat anymore. The emails also assure that the members stay informed about proposals that are submitted. The APEX frontend also provides a clear overview of how many proposals are open, in review or finished. The storage of all the proposals in the Oracle database, allows a persistence of the data. It could also be used for future analytics. The infrastructure is easy to manage and the visual tools (Camunda and APEX) make changes easy and allow changes from non-IT personnel. 
+To conclude, the new digitized process has many advantages compared to the old process and with the frontend application, additional scenarios could be integrated in the future. 
