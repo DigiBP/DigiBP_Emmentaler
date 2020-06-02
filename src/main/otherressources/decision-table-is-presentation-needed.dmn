@@ -10,7 +10,7 @@
           <text>category</text>
         </inputExpression>
         <inputValues id="UnaryTests_02l2siq">
-          <text>"Innovation","GeneralImprovements","FutureEvents","Marketing","NewMembers","ChangeOfBusinessGuidelines"</text>
+          <text>"Innovation","Marketing","Future Events","New Members","General Improvements","Change of Business Guidelines"</text>
         </inputValues>
       </input>
       <input id="InputClause_1msudnf" label="budget">
@@ -43,7 +43,7 @@
       </rule>
       <rule id="DecisionRule_0hep0gf">
         <inputEntry id="UnaryTests_01fphyc">
-          <text>"FutureEvents"</text>
+          <text>"Future Events"</text>
         </inputEntry>
         <inputEntry id="UnaryTests_00bpll1">
           <text>&gt; 3000</text>
@@ -54,7 +54,7 @@
       </rule>
       <rule id="DecisionRule_0ksqitq">
         <inputEntry id="UnaryTests_0e48xm8">
-          <text>"NewMembers"</text>
+          <text>"New Members"</text>
         </inputEntry>
         <inputEntry id="UnaryTests_0bi4im1">
           <text>&gt;= 0</text>
@@ -65,7 +65,7 @@
       </rule>
       <rule id="DecisionRule_05ybvbb">
         <inputEntry id="UnaryTests_00w4rkj">
-          <text>"GeneralImprovements","ChangeOfBusinessGuidelines"</text>
+          <text>"General Improvements","Change of Business Guidelines"</text>
         </inputEntry>
         <inputEntry id="UnaryTests_022fjzp">
           <text>&gt;= 0</text>
@@ -98,7 +98,7 @@
       </rule>
       <rule id="DecisionRule_1vk7j7q">
         <inputEntry id="UnaryTests_0btwu9e">
-          <text>"FutureEvents"</text>
+          <text>"Future Events"</text>
         </inputEntry>
         <inputEntry id="UnaryTests_1ypd0z9">
           <text>&lt;= 3000</text>
