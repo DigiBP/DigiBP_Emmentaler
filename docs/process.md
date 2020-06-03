@@ -106,8 +106,9 @@ There are several factors why a digitized process can enrich the current process
 
 ![Architecture of the digitised process](architecture/architecture-model.jpg "Architecture of the digitised process")
 
-
-Oracle APEX is a free tool for rapid application development that helps in developing and publishing desktop and mobile applications.
+The frontend was built with Oracle APEX. Oracle APEX is a free tool for rapid application development that helps in developing and publishing desktop and mobile applications. In our proposal automation process APEX serves as the User Interface where proposals are managed and submitted. APEX has a direct access to the Oracle Database. All the proposal data is stored centrally in the database. 
+The process automation and process modelling is done in Camunda BPMN, that provides his own REST API for the interaction with external tools. To communicate from APEX with Camunda, this REST API is used. 
+To access data from the Camunda BPMN in the Database, special REST Endpoints were built, to provide a REST API to the database for the Camunda Process. 
 
 
 
