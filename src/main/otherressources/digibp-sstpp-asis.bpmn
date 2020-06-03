@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" id="Definitions_0dpg51j" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.6.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_0dpg51j" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.7.0">
   <bpmn:collaboration id="Collaboration_sstpp_tobe">
     <bpmn:documentation />
     <bpmn:participant id="Participant_sstpp" name="Schaltstelle Proposal Process" processRef="digibp-template" />
@@ -8,11 +8,8 @@
     <bpmn:laneSet id="LaneSet_0nrxm8e">
       <bpmn:lane id="Lane_requester" name="Requester">
         <bpmn:flowNodeRef>StartEvent_sstpp</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_OrganizePitch</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>EndEvent_sstpp</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_endSplit</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_ImprovementAccepted</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_ProposalCreation</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_OrganizePitch</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_coi" name="Chief of Innovation">
         <bpmn:flowNodeRef>Gateway_ProposalComplete</bpmn:flowNodeRef>
@@ -20,21 +17,25 @@
       </bpmn:lane>
       <bpmn:lane id="Lane_members" name="Members">
         <bpmn:flowNodeRef>Activity_VetoRightStart</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_0klyhvx</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_beginSplit</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Event_TenDays</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_NeedPitch</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_Vetos</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_ProposalDeclined</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_ProposalAccepted</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_125h1v7</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_16ix55m</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_1l4xzy6</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_1fmmg3g</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_0s6sbff</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_1bj7w7v</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_0uwidv8</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_1a4n0lu</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_148v0a1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_0mihool</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_0yicvby</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1ihri5c</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_0u4oa4l</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
     <bpmn:sequenceFlow id="SequenceFlow_StartEventToProposalCreation" sourceRef="StartEvent_sstpp" targetRef="Task_ProposalCreation" />
     <bpmn:sequenceFlow id="Flow_ReviewToCompleteness" sourceRef="Activity_ReviewProposal" targetRef="Gateway_ProposalComplete" />
     <bpmn:sequenceFlow id="Flow_CompletenessToCreation" name="No" sourceRef="Gateway_ProposalComplete" targetRef="Task_ProposalCreation" />
     <bpmn:sequenceFlow id="Flow_ProposalCreationToReview" sourceRef="Task_ProposalCreation" targetRef="Activity_ReviewProposal" />
-    <bpmn:sequenceFlow id="Flow_SplitToPitchDecision" sourceRef="Gateway_beginSplit" targetRef="Gateway_NeedPitch" />
-    <bpmn:sequenceFlow id="Flow_SplitToImprovementSuggestion" sourceRef="Gateway_beginSplit" targetRef="Activity_0klyhvx" />
     <bpmn:startEvent id="StartEvent_sstpp" name="Start Event">
       <bpmn:outgoing>SequenceFlow_StartEventToProposalCreation</bpmn:outgoing>
     </bpmn:startEvent>
@@ -43,93 +44,112 @@
       <bpmn:outgoing>Flow_CompletenessToCreation</bpmn:outgoing>
       <bpmn:outgoing>Flow_CompletenessToVetoStart</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_SplitToVetoDecision" sourceRef="Gateway_beginSplit" targetRef="Gateway_Vetos" />
-    <bpmn:sequenceFlow id="Flow_VetoDecisionToProposalAccepted" name="No" sourceRef="Gateway_Vetos" targetRef="Activity_ProposalAccepted" />
-    <bpmn:sequenceFlow id="Flow_PitchDecisionToVetoDecision" name="No" sourceRef="Gateway_NeedPitch" targetRef="Gateway_Vetos" />
-    <bpmn:sequenceFlow id="Flow_ImprovementSuggestionToAcceptance" sourceRef="Activity_0klyhvx" targetRef="Gateway_ImprovementAccepted" />
-    <bpmn:sequenceFlow id="Flow_ImprovementAcceptanceToCreation" name="Yes" sourceRef="Gateway_ImprovementAccepted" targetRef="Task_ProposalCreation" />
-    <bpmn:sequenceFlow id="Flow_VetoDecisionToProposalDeclined" name="Yes" sourceRef="Gateway_Vetos" targetRef="Activity_ProposalDeclined" />
-    <bpmn:sequenceFlow id="Flow_ImprovementAcceptanceToVetoStart" name="No" sourceRef="Gateway_ImprovementAccepted" targetRef="Activity_VetoRightStart" />
     <bpmn:sequenceFlow id="Flow_CompletenessToVetoStart" name="Yes" sourceRef="Gateway_ProposalComplete" targetRef="Activity_VetoRightStart" />
-    <bpmn:sequenceFlow id="Flow_0d3fj2n" name="Yes" sourceRef="Gateway_NeedPitch" targetRef="Activity_OrganizePitch" />
-    <bpmn:sequenceFlow id="Flow_PitchToVetoDecision" sourceRef="Activity_OrganizePitch" targetRef="Gateway_Vetos" />
-    <bpmn:task id="Activity_VetoRightStart" name="Right to veto starts">
-      <bpmn:incoming>Flow_ImprovementAcceptanceToVetoStart</bpmn:incoming>
-      <bpmn:incoming>Flow_CompletenessToVetoStart</bpmn:incoming>
-      <bpmn:outgoing>Flow_VetoStartToTimeStart</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:task id="Activity_0klyhvx" name="Improvements to the proposals can be suggested">
-      <bpmn:incoming>Flow_SplitToImprovementSuggestion</bpmn:incoming>
-      <bpmn:outgoing>Flow_ImprovementSuggestionToAcceptance</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:parallelGateway id="Gateway_beginSplit">
-      <bpmn:incoming>Flow_TimeStartToParallel</bpmn:incoming>
-      <bpmn:outgoing>Flow_SplitToPitchDecision</bpmn:outgoing>
-      <bpmn:outgoing>Flow_SplitToImprovementSuggestion</bpmn:outgoing>
-      <bpmn:outgoing>Flow_SplitToVetoDecision</bpmn:outgoing>
-    </bpmn:parallelGateway>
-    <bpmn:intermediateCatchEvent id="Event_TenDays" name="10 days">
-      <bpmn:incoming>Flow_VetoStartToTimeStart</bpmn:incoming>
-      <bpmn:outgoing>Flow_TimeStartToParallel</bpmn:outgoing>
-      <bpmn:timerEventDefinition id="TimerEventDefinition_0prm9jo" />
-    </bpmn:intermediateCatchEvent>
-    <bpmn:sequenceFlow id="Flow_VetoStartToTimeStart" sourceRef="Activity_VetoRightStart" targetRef="Event_TenDays" />
-    <bpmn:sequenceFlow id="Flow_TimeStartToParallel" sourceRef="Event_TenDays" targetRef="Gateway_beginSplit" />
-    <bpmn:exclusiveGateway id="Gateway_NeedPitch" name="Is there a need for a pitch or presentation?&#10;&#10;">
-      <bpmn:incoming>Flow_SplitToPitchDecision</bpmn:incoming>
-      <bpmn:outgoing>Flow_PitchDecisionToVetoDecision</bpmn:outgoing>
-      <bpmn:outgoing>Flow_0d3fj2n</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:task id="Activity_OrganizePitch" name="Organization of Pitch or Presentation">
-      <bpmn:incoming>Flow_0d3fj2n</bpmn:incoming>
-      <bpmn:outgoing>Flow_PitchToVetoDecision</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:exclusiveGateway id="Gateway_Vetos" name="Did a member veto?">
-      <bpmn:incoming>Flow_SplitToVetoDecision</bpmn:incoming>
-      <bpmn:incoming>Flow_PitchDecisionToVetoDecision</bpmn:incoming>
-      <bpmn:incoming>Flow_PitchToVetoDecision</bpmn:incoming>
-      <bpmn:outgoing>Flow_VetoDecisionToProposalAccepted</bpmn:outgoing>
-      <bpmn:outgoing>Flow_VetoDecisionToProposalDeclined</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:task id="Activity_ProposalDeclined" name="Proposal is declined">
-      <bpmn:incoming>Flow_VetoDecisionToProposalDeclined</bpmn:incoming>
-      <bpmn:outgoing>Flow_ProposalDeclinedToEndSplit</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:endEvent id="EndEvent_sstpp" name="End Event">
-      <bpmn:incoming>Flow_EndSplitToEndEvent</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:parallelGateway id="Gateway_endSplit">
-      <bpmn:incoming>Flow_ProposalAcceptedToEndSplit</bpmn:incoming>
-      <bpmn:incoming>Flow_ProposalDeclinedToEndSplit</bpmn:incoming>
-      <bpmn:outgoing>Flow_EndSplitToEndEvent</bpmn:outgoing>
-    </bpmn:parallelGateway>
-    <bpmn:sequenceFlow id="Flow_ProposalAcceptedToEndSplit" sourceRef="Activity_ProposalAccepted" targetRef="Gateway_endSplit" />
-    <bpmn:sequenceFlow id="Flow_EndSplitToEndEvent" sourceRef="Gateway_endSplit" targetRef="EndEvent_sstpp" />
-    <bpmn:sequenceFlow id="Flow_ProposalDeclinedToEndSplit" sourceRef="Activity_ProposalDeclined" targetRef="Gateway_endSplit" />
-    <bpmn:exclusiveGateway id="Gateway_ImprovementAccepted" name="Is improvement accepted by requester?">
-      <bpmn:incoming>Flow_ImprovementSuggestionToAcceptance</bpmn:incoming>
-      <bpmn:outgoing>Flow_ImprovementAcceptanceToCreation</bpmn:outgoing>
-      <bpmn:outgoing>Flow_ImprovementAcceptanceToVetoStart</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:task id="Task_ProposalCreation" name="Creation of Proposal">
+    <bpmn:sequenceFlow id="Flow_0d0nlk0" sourceRef="Activity_148v0a1" targetRef="Activity_OrganizePitch" />
+    <bpmn:manualTask id="Task_ProposalCreation" name="Creation of Proposal">
       <bpmn:incoming>SequenceFlow_StartEventToProposalCreation</bpmn:incoming>
       <bpmn:incoming>Flow_CompletenessToCreation</bpmn:incoming>
-      <bpmn:incoming>Flow_ImprovementAcceptanceToCreation</bpmn:incoming>
       <bpmn:outgoing>Flow_ProposalCreationToReview</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:task id="Activity_ReviewProposal" name="Review of Proposal">
+    </bpmn:manualTask>
+    <bpmn:manualTask id="Activity_ReviewProposal" name="Review of Proposal">
       <bpmn:incoming>Flow_ProposalCreationToReview</bpmn:incoming>
       <bpmn:outgoing>Flow_ReviewToCompleteness</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:task id="Activity_ProposalAccepted" name="Proposal is accepted">
-      <bpmn:incoming>Flow_VetoDecisionToProposalAccepted</bpmn:incoming>
-      <bpmn:outgoing>Flow_ProposalAcceptedToEndSplit</bpmn:outgoing>
-    </bpmn:task>
+    </bpmn:manualTask>
+    <bpmn:sequenceFlow id="Flow_0gdj1k2" sourceRef="Gateway_125h1v7" targetRef="Gateway_1l4xzy6" />
+    <bpmn:sequenceFlow id="Flow_1pc2qly" name="No" sourceRef="Gateway_1l4xzy6" targetRef="Gateway_1fmmg3g">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!pitch}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0ah4sr7" name="Yes" sourceRef="Gateway_1l4xzy6" targetRef="Activity_148v0a1">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${pitch == true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1lka5s0" sourceRef="Gateway_1fmmg3g" targetRef="Gateway_1a4n0lu" />
+    <bpmn:sequenceFlow id="Flow_06rz30v" sourceRef="Event_1bj7w7v" targetRef="Activity_0mihool" />
+    <bpmn:sequenceFlow id="Flow_19c3hbj" sourceRef="Activity_0mihool" targetRef="Gateway_0s6sbff" />
+    <bpmn:sequenceFlow id="Flow_0rjx6o7" sourceRef="Activity_0yicvby" targetRef="Gateway_0s6sbff" />
+    <bpmn:sequenceFlow id="Flow_0jlpqqn" sourceRef="Gateway_0s6sbff" targetRef="Gateway_1a4n0lu" />
+    <bpmn:sequenceFlow id="Flow_0djm1r0" sourceRef="Gateway_1a4n0lu" targetRef="Activity_1ihri5c" />
+    <bpmn:sequenceFlow id="Flow_0s28e8z" sourceRef="Activity_1ihri5c" targetRef="Event_0uwidv8" />
+    <bpmn:sequenceFlow id="Flow_1j3j7l1" sourceRef="Activity_OrganizePitch" targetRef="Gateway_1fmmg3g" />
+    <bpmn:sequenceFlow id="Flow_08ol78h" sourceRef="Activity_VetoRightStart" targetRef="Gateway_125h1v7" />
+    <bpmn:manualTask id="Activity_VetoRightStart" name="Inform Members to Veto">
+      <bpmn:incoming>Flow_CompletenessToVetoStart</bpmn:incoming>
+      <bpmn:outgoing>Flow_08ol78h</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:sequenceFlow id="Flow_044f93s" sourceRef="Gateway_16ix55m" targetRef="Event_1bj7w7v" />
+    <bpmn:sequenceFlow id="Flow_11e0pjc" sourceRef="Gateway_125h1v7" targetRef="Gateway_16ix55m" />
+    <bpmn:sequenceFlow id="Flow_0wqjtd0" sourceRef="Event_0u4oa4l" targetRef="Activity_0yicvby" />
+    <bpmn:sequenceFlow id="Flow_19br72u" sourceRef="Gateway_16ix55m" targetRef="Event_0u4oa4l" />
+    <bpmn:parallelGateway id="Gateway_125h1v7">
+      <bpmn:incoming>Flow_08ol78h</bpmn:incoming>
+      <bpmn:outgoing>Flow_0gdj1k2</bpmn:outgoing>
+      <bpmn:outgoing>Flow_11e0pjc</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:eventBasedGateway id="Gateway_16ix55m">
+      <bpmn:incoming>Flow_11e0pjc</bpmn:incoming>
+      <bpmn:outgoing>Flow_044f93s</bpmn:outgoing>
+      <bpmn:outgoing>Flow_19br72u</bpmn:outgoing>
+    </bpmn:eventBasedGateway>
+    <bpmn:exclusiveGateway id="Gateway_1l4xzy6" name="Is there a need for a pitch or presentation?&#10;&#10;">
+      <bpmn:incoming>Flow_0gdj1k2</bpmn:incoming>
+      <bpmn:outgoing>Flow_1pc2qly</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0ah4sr7</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_1fmmg3g">
+      <bpmn:incoming>Flow_1pc2qly</bpmn:incoming>
+      <bpmn:incoming>Flow_1j3j7l1</bpmn:incoming>
+      <bpmn:outgoing>Flow_1lka5s0</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_0s6sbff">
+      <bpmn:incoming>Flow_19c3hbj</bpmn:incoming>
+      <bpmn:incoming>Flow_0rjx6o7</bpmn:incoming>
+      <bpmn:outgoing>Flow_0jlpqqn</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:intermediateCatchEvent id="Event_1bj7w7v" name="10 days">
+      <bpmn:incoming>Flow_044f93s</bpmn:incoming>
+      <bpmn:outgoing>Flow_06rz30v</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_02owy11">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT1M</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:endEvent id="Event_0uwidv8" name="End Event">
+      <bpmn:incoming>Flow_0s28e8z</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:parallelGateway id="Gateway_1a4n0lu">
+      <bpmn:incoming>Flow_1lka5s0</bpmn:incoming>
+      <bpmn:incoming>Flow_0jlpqqn</bpmn:incoming>
+      <bpmn:outgoing>Flow_0djm1r0</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:manualTask id="Activity_148v0a1" name="Inform Requester to prepare pitch">
+      <bpmn:incoming>Flow_0ah4sr7</bpmn:incoming>
+      <bpmn:outgoing>Flow_0d0nlk0</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:manualTask id="Activity_OrganizePitch" name="Organization of Pitch or Presentation">
+      <bpmn:incoming>Flow_0d0nlk0</bpmn:incoming>
+      <bpmn:outgoing>Flow_1j3j7l1</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:manualTask id="Activity_0mihool" name="Accept proposal">
+      <bpmn:incoming>Flow_06rz30v</bpmn:incoming>
+      <bpmn:outgoing>Flow_19c3hbj</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:manualTask id="Activity_0yicvby" name="Decline proposal">
+      <bpmn:incoming>Flow_0wqjtd0</bpmn:incoming>
+      <bpmn:outgoing>Flow_0rjx6o7</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:manualTask id="Activity_1ihri5c" name="Inform members &#38; requester">
+      <bpmn:incoming>Flow_0djm1r0</bpmn:incoming>
+      <bpmn:outgoing>Flow_0s28e8z</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:intermediateCatchEvent id="Event_0u4oa4l" name="Veto manually received">
+      <bpmn:incoming>Flow_19br72u</bpmn:incoming>
+      <bpmn:outgoing>Flow_0wqjtd0</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1q387h2" messageRef="Message_0uzbyww" />
+    </bpmn:intermediateCatchEvent>
   </bpmn:process>
+  <bpmn:message id="Message_0uzbyww" name="ReceiveVeto" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_sstpp_tobe">
       <bpmndi:BPMNShape id="Participant_0i39f9a_di" bpmnElement="Participant_sstpp" isHorizontal="true">
-        <dc:Bounds x="123" y="60" width="1737" height="870" />
+        <dc:Bounds x="123" y="60" width="1617" height="1134" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_sstpp">
         <dc:Bounds x="212" y="172" width="36" height="36" />
@@ -137,24 +157,18 @@
           <dc:Bounds x="202" y="215" width="56" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="EndEvent_0g4qkhm_di" bpmnElement="EndEvent_sstpp">
-        <dc:Bounds x="1742" y="182" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1734" y="228" width="52" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_13q687d_di" bpmnElement="SequenceFlow_StartEventToProposalCreation">
         <di:waypoint x="248" y="190" />
         <di:waypoint x="327" y="190" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Lane_0lprrg0_di" bpmnElement="Lane_requester" isHorizontal="true">
-        <dc:Bounds x="153" y="60" width="1707" height="265" />
+        <dc:Bounds x="153" y="60" width="1587" height="265" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Lane_14n24cr_di" bpmnElement="Lane_coi" isHorizontal="true">
-        <dc:Bounds x="153" y="325" width="1707" height="205" />
+        <dc:Bounds x="153" y="325" width="1587" height="195" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Lane_0mwoy1g_di" bpmnElement="Lane_members" isHorizontal="true">
-        <dc:Bounds x="153" y="530" width="1707" height="400" />
+        <dc:Bounds x="153" y="520" width="1587" height="674" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_12brmb1_di" bpmnElement="Gateway_ProposalComplete" isMarkerVisible="true">
         <dc:Bounds x="485" y="405" width="50" height="50" />
@@ -171,166 +185,163 @@
         <di:waypoint x="510" y="190" />
         <di:waypoint x="427" y="190" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="518" y="296" width="15" height="14" />
+          <dc:Bounds x="517" y="383" width="15" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1a637yj_di" bpmnElement="Flow_ProposalCreationToReview">
         <di:waypoint x="377" y="230" />
         <di:waypoint x="377" y="390" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Activity_0klyhvx_di" bpmnElement="Activity_0klyhvx">
-        <dc:Bounds x="900" y="560" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_1d6arqd_di" bpmnElement="Gateway_NeedPitch" isMarkerVisible="true">
-        <dc:Bounds x="1055" y="665" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1115" y="657" width="74" height="66" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_1ho2rg1_di" bpmnElement="Flow_SplitToPitchDecision">
-        <di:waypoint x="865" y="690" />
-        <di:waypoint x="1055" y="690" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Activity_0pj0hob_di" bpmnElement="Activity_OrganizePitch">
-        <dc:Bounds x="1130" y="130" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_10gf6dw_di" bpmnElement="Gateway_beginSplit">
-        <dc:Bounds x="815" y="665" width="50" height="50" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_02379y0_di" bpmnElement="Flow_SplitToImprovementSuggestion">
-        <di:waypoint x="840" y="665" />
-        <di:waypoint x="840" y="600" />
-        <di:waypoint x="900" y="600" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Activity_1pd6luk_di" bpmnElement="Activity_ProposalAccepted">
-        <dc:Bounds x="1510" y="759" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1kf4lkf_di" bpmnElement="Activity_ProposalDeclined">
-        <dc:Bounds x="1390" y="670" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_0eil0a2_di" bpmnElement="Gateway_Vetos" isMarkerVisible="true">
-        <dc:Bounds x="1265" y="775" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1203.5" y="816" width="71" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_1soc97u_di" bpmnElement="Flow_SplitToVetoDecision">
-        <di:waypoint x="840" y="715" />
-        <di:waypoint x="840" y="870" />
-        <di:waypoint x="1290" y="870" />
-        <di:waypoint x="1290" y="825" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1fzsd6c_di" bpmnElement="Flow_VetoDecisionToProposalAccepted">
-        <di:waypoint x="1315" y="800" />
-        <di:waypoint x="1510" y="799" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1405" y="782" width="15" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1u312sc_di" bpmnElement="Flow_PitchDecisionToVetoDecision">
-        <di:waypoint x="1080" y="715" />
-        <di:waypoint x="1080" y="799" />
-        <di:waypoint x="1266" y="799" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1195" y="781" width="15" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Gateway_1c0kab7_di" bpmnElement="Gateway_ImprovementAccepted" isMarkerVisible="true">
-        <dc:Bounds x="835" y="145" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="821" y="95" width="77" height="40" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_19wklll_di" bpmnElement="Flow_ImprovementSuggestionToAcceptance">
-        <di:waypoint x="950" y="560" />
-        <di:waypoint x="950" y="170" />
-        <di:waypoint x="885" y="170" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0vp6k1r_di" bpmnElement="Flow_ImprovementAcceptanceToCreation">
-        <di:waypoint x="835" y="170" />
-        <di:waypoint x="427" y="170" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="444" y="152" width="18" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_095eh5i_di" bpmnElement="Flow_VetoDecisionToProposalDeclined">
-        <di:waypoint x="1314" y="799" />
-        <di:waypoint x="1330" y="799" />
-        <di:waypoint x="1330" y="707" />
-        <di:waypoint x="1390" y="707" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1336" y="748" width="18" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0owifkm_di" bpmnElement="Flow_ImprovementAcceptanceToVetoStart">
-        <di:waypoint x="860" y="195" />
-        <di:waypoint x="860" y="250" />
-        <di:waypoint x="613" y="250" />
-        <di:waypoint x="613" y="650" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="621" y="456" width="15" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0zih76h_di" bpmnElement="Flow_CompletenessToVetoStart">
         <di:waypoint x="510" y="455" />
-        <di:waypoint x="510" y="690" />
-        <di:waypoint x="563" y="690" />
+        <di:waypoint x="510" y="725" />
+        <di:waypoint x="563" y="725" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="516" y="570" width="18" height="14" />
+          <dc:Bounds x="516" y="466" width="18" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Activity_0sw5d1x_di" bpmnElement="Activity_VetoRightStart">
-        <dc:Bounds x="563" y="650" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_0d3fj2n_di" bpmnElement="Flow_0d3fj2n">
-        <di:waypoint x="1080" y="665" />
-        <di:waypoint x="1080" y="170" />
-        <di:waypoint x="1130" y="170" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1087" y="415" width="18" height="14" />
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNEdge id="Flow_0d0nlk0_di" bpmnElement="Flow_0d0nlk0">
+        <di:waypoint x="1120" y="570" />
+        <di:waypoint x="1120" y="170" />
+        <di:waypoint x="1140" y="170" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Gateway_15tdg7c_di" bpmnElement="Gateway_endSplit">
-        <dc:Bounds x="1625" y="175" width="50" height="50" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_1ey175s_di" bpmnElement="Flow_PitchToVetoDecision">
-        <di:waypoint x="1230" y="170" />
-        <di:waypoint x="1290" y="170" />
-        <di:waypoint x="1290" y="775" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Event_11thdyy_di" bpmnElement="Event_TenDays">
-        <dc:Bounds x="722" y="672" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="720" y="715" width="40" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_13gsfnf_di" bpmnElement="Flow_VetoStartToTimeStart">
-        <di:waypoint x="663" y="690" />
-        <di:waypoint x="722" y="690" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_08di7zw_di" bpmnElement="Flow_TimeStartToParallel">
-        <di:waypoint x="758" y="690" />
-        <di:waypoint x="815" y="690" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0ih4x48_di" bpmnElement="Flow_ProposalAcceptedToEndSplit">
-        <di:waypoint x="1610" y="799" />
-        <di:waypoint x="1650" y="799" />
-        <di:waypoint x="1650" y="225" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1mqgv34_di" bpmnElement="Flow_EndSplitToEndEvent">
-        <di:waypoint x="1675" y="200" />
-        <di:waypoint x="1742" y="200" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_02agkky_di" bpmnElement="Flow_ProposalDeclinedToEndSplit">
-        <di:waypoint x="1440" y="670" />
-        <di:waypoint x="1440" y="200" />
-        <di:waypoint x="1625" y="200" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Activity_0x8woxf_di" bpmnElement="Task_ProposalCreation">
+      <bpmndi:BPMNShape id="Activity_02jnrcn_di" bpmnElement="Task_ProposalCreation">
         <dc:Bounds x="327" y="150" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1sswfam_di" bpmnElement="Activity_ReviewProposal">
+      <bpmndi:BPMNShape id="Activity_07hnjqy_di" bpmnElement="Activity_ReviewProposal">
         <dc:Bounds x="327" y="390" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1pnw5be_di" bpmnElement="Activity_VetoRightStart">
+        <dc:Bounds x="563" y="685" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1cqj1l1_di" bpmnElement="Activity_148v0a1">
+        <dc:Bounds x="1070" y="570" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0nrz8j9_di" bpmnElement="Activity_OrganizePitch">
+        <dc:Bounds x="1140" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1l4xzy6_di" bpmnElement="Gateway_1l4xzy6" isMarkerVisible="true">
+        <dc:Bounds x="1095" y="700" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1077" y="752" width="90" height="66" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_125h1v7_di" bpmnElement="Gateway_125h1v7">
+        <dc:Bounds x="705" y="700" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1fmmg3g_di" bpmnElement="Gateway_1fmmg3g" isMarkerVisible="true">
+        <dc:Bounds x="1235" y="700" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0s6sbff_di" bpmnElement="Gateway_0s6sbff" isMarkerVisible="true">
+        <dc:Bounds x="1235" y="885" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1bj7w7v_di" bpmnElement="Event_1bj7w7v">
+        <dc:Bounds x="828" y="892" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="827" y="868" width="39" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0uwidv8_di" bpmnElement="Event_0uwidv8">
+        <dc:Bounds x="1632" y="807" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1628" y="853" width="51" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1a4n0lu_di" bpmnElement="Gateway_1a4n0lu">
+        <dc:Bounds x="1335" y="800" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0gdj1k2_di" bpmnElement="Flow_0gdj1k2">
+        <di:waypoint x="755" y="725" />
+        <di:waypoint x="1095" y="725" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1pc2qly_di" bpmnElement="Flow_1pc2qly">
+        <di:waypoint x="1145" y="725" />
+        <di:waypoint x="1235" y="725" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1145" y="710" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ah4sr7_di" bpmnElement="Flow_0ah4sr7">
+        <di:waypoint x="1120" y="700" />
+        <di:waypoint x="1120" y="650" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1123" y="685" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1lka5s0_di" bpmnElement="Flow_1lka5s0">
+        <di:waypoint x="1285" y="725" />
+        <di:waypoint x="1360" y="725" />
+        <di:waypoint x="1360" y="800" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06rz30v_di" bpmnElement="Flow_06rz30v">
+        <di:waypoint x="864" y="910" />
+        <di:waypoint x="1010" y="910" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19c3hbj_di" bpmnElement="Flow_19c3hbj">
+        <di:waypoint x="1110" y="910" />
+        <di:waypoint x="1235" y="910" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0rjx6o7_di" bpmnElement="Flow_0rjx6o7">
+        <di:waypoint x="1110" y="1094" />
+        <di:waypoint x="1260" y="1094" />
+        <di:waypoint x="1260" y="935" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0jlpqqn_di" bpmnElement="Flow_0jlpqqn">
+        <di:waypoint x="1285" y="910" />
+        <di:waypoint x="1360" y="910" />
+        <di:waypoint x="1360" y="850" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0djm1r0_di" bpmnElement="Flow_0djm1r0">
+        <di:waypoint x="1385" y="825" />
+        <di:waypoint x="1490" y="825" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0s28e8z_di" bpmnElement="Flow_0s28e8z">
+        <di:waypoint x="1590" y="825" />
+        <di:waypoint x="1632" y="825" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1j3j7l1_di" bpmnElement="Flow_1j3j7l1">
+        <di:waypoint x="1240" y="170" />
+        <di:waypoint x="1260" y="170" />
+        <di:waypoint x="1260" y="700" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_08ol78h_di" bpmnElement="Flow_08ol78h">
+        <di:waypoint x="663" y="725" />
+        <di:waypoint x="705" y="725" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_0yesqdw_di" bpmnElement="Activity_0mihool">
+        <dc:Bounds x="1010" y="870" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0jpy0q4_di" bpmnElement="Activity_0yicvby">
+        <dc:Bounds x="1010" y="1054" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_16ix55m_di" bpmnElement="Gateway_16ix55m">
+        <dc:Bounds x="705" y="885" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_044f93s_di" bpmnElement="Flow_044f93s">
+        <di:waypoint x="755" y="910" />
+        <di:waypoint x="828" y="910" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11e0pjc_di" bpmnElement="Flow_11e0pjc">
+        <di:waypoint x="730" y="750" />
+        <di:waypoint x="730" y="885" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_0u4oa4l_di" bpmnElement="Event_0u4oa4l">
+        <dc:Bounds x="828" y="1076" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="812" y="1122" width="70" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0wqjtd0_di" bpmnElement="Flow_0wqjtd0">
+        <di:waypoint x="864" y="1094" />
+        <di:waypoint x="1010" y="1094" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19br72u_di" bpmnElement="Flow_19br72u">
+        <di:waypoint x="730" y="935" />
+        <di:waypoint x="730" y="1094" />
+        <di:waypoint x="828" y="1094" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_1vjglmd_di" bpmnElement="Activity_1ihri5c">
+        <dc:Bounds x="1490" y="785" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
